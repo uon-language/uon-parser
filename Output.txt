@@ -1,0 +1,15 @@
+dict
+  pair
+    word	foo
+    description
+      string	"A Foo description"
+    type
+      cname	uint32
+    number	42
+  pair
+    word	bar
+    type
+      cname	num
+    unit
+      word	meters
+    number	1123123412153121.41832154245214
