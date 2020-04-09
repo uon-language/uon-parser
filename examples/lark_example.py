@@ -19,7 +19,7 @@ class UonPair(object):
             self.key: self.value,
             "description": self.description,
             "unit": self.unit,
-            "type": self.uonType
+            "uon_type": self.uonType
         })
 
 uon_grammar = r"""
@@ -34,11 +34,11 @@ uon_grammar = r"""
 
     list : "[" [value ("," value)*] "]"
     dict : "{" [pair ("," pair)*] "}"
-    pair : (word | string) [description] ":" [type][unit] value
+    pair : (word | string) [description] ":" [uon_type][unit] value
 
     unit: "(unit:" word ")"
     description: "(description="  string ")"
-    type: "!" word
+    uon_type: "!" word
 
     UNIT_KEYWORD : "unit"
     DESCRIPTION_KEYWORD : "description"
@@ -77,22 +77,39 @@ class TreeToUON(Transformer):
     true = lambda self, _: True
     false = lambda self, _: False'''
     def string(self, s):
-        print(s, end="\n")
+        print("visiting string: ", s, end="\n")
         (s,) = s
-        print("decomposing: " + s, end="\n")
         return s[1:-1]
     def number(self, n):
-        print(n, end="\n")
+        print("visiting number: ", n, end="\n")
         (n,) = n
         return float(n)
+    def word(self, s):
+        print("visiting word: ", s, end="\n")
+        (s,) = s
+        return s[0:]
+
+    def pair(self, key_value):
+        print("visiting pair: ", key_value, ", pair items length: ", len(key_value), end="\n")
+        return key_value
+
+    def dict(self, items):
+        print("visiting dict: ", items, end="\n")
+        return items
 
     def description(self, value):
-        print(value, end='\n')
+        print("visiting description: ", value, end="\n")
         return value
-
+    def unit(self, value):
+        print("visiting unit: ", value, end="\n")
+        return value
+    def uon_type(self, value):
+        print("visiting uon_type: ", value, end="\n")
+        return value
+        
+    #pair = tuple
+    #dict = dict
     list = list
-    pair = tuple
-    dict = dict
 
     null = lambda self, _: None
     true = lambda self, _: True
@@ -107,14 +124,25 @@ data = """
     bar: !num(unit: meters) 1123123412153121.41832154245214
 }
 """
+
+data2 = """
+{
+    foo(description="A foo description"): 42,
+    bar: 30.7
+}
+"""
 # Description rule
 example2 = """(description= "baloney")"""
 
+# Parse the example with the grammar and return a parse tree (AST)
 parse_tree = uon_parser.parse(data)
 print(parse_tree, end="\n")
 
+# Process the parse tree
 transformed = TreeToUON().transform(parse_tree)
-print(transformed, end="\n")
+print("Transformed: ", transformed, end="\n")
+print("Transformed type: ", type(transformed), end="\n")
+#print("Transformed[0]", transformed['foo'], end='\n')
 
 # Reconstruct the original text from the parse tree
 uon_emit = Reconstructor(uon_parser).reconstruct(parse_tree)
