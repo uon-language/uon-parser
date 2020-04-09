@@ -1,1 +1,1 @@
-{foo(description="A Foo description"):!uint32 42,bar:!num(unit:meters)1123123412153121.41832154245214}
+(description="baloney")
