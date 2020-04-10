@@ -1,15 +1,19 @@
 dict
   pair
-    word	foo
-    description
-      string	"A Foo description"
-    uon_type
-      word	uint
-    number	42
+    pair_key
+      word	foo
+      description
+        string	"A Foo description"
+    pair_value
+      uon_type
+        word	uint
+      number	42
   pair
-    word	bar
-    uon_type
-      word	num
-    unit
-      word	meters
-    number	1123123412153121.41832154245214
+    pair_key
+      word	bar
+    pair_value
+      uon_type
+        word	num
+      unit
+        word	meters
+      number	1123123412153121.41832154245214

@@ -6,6 +6,9 @@ from lark import Lark, Transformer
 from lark.reconstruct import Reconstructor
 #from lark.tree import *
 
+# Python module to pretty print Python data structures
+from pprint import pprint
+
 class UonPair(object):
     def __init__(self, key, value, description, uonType, unit):
         self.key = key
@@ -34,7 +37,10 @@ uon_grammar = r"""
 
     list : "[" [value ("," value)*] "]"
     dict : "{" [pair ("," pair)*] "}"
-    pair : (word | string) [description] ":" [uon_type][unit] value
+    pair : pair_key ":" pair_value
+    
+    pair_key : (word | string) [description]
+    pair_value : [uon_type][unit] value
 
     unit: "(unit:" word ")"
     description: "(description="  string ")"
@@ -90,26 +96,32 @@ class TreeToUON(Transformer):
         return s[0:]
 
     def pair(self, key_value):
+        k, v = key_value
         print("visiting pair: ", key_value, ", pair items length: ", len(key_value), end="\n")
-        return key_value
-
-    def dict(self, items):
-        print("visiting dict: ", items, end="\n")
-        return items
+        return k, v
+    def pair_key(self, key):
+        print("visiting pair_key: ", key, ", pair_key items length: ", len(key), end="\n")
+        return key
+    def pair_value(self, value):
+        print("visiting pair_value: ", value, ", pair_value items length: ", len(value), end="\n")
+        return value
 
     def description(self, value):
         print("visiting description: ", value, end="\n")
-        return value
+        return dict(description=value[0])
     def unit(self, value):
         print("visiting unit: ", value, end="\n")
-        return value
+        return dict(unit=value[0])
     def uon_type(self, value):
         print("visiting uon_type: ", value, end="\n")
-        return value
+        return dict(type=value[0])
         
     #pair = tuple
     #dict = dict
     list = list
+    def dict(self, items):
+        print("visiting dict: ", items, end="\n")
+        return items
 
     null = lambda self, _: None
     true = lambda self, _: True
@@ -142,6 +154,8 @@ print(parse_tree, end="\n")
 transformed = TreeToUON().transform(parse_tree)
 print("Transformed: ", transformed, end="\n")
 print("Transformed type: ", type(transformed), end="\n")
+with open("Transform.txt", "w") as text_file:
+    pprint(transformed, stream=text_file)
 #print("Transformed[0]", transformed['foo'], end='\n')
 
 # Reconstruct the original text from the parse tree
@@ -149,11 +163,12 @@ uon_emit = Reconstructor(uon_parser).reconstruct(parse_tree)
 with open("Emit.txt", "w") as text_file:
     text_file.write(uon_emit)
 
-#pydot__tree_to_png(parse_tree, "first_tree.png", "TB")
-
+# Print the parse tree to file
 with open("Output.txt", "w") as text_file:
     text_file.write(parse_tree.pretty())
 
+#pydot__tree_to_png(parse_tree, "first_tree.png", "TB")
+
 #with open("Transform.txt", "w") as text_file:
-    #text_file.write(transformed.pretty())
+    #text_file.write(str(transformed))
 
