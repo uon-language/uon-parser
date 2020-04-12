@@ -82,6 +82,10 @@ class TreeToUON(Transformer):
         return k, v
     def pair_key(self, key):
         print("visiting pair_key: ", key, ", pair_key items length: ", len(key), end="\n")
+        if key[1] is None:
+            # No key properties
+            print("pair_key key: ", key[0], key[1], end='\n')
+            return UonKey(key[0], {})
         return UonKey(key[0], key[1])
     def pair_value(self, value):
         print("visiting pair_value: ", value, ", pair_value items length: ", len(value), end="\n")
@@ -133,7 +137,7 @@ data = """
 
 data2 = """
 {
-    foo(description="A foo description" required=true): 42,
+    foo: 42,
     bar(required=true description ="balala"): 30.7
 }
 """

@@ -1,1 +1,1 @@
-{foo(description="A foo description"required=true):42,bar(required=true description="balala"):30.7}
+{foo:42,bar(required=true description="balala"):30.7}

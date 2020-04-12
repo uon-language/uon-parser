@@ -1,4 +1,2 @@
-{bar ({'required': True, 'description': 'balala'}): [None, None, 30.7],
- foo ({'description': 'A foo description', 'required': True}): [None,
-                                                                None,
-                                                                42.0]}
+{foo (description=, required=False): [None, None, 42.0],
+ bar (description=balala, required=True): [None, None, 30.7]}

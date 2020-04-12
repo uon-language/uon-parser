@@ -2,11 +2,7 @@ dict
   pair
     pair_key
       word	foo
-      key_properties
-        description
-          string	"A foo description"
-        required
-          true
+      None
     pair_value
       None
       None
