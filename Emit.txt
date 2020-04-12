@@ -1,1 +1,1 @@
-{foo(description="A Foo description"):!uint 42,bar:!num(unit:meters)1123123412153121.41832154245214}
+{foo(description="A foo description"required=true):42,bar(required=true description="balala"):30.7}

@@ -2,18 +2,24 @@ dict
   pair
     pair_key
       word	foo
-      description
-        string	"A Foo description"
+      key_properties
+        description
+          string	"A foo description"
+        required
+          true
     pair_value
-      uon_type
-        word	uint
+      None
+      None
       number	42
   pair
     pair_key
       word	bar
+      key_properties
+        required
+          true
+        description
+          string	"balala"
     pair_value
-      uon_type
-        word	num
-      unit
-        word	meters
-      number	1123123412153121.41832154245214
+      None
+      None
+      number	30.7

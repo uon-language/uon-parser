@@ -1,2 +1,4 @@
-[(['foo', {'description': 'A Foo description'}], [{'type': 'uint'}, 42.0]),
- (['bar'], [{'type': 'num'}, {'unit': 'meters'}, 1123123412153121.4])]
+{bar ({'required': True, 'description': 'balala'}): [None, None, 30.7],
+ foo ({'description': 'A foo description', 'required': True}): [None,
+                                                                None,
+                                                                42.0]}

@@ -9,3 +9,5 @@ tup = ('Jackie', 4000)
 tup2 = ('Jacko', 4400)
 d2 = dict([tup, tup2])
 print(d2)
+
+l = [1,2, None]
