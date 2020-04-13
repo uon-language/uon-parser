@@ -39,15 +39,13 @@ uon_grammar = r"""
     pair_key : (word | string) [key_properties]
     pair_value : [uon_type][unit] value
 
-    key_properties: "(" (required | description)* ")"
+    key_properties: "(" [key_property ("," key_property)*] ")"
+    key_property: required | description
 
     unit: "(unit:" word ")"
     description: "description" "="  string 
     required: "required" "=" (true | false) 
     uon_type: "!" word
-
-    UNIT_KEYWORD : "unit"
-    DESCRIPTION_KEYWORD : "description"
 
     string : ESCAPED_STRING
     word : WORD
@@ -92,9 +90,17 @@ class TreeToUON(Transformer):
         return value
 
     def key_properties(self, properties):
-        print("visiting key_properties: ", properties, end="\n")
-        # We will be receiving properties as a list of pairs
-        return dict(properties)
+        # Check if there is no properties, or by checking if the list has only None
+        if not properties or all(e is None for e in properties):
+            print("visiting key_properties: ", "No key_properties", end="\n")
+            return {}
+        else:
+            # We will be receiving properties as a list of pairs
+            print("visiting key_properties: ", properties, end="\n")
+            dict(properties)
+    def key_property(self, property):
+        print("visiting key_property", property, end='\n')
+        return property[0]
     def description(self, value):
         print("visiting description: ", value, end="\n")
         return "description", value[0]
@@ -122,7 +128,7 @@ class TreeToUON(Transformer):
 # The parser returned by Lark for our grammar.
 # We have the maybe_placeholders option available in the Lark parser constructor, to handle optional fields
 # in the rule so that they resolve to None if none is provided.
-uon_parser = Lark(uon_grammar, start='value', parser='lalr', maybe_placeholders=True)
+uon_parser = Lark(uon_grammar, start='value', lexer='standard', maybe_placeholders=True)
 
 # A parser instance with no maybe_placeholders because it causes an error when reconstructing with it
 uon_parser_reconstructor = Lark(uon_grammar, start='value', parser='lalr')
@@ -138,7 +144,8 @@ data = """
 data2 = """
 {
     foo: 42,
-    bar(required=true description ="balala"): 30.7
+    bar(required=true, description ="balala"): 30.7,
+    tuf (description = "tuf tuf"): 10.5
 }
 """
 # Description rule

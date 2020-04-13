@@ -1,2 +1,3 @@
-{foo (description=, required=False): [None, None, 42.0],
- bar (description=balala, required=True): [None, None, 30.7]}
+{bar (description=, required=False): [None, None, 30.7],
+ tuf (description=, required=False): [None, None, 10.5],
+ foo (description=, required=False): [None, None, 42.0]}
