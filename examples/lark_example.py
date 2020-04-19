@@ -33,7 +33,7 @@ uon_grammar = r"""
           | "null"             -> null
 
     list : "[" [value ("," value)*] "]"
-    dict : "{" [pair ("," pair)*] "}"
+    dict : "{" [pair ("," pair)*] "}" | [pair ("," pair)*]
     pair : pair_key ":" pair_value
     
     pair_key : (word | string) [key_properties]
@@ -148,11 +148,20 @@ data2 = """
     tuf (description = "tuf tuf"): 10.5
 }
 """
+
+data3 = """
+    foo: 42,
+    bar(required=true, description ="balala"): {
+        nestedmap : 56
+    },
+    tuf (description = "tuf tuf"): 10.5
+"""
+
 # Description rule
 example2 = """(description= "baloney")"""
 
 # Parse the example with the grammar and return a parse tree (AST)
-parse_tree = uon_parser.parse(data2)
+parse_tree = uon_parser.parse(data3)
 print(parse_tree, end="\n")
 
 # Process the parse tree
@@ -164,7 +173,7 @@ with open("Transform.txt", "w") as text_file:
 #print("Transformed[0]", transformed['foo'], end='\n')
 
 # Reconstruct the original text from the parse tree
-parse_tree_for_reconstruction = uon_parser_reconstructor.parse(data2)
+parse_tree_for_reconstruction = uon_parser_reconstructor.parse(data3)
 uon_emit = Reconstructor(uon_parser_reconstructor).reconstruct(parse_tree_for_reconstruction)
 with open("Emit.txt", "w") as text_file:
     text_file.write(uon_emit)

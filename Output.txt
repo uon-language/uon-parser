@@ -20,7 +20,15 @@ dict
     pair_value
       None
       None
-      number	30.7
+      dict
+        pair
+          pair_key
+            word	nestedmap
+            None
+          pair_value
+            None
+            None
+            number	56
   pair
     pair_key
       word	tuf
