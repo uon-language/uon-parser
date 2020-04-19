@@ -1,7 +1,7 @@
-{<classes.uon_key.UonKey object at 0x7f207e95b9d0>: [None,
-                                                     None,
-                                                     {<classes.uon_key.UonKey object at 0x7f207e95bc50>: [None,
-                                                                                                          None,
-                                                                                                          56.0]}],
- <classes.uon_key.UonKey object at 0x7f207e95bb10>: [None, None, 10.5],
- <classes.uon_key.UonKey object at 0x7f207e999c50>: [None, None, 42.0]}
+{bar (description=balala, required=True): [None,
+                                           None,
+                                           {nestedmap (description=, required=False): [None,
+                                                                                       None,
+                                                                                       56.0]}],
+ tuf (description=tuf tuf, required=False): [None, None, 10.5],
+ foo (description=, required=False): [None, None, 42.0]}

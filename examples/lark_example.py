@@ -97,7 +97,7 @@ class TreeToUON(Transformer):
         else:
             # We will be receiving properties as a list of pairs
             print("visiting key_properties: ", properties, end="\n")
-            dict(properties)
+            return dict(properties)
     def key_property(self, property):
         print("visiting key_property", property, end='\n')
         return property[0]

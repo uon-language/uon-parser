@@ -2,7 +2,7 @@ class UonKey :
     def __init__(self, key, properties):
         self.key = key
         # or operator to return default value in case property is none or any falsy value
-        print("UonKey COnstructor: ", key, properties, end='\n')
+        print("UonKey Constructor: ", key, properties, end='\n')
         self.description =  properties.get('description', '')
         self.required = properties.get('required', False)
 
