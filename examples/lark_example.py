@@ -11,6 +11,7 @@ from pprint import pprint
 
 # import custom made classes
 from classes.uon_key import UonKey, UonKeyProperties
+from classes.uon_value import UonValue
 
 class UonPair(object):
     def __init__(self, key, value):
@@ -100,7 +101,7 @@ class TreeToUON(Transformer):
         return UonKey(key[0], key[1])
     def pair_value(self, value):
         print("visiting pair_value: ", value, ", pair_value items length: ", len(value), end="\n")
-        return value
+        return UonValue(value[0], value[1], value[2])
 
     def key_properties(self, properties):
         # Check if there is no properties, or by checking if the list has only None
