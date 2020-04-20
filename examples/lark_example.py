@@ -11,6 +11,7 @@ from pprint import pprint
 
 # import custom made classes
 from classes.uon_key import UonKey, UonKeyProperties
+from classes.uon_value import UonValue
 
 class UonPair(object):
     def __init__(self, key, value):
@@ -33,21 +34,19 @@ uon_grammar = r"""
           | "null"             -> null
 
     list : "[" [value ("," value)*] "]"
-    dict : "{" [pair ("," pair)*] "}"
+    dict : "{" [pair ("," pair)*] "}" | [pair ("," pair)*]
     pair : pair_key ":" pair_value
     
     pair_key : (word | string) [key_properties]
     pair_value : [uon_type][unit] value
 
-    key_properties: "(" (required | description)* ")"
+    key_properties: "(" [key_property ("," key_property)*] ")"
+    key_property: required | description
 
     unit: "(unit:" word ")"
     description: "description" "="  string 
     required: "required" "=" (true | false) 
     uon_type: "!" word
-
-    UNIT_KEYWORD : "unit"
-    DESCRIPTION_KEYWORD : "description"
 
     string : ESCAPED_STRING
     word : WORD
@@ -77,20 +76,45 @@ class TreeToUON(Transformer):
         return s[0:]
 
     def pair(self, key_value):
+        ''' Returns a tuple containing the key and its value '''
+        # Here we receive a UonKey and a UonValue. To solve the dictionary keys problems, 
+        # we will decompose the uonKey into its keyname, which will serve as our key in the final dictionary
+        # and the key properties, will be stored as part of the value in a dictionary of its own called properties.
+        # The final result will be in the form of (key, {'properties': {}, 'value':{}})
         k, v = key_value
         print("visiting pair: ", key_value, ", pair items length: ", len(key_value), end="\n")
-        return k, v
+        result_value = {}
+        if (k.properties is not None):
+            result_value['properties'] = k.properties
+        result_value['value'] = v
+        result = (k.keyname, result_value)
+        print("=========== PAIR ============")
+        print(result)
+        print("=============================")
+        return result
     def pair_key(self, key):
         print("visiting pair_key: ", key, ", pair_key items length: ", len(key), end="\n")
+        if key[1] is None:
+            # No key properties
+            print("pair_key key: ", key[0], key[1], end='\n')
+            return UonKey(key[0], {})
         return UonKey(key[0], key[1])
     def pair_value(self, value):
         print("visiting pair_value: ", value, ", pair_value items length: ", len(value), end="\n")
-        return value
+        return UonValue(value[0], value[1], value[2])
 
     def key_properties(self, properties):
-        print("visiting key_properties: ", properties, end="\n")
-        # We will be receiving properties as a list of pairs
-        return dict(properties)
+        # Check if there is no properties, or by checking if the list has only None
+        if not properties or all(e is None for e in properties):
+            print("visiting key_properties: ", "No key_properties", end="\n")
+            return {}
+        else:
+            # We will be receiving properties as a list of pairs
+            print("visiting key_properties: ", properties, end="\n")
+            return dict(properties)
+    def key_property(self, property):
+        print("visiting key_property", property, end='\n')
+        return property[0]
     def description(self, value):
         print("visiting description: ", value, end="\n")
         return "description", value[0]
@@ -108,7 +132,9 @@ class TreeToUON(Transformer):
     #dict = dict
     list = list
     def dict(self, items):
-        print("visiting dict: ", items, end="\n")
+        print("======== DICT ==========", end='\n')
+        print("visiting dict: ", items, end='\n')
+        print("========================", end='\n')
         return dict(items)
 
     null = lambda self, _: None
@@ -118,7 +144,7 @@ class TreeToUON(Transformer):
 # The parser returned by Lark for our grammar.
 # We have the maybe_placeholders option available in the Lark parser constructor, to handle optional fields
 # in the rule so that they resolve to None if none is provided.
-uon_parser = Lark(uon_grammar, start='value', parser='lalr', maybe_placeholders=True)
+uon_parser = Lark(uon_grammar, start='value', lexer='standard', maybe_placeholders=True)
 
 # A parser instance with no maybe_placeholders because it causes an error when reconstructing with it
 uon_parser_reconstructor = Lark(uon_grammar, start='value', parser='lalr')
@@ -133,24 +159,42 @@ data = """
 
 data2 = """
 {
-    foo(description="A foo description" required=true): 42,
-    bar(required=true description ="balala"): 30.7
+    foo: 42,
+    bar(required=true, description ="balala"): 30.7,
+    tuf (description = "tuf tuf"): 10.5
 }
 """
+
+data3 = """
+    foo: 42,
+    bar(required=true, description ="balala"): {
+        nestedmap : 56
+    },
+    tuf (description = "tuf tuf"): 10.5
+"""
+
 # Description rule
 example2 = """(description= "baloney")"""
 
 # Parse the example with the grammar and return a parse tree (AST)
 parse_tree = uon_parser.parse(data2)
 print(parse_tree, end="\n")
+print()
 
 # Process the parse tree
 transformed = TreeToUON().transform(parse_tree)
-print("Transformed: ", transformed, end="\n")
-print("Transformed type: ", type(transformed), end="\n")
+print()
+print("Transformed: ", transformed)
+print("Transformed type: ", type(transformed), end='\n')
 with open("Transform.txt", "w") as text_file:
     pprint(transformed, stream=text_file)
-#print("Transformed[0]", transformed['foo'], end='\n')
+
+# Some operations on the result dictionary
+print("Transformed items")
+for k, v in transformed.items():
+    print(k, v)
+print("Getting transformed[{}]: {}".format('bar', transformed['bar']))
+
 
 # Reconstruct the original text from the parse tree
 parse_tree_for_reconstruction = uon_parser_reconstructor.parse(data2)

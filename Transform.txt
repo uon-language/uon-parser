@@ -1,4 +1,5 @@
-{bar ({'required': True, 'description': 'balala'}): [None, None, 30.7],
- foo ({'description': 'A foo description', 'required': True}): [None,
-                                                                None,
-                                                                42.0]}
+{'bar': {'properties': {'description': 'balala', 'required': True},
+         'value': {type: None, unit: None, content:30.7}},
+ 'foo': {'properties': {}, 'value': {type: None, unit: None, content:42.0}},
+ 'tuf': {'properties': {'description': 'tuf tuf'},
+         'value': {type: None, unit: None, content:10.5}}}

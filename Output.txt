@@ -2,11 +2,7 @@ dict
   pair
     pair_key
       word	foo
-      key_properties
-        description
-          string	"A foo description"
-        required
-          true
+      None
     pair_value
       None
       None
@@ -15,11 +11,24 @@ dict
     pair_key
       word	bar
       key_properties
-        required
-          true
-        description
-          string	"balala"
+        key_property
+          required
+            true
+        key_property
+          description
+            string	"balala"
     pair_value
       None
       None
       number	30.7
+  pair
+    pair_key
+      word	tuf
+      key_properties
+        key_property
+          description
+            string	"tuf tuf"
+    pair_value
+      None
+      None
+      number	10.5
