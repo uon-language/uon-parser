@@ -1,0 +1,34 @@
+?value: dict
+          | seq
+          | string
+          | word
+          | SIGNED_NUMBER      -> number
+          | true
+          | false
+          | "null"             -> null
+
+    seq : "[" [value ("," value)*] "]"
+    dict : "{" [pair ("," pair)*] "}" | [pair ("," pair)*]
+    pair : pair_key ":" pair_value
+    
+    pair_key : (word | string) [key_properties]
+    pair_value : [uon_type][unit] value
+
+    key_properties: "(" [key_property ("," key_property)*] ")"
+    key_property: required | description
+
+    unit: "(unit:" word ")"
+    description: "description" "="  string 
+    required: "required" "=" (true | false) 
+    uon_type: "!" word
+
+    string : ESCAPED_STRING
+    word : WORD
+    true: "true"
+    false: "false"
+
+    %import common.ESCAPED_STRING
+    %import common.SIGNED_NUMBER
+    %import common.WS
+    %import common.WORD
+    %ignore WS
