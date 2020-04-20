@@ -75,9 +75,22 @@ class TreeToUON(Transformer):
         return s[0:]
 
     def pair(self, key_value):
+        ''' Returns a tuple containing the key and its value '''
+        # Here we receive a UonKey and a UonValue. To solve the dictionary keys problems, 
+        # we will decompose the uonKey into its keyname, which will serve as our key in the final dictionary
+        # and the key properties, will be stored as part of the value in a dictionary of its own called properties.
+        # The final result will be in the form of (key, {'properties': {}, 'value':{}})
         k, v = key_value
         print("visiting pair: ", key_value, ", pair items length: ", len(key_value), end="\n")
-        return k, v
+        result_value = {}
+        if (k.properties is not None):
+            result_value['properties'] = k.properties
+        result_value['value'] = v
+        result = (k.keyname, result_value)
+        print("=========== PAIR ============")
+        print(result)
+        print("=============================")
+        return result
     def pair_key(self, key):
         print("visiting pair_key: ", key, ", pair_key items length: ", len(key), end="\n")
         if key[1] is None:
@@ -118,7 +131,9 @@ class TreeToUON(Transformer):
     #dict = dict
     list = list
     def dict(self, items):
-        print("visiting dict: ", items, end="\n")
+        print("======== DICT ==========", end='\n')
+        print("visiting dict: ", items, end='\n')
+        print("========================", end='\n')
         return dict(items)
 
     null = lambda self, _: None
@@ -161,19 +176,27 @@ data3 = """
 example2 = """(description= "baloney")"""
 
 # Parse the example with the grammar and return a parse tree (AST)
-parse_tree = uon_parser.parse(data3)
+parse_tree = uon_parser.parse(data2)
 print(parse_tree, end="\n")
+print()
 
 # Process the parse tree
 transformed = TreeToUON().transform(parse_tree)
-print("Transformed: ", transformed, end="\n")
-print("Transformed type: ", type(transformed), end="\n")
+print()
+print("Transformed: ", transformed)
+print("Transformed type: ", type(transformed), end='\n')
 with open("Transform.txt", "w") as text_file:
     pprint(transformed, stream=text_file)
-#print("Transformed[0]", transformed['foo'], end='\n')
+
+# Some operations on the result dictionary
+print("Transformed items")
+for k, v in transformed.items():
+    print(k, v)
+print("Getting transformed[{}]: {}".format('bar', transformed['bar']))
+
 
 # Reconstruct the original text from the parse tree
-parse_tree_for_reconstruction = uon_parser_reconstructor.parse(data3)
+parse_tree_for_reconstruction = uon_parser_reconstructor.parse(data2)
 uon_emit = Reconstructor(uon_parser_reconstructor).reconstruct(parse_tree_for_reconstruction)
 with open("Emit.txt", "w") as text_file:
     text_file.write(uon_emit)

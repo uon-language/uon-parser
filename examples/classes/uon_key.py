@@ -1,15 +1,13 @@
 class UonKey :
-    def __init__(self, key, properties):
-        self.key = key
+    def __init__(self, keyname, properties):
+        self.keyname = keyname
         # or operator to return default value in case property is none or any falsy value
-        print("UonKey Constructor: ", key, properties, end='\n')
-        self.description =  properties.get('description', '')
-        self.required = properties.get('required', False)
-
+        print("UonKey Constructor: ", keyname, properties)
+        self.properties = properties
     
     def __repr__(self):
-        return "{} (description={}, required={})".format(
-            self.key, self.description, self.required)
+        return "{}: {{properties: {}}}".format(
+            self.keyname, self.properties)
 
 class UonKeyProperties:
     def __init__(self, description, required=False):

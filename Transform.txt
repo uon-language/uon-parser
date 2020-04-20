@@ -1,7 +1,4 @@
-{bar (description=balala, required=True): [None,
-                                           None,
-                                           {nestedmap (description=, required=False): [None,
-                                                                                       None,
-                                                                                       56.0]}],
- tuf (description=tuf tuf, required=False): [None, None, 10.5],
- foo (description=, required=False): [None, None, 42.0]}
+{'bar': {'properties': {'description': 'balala', 'required': True},
+         'value': [None, None, 30.7]},
+ 'foo': {'properties': {}, 'value': [None, None, 42.0]},
+ 'tuf': {'properties': {'description': 'tuf tuf'}, 'value': [None, None, 10.5]}}

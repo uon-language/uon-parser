@@ -1,1 +1,1 @@
-foo:42,bar(required=true,description="balala"):nestedmap:56,tuf(description="tuf tuf"):10.5
+foo:42,bar(required=true,description="balala"):30.7,tuf(description="tuf tuf"):10.5
