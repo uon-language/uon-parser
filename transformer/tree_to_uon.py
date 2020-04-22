@@ -6,15 +6,20 @@ from uonTypes.uon_value import UonValue
 
 class TreeToUON(Transformer):
     def string(self, s):
-        print("visiting string: ", s, end="\n")
+        print("visiting string: ", s)
         (s,) = s
         return s[1:-1]
     def number(self, n):
-        print("visiting number: ", n, end="\n")
+        print("visiting number: ", n)
         (n,) = n
         return float(n)
     def word(self, s):
-        print("visiting word: ", s, end="\n")
+        print("visiting word: ", s)
+        (s,) = s
+        return s[0:]
+    def cname(self, s):
+        ''' cnames contain only valid variable names, which will serve as the dictionary keys here '''
+        print("visiting cname: ", s)
         (s,) = s
         return s[0:]
 
@@ -61,15 +66,15 @@ class TreeToUON(Transformer):
     def description(self, value):
         print("visiting description: ", value, end="\n")
         return "description", value[0]
-    def required(self, value):
-        print("visiting required: ", value, end='\n')
-        return "required", value[0]
+    def optional(self, value):
+        print("visiting optional: ", value, end='\n')
+        return "optional", value[0]
     def unit(self, value):
         print("visiting unit: ", value, end="\n")
         return dict(unit=value[0])
     def uon_type(self, value):
         print("visiting uon_type: ", value, end="\n")
-        return dict(type=value[0])
+        return value[0]
         
     #pair = tuple
     #dict = dict

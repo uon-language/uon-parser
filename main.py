@@ -1,13 +1,30 @@
-from lark import Lark
-from lark.reconstruct import Reconstructor
-#from lark.tree import *
+from pathlib import Path
 
 # Python module to pretty print Python data structures
 from pprint import pprint
 
-from parser.uon_parser import uon_parser, uon_parser_reconstructor
+from lark import Lark
+from lark.reconstruct import Reconstructor
+#from lark.tree import *
 
 from transformer.tree_to_uon import TreeToUON 
+
+grammar_file = Path('grammar/uon_grammar.lark')
+
+# The parser returned by Lark for our grammar.
+# We have the maybe_placeholders option available in the Lark parser constructor, to handle optional fields
+# in the rule so that they resolve to None if none is provided.
+uon_parser = Lark.open(
+    grammar_file,
+    start='value',
+    maybe_placeholders=True,
+)
+
+# A parser instance with no maybe_placeholders because it causes an assertion error when reconstructing with it
+uon_parser_reconstructor = Lark.open(
+    grammar_file,
+    start='value',
+)
 
 def main():
     text = '{"key": ["item0", "item1", 3.14, true]}'    
@@ -21,14 +38,14 @@ def main():
     data2 = """
     {
         foo: 42,
-        bar(required=true, description ="balala"): 30.7,
-        tuf (description = "tuf tuf"): 10.5
+        bar(optional=true, description ="balala"): 30.7,
+        tuf (description = "tuf tuf"): !uint 10.5
     }
     """
 
     data3 = """
         foo: 42,
-        bar(required=true, description ="balala"): {
+        bar(optional=true, description ="balala"): {
             nestedmap : 56
         },
         tuf (description = "tuf tuf"): 10.5

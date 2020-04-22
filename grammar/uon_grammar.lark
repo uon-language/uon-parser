@@ -11,24 +11,33 @@
     dict : "{" [pair ("," pair)*] "}" | [pair ("," pair)*]
     pair : pair_key ":" pair_value
     
-    pair_key : (word | string) [key_properties]
+    // For the key name to be a proper variable name as per most programming
+    // languages, we choose a cname instead of word or string
+    pair_key : cname [key_properties]
     pair_value : [uon_type][unit] value
 
     key_properties: "(" [key_property ("," key_property)*] ")"
-    key_property: required | description
+    key_property: optional | description
 
     unit: "(unit:" word ")"
     description: "description" "="  string 
-    required: "required" "=" (true | false) 
-    uon_type: "!" word
+    optional: "optional" "=" (true | false) 
+    uon_type: "!" (UINT | INT | STR)
 
     string : ESCAPED_STRING
     word : WORD
+    cname: CNAME
     true: "true"
     false: "false"
+
+    // Types
+    UINT: "uint" | "UINT"
+    INT: "int" | "INT"
+    STR: "str" | "STR"
 
     %import common.ESCAPED_STRING
     %import common.SIGNED_NUMBER
     %import common.WS
     %import common.WORD
+    %import common.CNAME
     %ignore WS

@@ -10,12 +10,12 @@ class UonKey :
             self.keyname, self.properties)
 
 class UonKeyProperties:
-    def __init__(self, description, required=False):
+    def __init__(self, description, optional=False):
         self.description = description
-        self.required = required
+        self.optional = optional
     
     def __repr__(self):
-        return "description: {}, required: {}".format(
-            self.description, self.required)
+        return "description: {}, optional: {}".format(
+            self.description, self.optional)
 
 

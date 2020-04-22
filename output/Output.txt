@@ -1,7 +1,7 @@
 dict
   pair
     pair_key
-      word	foo
+      cname	foo
       None
     pair_value
       None
@@ -9,10 +9,10 @@ dict
       number	42
   pair
     pair_key
-      word	bar
+      cname	bar
       key_properties
         key_property
-          required
+          optional
             true
         key_property
           description
@@ -23,12 +23,12 @@ dict
       number	30.7
   pair
     pair_key
-      word	tuf
+      cname	tuf
       key_properties
         key_property
           description
             string	"tuf tuf"
     pair_value
-      None
+      uon_type	uint
       None
       number	10.5
