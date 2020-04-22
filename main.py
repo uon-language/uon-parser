@@ -37,25 +37,25 @@ def main():
 
     data2 = """
     {
-        foo: 42,
+        foo: !uint 42,
         bar(optional=true, description ="balala"): 30.7,
-        tuf (description = "tuf tuf"): !uint 10.5
+        tuf (description = "tuf tuf"): !uint !int !uint 10.5
     }
     """
 
     data3 = """
         foo: 42,
         bar(optional=true, description ="balala"): {
-            nestedmap : 56
+            nestedmap : !uint !int !uint 56
         },
-        tuf (description = "tuf tuf"): 10.5
+        tuf (description = "tuf tuf"): !int 10.5
     """
 
     # Description rule
     example2 = """(description= "baloney")"""
 
     # Parse the example with the grammar and return a parse tree (AST)
-    parse_tree = uon_parser.parse(data2)
+    parse_tree = uon_parser.parse(data3)
     print(parse_tree, end="\n")
     print()
 

@@ -74,7 +74,7 @@ class TreeToUON(Transformer):
         return dict(unit=value[0])
     def uon_type(self, value):
         print("visiting uon_type: ", value, end="\n")
-        return value[0]
+        return value
         
     #pair = tuple
     #dict = dict

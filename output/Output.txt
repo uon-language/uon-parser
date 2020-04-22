@@ -4,7 +4,7 @@ dict
       cname	foo
       None
     pair_value
-      None
+      uon_type
       None
       number	42
   pair
@@ -18,9 +18,20 @@ dict
           description
             string	"balala"
     pair_value
+      uon_type
       None
-      None
-      number	30.7
+      dict
+        pair
+          pair_key
+            cname	nestedmap
+            None
+          pair_value
+            uon_type
+              !uint
+              !int
+              !uint
+            None
+            number	56
   pair
     pair_key
       cname	tuf
@@ -29,6 +40,6 @@ dict
           description
             string	"tuf tuf"
     pair_value
-      uon_type	uint
+      uon_type	!int
       None
       number	10.5

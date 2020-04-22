@@ -1,5 +1,5 @@
 {'bar': {'properties': {'description': 'balala', 'optional': True},
-         'value': {type: None, unit: None, content:30.7}},
- 'foo': {'properties': {}, 'value': {type: None, unit: None, content:42.0}},
+         'value': {type: [], unit: None, content:{'nestedmap': {'properties': {}, 'value': {type: [Token(UINT, '!uint'), Token(INT, '!int'), Token(UINT, '!uint')], unit: None, content:56.0}}}}},
+ 'foo': {'properties': {}, 'value': {type: [], unit: None, content:42.0}},
  'tuf': {'properties': {'description': 'tuf tuf'},
-         'value': {type: uint, unit: None, content:10.5}}}
+         'value': {type: [Token(INT, '!int')], unit: None, content:10.5}}}
