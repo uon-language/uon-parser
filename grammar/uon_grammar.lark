@@ -1,0 +1,46 @@
+// TODO: Document should start with a dictionary
+?value: dict
+          | seq
+          | string
+          | word
+          | SIGNED_NUMBER      -> number
+          | true
+          | false
+          | "null"             -> null
+
+    seq : "[" [value ("," value)*] "]"
+    dict : "{" [pair ("," pair)*] "}" | [pair ("," pair)*]
+    pair : pair_key ":" pair_value
+    
+    // For the key name to be a proper variable name as per most programming
+    // languages, we choose a cname instead of word or string
+    pair_key : cname [key_properties]
+    pair_value : [uon_type][unit] value
+
+    key_properties: "(" [key_property ("," key_property)*] ")"
+    key_property: optional | description
+
+    unit: "(unit:" word ")"
+    description: "description" "="  string 
+    optional: "optional" "=" (true | false) 
+    uon_type: (UINT | INT | STR | NUM)*
+
+    // Terminals
+    string : ESCAPED_STRING
+    word : WORD
+    cname: CNAME
+    true: "true"
+    false: "false"
+
+    // Types
+    UINT: "!uint" | "!UINT"
+    INT: "!int" | "!INT"
+    STR: "!str" | "!STR"
+    NUM: "!num" | "!NUM"
+
+    %import common.ESCAPED_STRING
+    %import common.SIGNED_NUMBER
+    %import common.WS
+    %import common.WORD
+    %import common.CNAME
+    %ignore WS

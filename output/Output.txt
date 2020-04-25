@@ -1,34 +1,45 @@
 dict
   pair
     pair_key
-      word	foo
+      cname	foo
       None
     pair_value
-      None
+      uon_type
       None
       number	42
   pair
     pair_key
-      word	bar
+      cname	bar
       key_properties
         key_property
-          required
+          optional
             true
         key_property
           description
             string	"balala"
     pair_value
+      uon_type
       None
-      None
-      number	30.7
+      dict
+        pair
+          pair_key
+            cname	nestedmap
+            None
+          pair_value
+            uon_type
+              !uint
+              !int
+              !uint
+            None
+            number	56
   pair
     pair_key
-      word	tuf
+      cname	tuf
       key_properties
         key_property
           description
             string	"tuf tuf"
     pair_value
-      None
+      uon_type	!int
       None
       number	10.5
