@@ -17,6 +17,7 @@ grammar_file = Path('grammar/uon_grammar.lark')
 uon_parser = Lark.open(
     grammar_file,
     start='value',
+    parser='lalr',
     maybe_placeholders=True,
 )
 
@@ -42,13 +43,21 @@ def main():
         tuf (description = "tuf tuf"): !uint !int !uint 10.5
     }
     """
-
+    
+    # Nested maps example
     data3 = """
         foo: 42,
         bar(optional=true, description ="balala"): {
             nestedmap : !uint !int !uint 56
         },
         tuf (description = "tuf tuf"): !int 10.5
+    """
+
+    # Sequences example
+    data4 = """
+        foo: - "hello"
+        - "bye"
+        - "sick"
     """
 
     # Description rule
@@ -68,17 +77,17 @@ def main():
         pprint(transformed, stream=text_file)
 
     # Some operations on the result dictionary
-    print("Transformed items")
+    """print("Transformed items")
     for k, v in transformed.items():
         print(k, v)
-    print("Getting transformed[{}]: {}".format('bar', transformed['bar']))
+    print("Getting transformed[{}]: {}".format('bar', transformed['bar']))"""
 
 
     # Reconstruct the original text from the parse tree
-    parse_tree_for_reconstruction = uon_parser_reconstructor.parse(data2)
+    """parse_tree_for_reconstruction = uon_parser_reconstructor.parse(data2)
     uon_emit = Reconstructor(uon_parser_reconstructor).reconstruct(parse_tree_for_reconstruction)
     with open("output/Emit.txt", "w") as text_file:
-        text_file.write(uon_emit)
+        text_file.write(uon_emit)"""
 
     # Print the parse tree to file
     with open("output/Output.txt", "w") as text_file:

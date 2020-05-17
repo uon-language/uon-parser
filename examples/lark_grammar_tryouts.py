@@ -13,7 +13,7 @@ from pathlib import Path
 from lark import Lark, Transformer, v_args
 from lark.indenter import Indenter
 
-python_grammar_file = Path('examples/python.lark')
+from pprint import pprint
 
 tree_grammar_mapping = r"""
     ?start: _NL* _value
@@ -27,18 +27,83 @@ tree_grammar_mapping = r"""
     _NL: /(\r?\n[\t ]*)+/
 """
 
+test_tree_map = """
+a : d
+b : e
+c : f
+"""
+
+test_tree_nested_mapping = """
+a : 
+    b : c
+    d : e
+f : g
+"""
+
 tree_grammar_seq = r"""
     ?start: _NL* _value
-    _value : seq* | name 
-    seq : seq_item+
-    seq_item: "-" _seq_helper _NL*
-    _seq_helper : name | _NL _INDENT seq_item+ _DEDENT 
+    _value : seq_item* | name 
+    seq_item: "-" name (_NL ("-" name | _seq_helper) (_NL)*)*
+    _seq_helper : _INDENT seq_item+ _DEDENT 
     name : NAME
     %import common.CNAME -> NAME
     %import common.WS_INLINE
     %declare _INDENT _DEDENT
     %ignore WS_INLINE
     _NL: /(\r?\n[\t ]*)+/
+"""
+
+test_tree_seq = """
+- a
+- b
+- c
+"""
+
+test_tree_nested_seq = """
+-
+    - d
+    - s
+- 
+    - e
+    - s
+- r
+- s
+"""
+
+tree_grammar_all = r"""
+    ?start: _NL* _value+ 
+    _value : tree_mapping | tree_seq
+    tree_mapping: NAME ":" ((NAME _NL+) | (_NL [_INDENT _value+ _DEDENT]))
+    tree_seq : "-" ((NAME _NL+) | (_NL [_INDENT _value+ _DEDENT]))
+    %import common.CNAME -> NAME
+    %import common.WS_INLINE
+    %declare _INDENT _DEDENT
+    %ignore WS_INLINE
+    _NL: /(\r?\n[\t ]*)+/
+"""
+
+test_grammar_with_empty_nodes = """
+a :
+    b : c
+    d : 
+        q : 
+    d :
+f : g
+"""
+
+test_grammar_with_empty_nodes_2 = """
+a : d
+b : 
+c : e
+"""
+
+test_grammar_valid = """
+a :
+    - b
+    - c
+b : 
+    - d
+    - e
 """
 
 tree_grammar_2 = r"""
@@ -70,22 +135,7 @@ class TreeIndenter(Indenter):
     DEDENT_type = '_DEDENT'
     tab_len = 8
 
-class PythonIndenter(Indenter):
-    NL_type = '_NEWLINE'
-    OPEN_PAREN_types = ['LPAR', 'LSQB', 'LBRACE']
-    CLOSE_PAREN_types = ['RPAR', 'RSQB', 'RBRACE']
-    INDENT_type = '_INDENT'
-    DEDENT_type = '_DEDENT'
-    tab_len = 8
-
-python_parser = Lark.open(
-    python_grammar_file,
-    parser='lalr', 
-    postlex=PythonIndenter(),
-    start='file_input'
-)
-
-parser = Lark(tree_grammar_seq, parser='lalr', postlex=TreeIndenter(), debug=True)
+parser = Lark(tree_grammar_all, parser='lalr', postlex=TreeIndenter(), debug=True)
 
 class TreeToSomething(Transformer):
 
@@ -103,30 +153,18 @@ class TreeToSomething(Transformer):
         print("visiting seq items: ", items)
         return items
 
+    def tree_mapping(self, mapping):
+        print("visiting tree_mapping: ", mapping)
+        return mapping
+
+    def tree_seq(self, seq):
+        print("visiting tree_seq: ", seq)
+        flat_list = [item for sublist in seq for item in sublist]
+        return flat_list
+
     null = lambda self, _: None
     true = lambda self, _: True
     false = lambda self, _: False
-
-test_python = """
-if 2 == 2:
-    True
-else :
-    False
-"""
-
-test_tree_mapping = """
-a : 
-    b : c
-    d : e
-f : g
-"""
-
-test_tree_seq = """
-- 
-  - a
-  - b
-- d
-"""
 
 test_tree_2 = """
 a:
@@ -149,12 +187,12 @@ a
 """
 
 def test():
-    parse_tree = parser.parse(test_tree_seq)
-    print(parse_tree.pretty())
-    print(TreeToSomething().transform(parse_tree))
-
-#def test():
-#    print(python_parser.parse(test_python).pretty())
+    parse_tree = parser.parse(test_grammar_with_empty_nodes_2)
+    print(parse_tree.pretty(indent_str='  '))
+    transformed = TreeToSomething().transform(parse_tree)
+    print(transformed)
+    with open("examples/Transform.txt", "w") as text_file:
+        pprint(transformed, stream=text_file)
 
 if __name__ == '__main__':
     test()

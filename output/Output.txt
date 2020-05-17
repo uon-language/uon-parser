@@ -4,7 +4,7 @@ dict
       cname	foo
       None
     pair_value
-      uon_type
+      None
       None
       number	42
   pair
@@ -18,7 +18,7 @@ dict
           description
             string	"balala"
     pair_value
-      uon_type
+      None
       None
       dict
         pair

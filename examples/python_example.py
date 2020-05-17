@@ -1,3 +1,5 @@
+import re
+
 tel = {'jack': 4098, 'sape': 4139}
 print(tel["jack"])
 
@@ -32,3 +34,33 @@ class C:
 b = B()
 c = C()
 a = A(c)
+
+indented = """
+  hello
+    bye
+  Ok
+"""
+left_braced = re.sub('\n\s+', "{", indented)
+right_braced = re.sub('\s+\n', "}", indented)
+print(left_braced)
+
+def replaceSpaces(multiline, pastSpaces, result):
+    if (multiline == []):
+        return result + "}"
+    else :
+        head, tail = multiline[0], multiline[1:]
+        print(head)
+        print(tail)
+        numberOfSpaces = getWhitespaces(head)
+        print(numberOfSpaces)
+        if (numberOfSpaces > pastSpaces):
+            return replaceSpaces(tail, numberOfSpaces, result + "\n{" + head)
+        elif (numberOfSpaces < pastSpaces):
+            return replaceSpaces(tail, numberOfSpaces, result + "}\n{" + head)
+        else :
+            return replaceSpaces(tail, numberOfSpaces, result + "\n" + head)
+
+def getWhitespaces(s):
+    return len(s) - len(s.lstrip(' '))
+
+print(replaceSpaces(indented.splitlines(), 0, ""))
