@@ -1,1 +1,1 @@
-Tree(start, [[Token(NAME, 'a'), Token(NAME, 'd')], [Token(NAME, 'b')], [Token(NAME, 'c'), Token(NAME, 'e')]])
+Tree(top_seq, [Tree(top_map, [Token(STRING, 'name'), Token(STRING, 'Mark McGwire'), Token(STRING, 'hr'), Token(STRING, '65'), Token(STRING, 'avg'), Token(STRING, '0.278')]), Tree(top_map, [Token(STRING, 'name'), Token(STRING, 'Sammy Sosa'), Token(STRING, 'hr'), Token(STRING, '63'), Token(STRING, 'avg'), Token(STRING, '0.288')])])

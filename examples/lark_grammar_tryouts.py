@@ -15,14 +15,18 @@ from lark.indenter import Indenter
 
 from pprint import pprint
 
-tree_grammar_mapping = r"""
+tree_grammar_all = r"""
     ?start: _NL* _value
-    _value : mapping* | NAME 
-    mapping: NAME ":" _mapping_helper _NL*
-    _mapping_helper: NAME | _NL _INDENT mapping+ _DEDENT 
-    %import common.CNAME -> NAME
+    _value : top_map | top_seq
+    top_seq: tree_seq+
+    top_map : tree_mapping+
+    tree_mapping: STRING ":" ((STRING _NL+) | (_NL [_INDENT _value _DEDENT]))
+    tree_seq : "-" ((STRING _NL+) | (_NL [_INDENT _value _DEDENT]))
+    STRING :  /[^-:#\n]+/ 
+    COMMENT: /#[^\n]*/
     %import common.WS_INLINE
     %declare _INDENT _DEDENT
+    %ignore COMMENT
     %ignore WS_INLINE
     _NL: /(\r?\n[\t ]*)+/
 """
@@ -70,7 +74,7 @@ test_tree_nested_seq = """
 - s
 """
 
-tree_grammar_all = r"""
+tree_grammar_mapping = r"""
     ?start: _NL* _value+ 
     _value : tree_mapping | tree_seq
     tree_mapping: NAME ":" ((NAME _NL+) | (_NL [_INDENT _value+ _DEDENT]))
@@ -97,13 +101,47 @@ b :
 c : e
 """
 
-test_grammar_valid = """
-a :
-    - b
-    - c
-b : 
-    - d
-    - e
+# Examples taken from YAML spec https://yaml.org/spec/1.2/spec.html#id2763452
+test_grammar_nested_seqs_in_mapping = """
+american:
+  - Boston Red Sox
+  - Detroit Tigers
+  - New York Yankees
+national:
+  - New York Mets
+  - Chicago Cubs
+  - Atlanta Braves
+"""
+
+test_grammar_nested_mappings_in_seq = """
+-
+  name: Mark McGwire
+  hr:   65
+  avg:  0.278
+-
+  name: Sammy Sosa
+  hr:   63
+  avg:  0.288
+"""
+
+test_grammar_nested_lists = """
+# Sequences (equivalent to lists or arrays) look like this
+# (note that the '-' counts as indentation):
+a_sequence:
+  - Item 1
+  - Item 2
+  - 0.5  # sequences can contain disparate types.
+  - Item 4
+  - 
+    key: value
+    another_key: another_value
+  -
+    - This is a sequence
+    - inside another sequence
+  - 
+    - 
+      - Nested sequence indicators
+      - cannot be collapsed
 """
 
 tree_grammar_2 = r"""
@@ -135,8 +173,6 @@ class TreeIndenter(Indenter):
     DEDENT_type = '_DEDENT'
     tab_len = 8
 
-parser = Lark(tree_grammar_all, parser='lalr', postlex=TreeIndenter(), debug=True)
-
 class TreeToSomething(Transformer):
 
     @v_args(inline=True)
@@ -159,8 +195,7 @@ class TreeToSomething(Transformer):
 
     def tree_seq(self, seq):
         print("visiting tree_seq: ", seq)
-        flat_list = [item for sublist in seq for item in sublist]
-        return flat_list
+        return seq
 
     null = lambda self, _: None
     true = lambda self, _: True
@@ -186,8 +221,10 @@ a
         g
 """
 
+parser = Lark(tree_grammar_all, parser='lalr', postlex=TreeIndenter(), debug=True)
+
 def test():
-    parse_tree = parser.parse(test_grammar_with_empty_nodes_2)
+    parse_tree = parser.parse(test_grammar_nested_lists)
     print(parse_tree.pretty(indent_str='  '))
     transformed = TreeToSomething().transform(parse_tree)
     print(transformed)
