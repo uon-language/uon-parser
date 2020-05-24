@@ -15,13 +15,14 @@ from lark.indenter import Indenter
 
 from pprint import pprint
 
-tree_grammar_all = r"""
+tree_grammar_indentation = r"""
     ?start: _NL* _value
     _value : top_map | top_seq
-    top_seq: tree_seq+
-    top_map : tree_mapping+
-    tree_mapping: STRING ":" ((STRING _NL+) | (_NL [_INDENT _value _DEDENT]))
-    tree_seq : "-" ((STRING _NL+) | (_NL [_INDENT _value _DEDENT]))
+    top_seq: seq_item+
+    top_map : pair+
+    pair: string ":" ((string _NL+) | (_NL [_INDENT _value _DEDENT]))
+    seq_item : "-" ((string _NL+) | (_NL [_INDENT _value _DEDENT]))
+    string : STRING
     STRING :  /[^-:#\n]+/ 
     COMMENT: /#[^\n]*/
     %import common.WS_INLINE
@@ -32,9 +33,10 @@ tree_grammar_all = r"""
 """
 
 test_tree_map = """
-a : d
-b : e
-c : f
+-
+  a : d
+  b : e
+  c : f
 """
 
 test_tree_nested_mapping = """
@@ -124,6 +126,16 @@ test_grammar_nested_mappings_in_seq = """
   avg:  0.288
 """
 
+# examples taken from https://learnxinyminutes.com/docs/yaml/
+test_grammar_nested_maps = """
+# Nesting uses indentation. 2 space indent is preferred (but not required).
+a_nested_map:
+  key: value
+  another_key: Another Value
+  another_nested_map:
+    hello: hello
+"""
+
 test_grammar_nested_lists = """
 # Sequences (equivalent to lists or arrays) look like this
 # (note that the '-' counts as indentation):
@@ -165,6 +177,7 @@ tree_grammar = r"""
     _NL: /(\r?\n[\t ]*)+/
 """
 
+
 class TreeIndenter(Indenter):
     NL_type = '_NL'
     OPEN_PAREN_types = []
@@ -172,6 +185,7 @@ class TreeIndenter(Indenter):
     INDENT_type = '_INDENT'
     DEDENT_type = '_DEDENT'
     tab_len = 8
+
 
 class TreeToSomething(Transformer):
 
@@ -181,25 +195,32 @@ class TreeToSomething(Transformer):
         (s,) = string
         return s
 
-    def seq(self, items):
-        print("visiting seq: ", items)
-        return items
+    @v_args(inline=True)
+    def string(self, string):
+        print("visiting string: ", string)
+        return string.strip()
 
     def seq_item(self, items):
         print("visiting seq items: ", items)
-        return items
+        return items[0]
 
-    def tree_mapping(self, mapping):
+    def top_map(self, mapping):
         print("visiting tree_mapping: ", mapping)
-        return mapping
+        return dict(mapping)
 
-    def tree_seq(self, seq):
-        print("visiting tree_seq: ", seq)
+    def top_seq(self, seq):
+        print("visiting top_seq: ", seq)
         return seq
+
+    def pair(self, pair):
+        print("visiting pair: ", pair)
+        p = (pair[0], pair[1])
+        return p
 
     null = lambda self, _: None
     true = lambda self, _: True
     false = lambda self, _: False
+
 
 test_tree_2 = """
 a:
@@ -221,15 +242,18 @@ a
         g
 """
 
-parser = Lark(tree_grammar_all, parser='lalr', postlex=TreeIndenter(), debug=True)
+parser = Lark(tree_grammar_indentation, parser='lalr',
+              postlex=TreeIndenter(), debug=True)
+
 
 def test():
-    parse_tree = parser.parse(test_grammar_nested_lists)
+    parse_tree = parser.parse(test_grammar_nested_seqs_in_mapping)
     print(parse_tree.pretty(indent_str='  '))
     transformed = TreeToSomething().transform(parse_tree)
     print(transformed)
     with open("examples/Transform.txt", "w") as text_file:
         pprint(transformed, stream=text_file)
+
 
 if __name__ == '__main__':
     test()

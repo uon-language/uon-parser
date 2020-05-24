@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from lark import Lark, Transformer, v_args
+from lark import Lark
 from lark.indenter import Indenter
 
 python_grammar_file = Path('examples/python.lark')
@@ -29,8 +29,10 @@ else :
     False
 """
 
+
 def test():
     print(python_parser.parse(test_python).pretty(indent_str='  '))
+
 
 if __name__ == '__main__':
     test()

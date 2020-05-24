@@ -5,15 +5,16 @@ from pprint import pprint
 
 from lark import Lark
 from lark.reconstruct import Reconstructor
-#from lark.tree import *
+# from lark.tree import *
 
-from transformer.tree_to_uon import TreeToUON 
+from transformer.uon_0_tree_transformer import UON0TreeToPython
 
-grammar_file = Path('grammar/uon_grammar.lark')
+grammar_file = Path('grammar/uon_0_grammar.lark')
 
 # The parser returned by Lark for our grammar.
-# We have the maybe_placeholders option available in the Lark parser constructor, to handle optional fields
-# in the rule so that they resolve to None if none is provided.
+# We have the maybe_placeholders option available in the Lark parser
+# constructor, to handle optional fields in the rule so that they
+# resolve to None if none is provided.
 uon_parser = Lark.open(
     grammar_file,
     start='value',
@@ -21,11 +22,13 @@ uon_parser = Lark.open(
     maybe_placeholders=True,
 )
 
-# A parser instance with no maybe_placeholders because it causes an assertion error when reconstructing with it
+# A parser instance with no maybe_placeholders because it causes an
+# assertion error when reconstructing with it
 uon_parser_reconstructor = Lark.open(
     grammar_file,
     start='value',
 )
+
 
 def main():
     text = '{"key": ["item0", "item1", 3.14, true]}'    
@@ -69,7 +72,7 @@ def main():
     print()
 
     # Process the parse tree
-    transformed = TreeToUON().transform(parse_tree)
+    transformed = UON0TreeToPython().transform(parse_tree)
     print()
     print("Transformed: ", transformed)
     print("Transformed type: ", type(transformed), end='\n')

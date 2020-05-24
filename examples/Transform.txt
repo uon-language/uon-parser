@@ -1,1 +1,2 @@
-Tree(top_seq, [Tree(top_map, [Token(STRING, 'name'), Token(STRING, 'Mark McGwire'), Token(STRING, 'hr'), Token(STRING, '65'), Token(STRING, 'avg'), Token(STRING, '0.278')]), Tree(top_map, [Token(STRING, 'name'), Token(STRING, 'Sammy Sosa'), Token(STRING, 'hr'), Token(STRING, '63'), Token(STRING, 'avg'), Token(STRING, '0.288')])])
+{'american': ['Boston Red Sox', 'Detroit Tigers', 'New York Yankees'],
+ 'national': ['New York Mets', 'Chicago Cubs', 'Atlanta Braves']}
