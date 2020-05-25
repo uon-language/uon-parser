@@ -30,6 +30,12 @@ class UON2TreeToPython(Transformer):
         print("visiting string: ", string)
         return string.strip()
 
+    @v_args(inline=True)
+    def number(self, n):
+        print("visiting number: ", n)
+        (n,) = n
+        return float(n)
+
     def seq_item(self, items):
         print("visiting seq items: ", items)
         return items[0]
@@ -52,10 +58,14 @@ class UON2TreeToPython(Transformer):
     false = lambda self, _: False
 
 
-test_uon_2 = """
+test_uon = """
 a (description = A key) : d
-b : e
+b : 28
 c : f
+"""
+
+test_uon_strings = """
+a : I put numbers 28.5 in my string but this should still be parsed as a string
 """
 
 uon_parser_2 = Lark.open(uon_2_grammar_file, parser='lalr',
@@ -63,7 +73,7 @@ uon_parser_2 = Lark.open(uon_2_grammar_file, parser='lalr',
 
 
 def test():
-    parse_tree = uon_parser_2.parse(test_uon_2)
+    parse_tree = uon_parser_2.parse(test_uon)
     print(parse_tree.pretty(indent_str='  '))
     transformed = UON2TreeToPython().transform(parse_tree)
     print(transformed)

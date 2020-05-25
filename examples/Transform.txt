@@ -1,2 +1,3 @@
-{'american': ['Boston Red Sox', 'Detroit Tigers', 'New York Yankees'],
- 'national': ['New York Mets', 'Chicago Cubs', 'Atlanta Braves']}
+{Tree(pair_key, ['a', Tree(key_properties, [Tree(key_property, [Tree(description, ['A key'])])])]): Tree(scalar, ['d']),
+ Tree(pair_key, ['b']): Tree(scalar, ['28']),
+ Tree(pair_key, ['c']): Tree(scalar, ['f'])}

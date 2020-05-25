@@ -2,8 +2,12 @@
 _value : top_map | top_seq
 top_seq: seq_item+
 top_map : pair+
-pair: pair_key ":" ((string _NL+) | (_NL [_INDENT _value _DEDENT]))
-seq_item : "-" ((string _NL+) | (_NL [_INDENT _value _DEDENT]))
+pair: pair_key ":" _uon_value
+seq_item : "-" _uon_value
+_uon_value: scalar | collection
+
+scalar : (string | number) _NL+ 
+collection: _NL [_INDENT _value _DEDENT]
 
 pair_key : string [key_properties]
 key_properties : "(" [key_property ("," key_property)*] ")"
@@ -14,9 +18,16 @@ required : "required" "=" (true | false)
 true : "true" | "True"
 false : "false" | "False"
 string : STRING
+number : DECIMAL | FLOAT_NUMBER
+DECIMAL : /0|[1-9]\d*/i
+// Priority 2
+FLOAT_NUMBER.2: /((\d+\.\d*|\.\d+)(e[-+]?\d+)?|\d+(e[-+]?\d+))/i
+signed_number: SIGNED_NUMBER
 
-STRING :  /[^-:#()\[\]{}\n]+/ 
+// TODO: folded style strings?
+STRING.2 :  /[^-:#()\[\]{}\n]+/ 
 COMMENT: /#[^\n]*/
+%import common.SIGNED_NUMBER
 %import common.WS_INLINE
 %declare _INDENT _DEDENT
 %ignore COMMENT
