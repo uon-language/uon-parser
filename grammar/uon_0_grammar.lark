@@ -9,7 +9,7 @@
           | "null"             -> null
 
     seq : "[" [value ("," value)*] "]"
-    dict : "{" [pair ("," pair)*] "}" | [pair ("," pair)*]
+    dict : "{" [pair ("," pair)*] "}" | pair ("," pair)*
     pair : pair_key ":" pair_value
     
     // For the key name to be a proper variable name as per most programming
@@ -37,6 +37,8 @@
     INT: "!int" | "!INT"
     STR: "!str" | "!STR"
     NUM: "!num" | "!NUM"
+
+    _NL: /(\r?\n[\t ]*)+/
 
     %import common.ESCAPED_STRING
     %import common.SIGNED_NUMBER

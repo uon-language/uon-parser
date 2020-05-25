@@ -5,26 +5,30 @@ from pprint import pprint
 
 from lark import Lark
 from lark.reconstruct import Reconstructor
-#from lark.tree import *
+# from lark.tree import *
 
-from transformer.tree_to_uon import TreeToUON 
+from transformer.uon_0_tree_transformer import UON0TreeToPython
 
-grammar_file = Path('grammar/uon_grammar.lark')
+grammar_file = Path('grammar/uon_0_grammar.lark')
 
 # The parser returned by Lark for our grammar.
-# We have the maybe_placeholders option available in the Lark parser constructor, to handle optional fields
-# in the rule so that they resolve to None if none is provided.
+# We have the maybe_placeholders option available in the Lark parser
+# constructor, to handle optional fields in the rule so that they
+# resolve to None if none is provided.
 uon_parser = Lark.open(
     grammar_file,
     start='value',
+    parser='lalr',
     maybe_placeholders=True,
 )
 
-# A parser instance with no maybe_placeholders because it causes an assertion error when reconstructing with it
+# A parser instance with no maybe_placeholders because it causes an
+# assertion error when reconstructing with it
 uon_parser_reconstructor = Lark.open(
     grammar_file,
     start='value',
 )
+
 
 def main():
     text = '{"key": ["item0", "item1", 3.14, true]}'    
@@ -42,13 +46,21 @@ def main():
         tuf (description = "tuf tuf"): !uint !int !uint 10.5
     }
     """
-
+    
+    # Nested maps example
     data3 = """
         foo: 42,
         bar(optional=true, description ="balala"): {
             nestedmap : !uint !int !uint 56
         },
         tuf (description = "tuf tuf"): !int 10.5
+    """
+
+    # Sequences example
+    data4 = """
+        foo: - "hello"
+        - "bye"
+        - "sick"
     """
 
     # Description rule
@@ -60,7 +72,7 @@ def main():
     print()
 
     # Process the parse tree
-    transformed = TreeToUON().transform(parse_tree)
+    transformed = UON0TreeToPython().transform(parse_tree)
     print()
     print("Transformed: ", transformed)
     print("Transformed type: ", type(transformed), end='\n')
@@ -68,17 +80,17 @@ def main():
         pprint(transformed, stream=text_file)
 
     # Some operations on the result dictionary
-    print("Transformed items")
+    """print("Transformed items")
     for k, v in transformed.items():
         print(k, v)
-    print("Getting transformed[{}]: {}".format('bar', transformed['bar']))
+    print("Getting transformed[{}]: {}".format('bar', transformed['bar']))"""
 
 
     # Reconstruct the original text from the parse tree
-    parse_tree_for_reconstruction = uon_parser_reconstructor.parse(data2)
+    """parse_tree_for_reconstruction = uon_parser_reconstructor.parse(data2)
     uon_emit = Reconstructor(uon_parser_reconstructor).reconstruct(parse_tree_for_reconstruction)
     with open("output/Emit.txt", "w") as text_file:
-        text_file.write(uon_emit)
+        text_file.write(uon_emit)"""
 
     # Print the parse tree to file
     with open("output/Output.txt", "w") as text_file:

@@ -1,0 +1,24 @@
+?start: _NL* _value
+_value : top_map | top_seq
+top_seq: seq_item+
+top_map : pair+
+pair: pair_key ":" ((string _NL+) | (_NL [_INDENT _value _DEDENT]))
+seq_item : "-" ((string _NL+) | (_NL [_INDENT _value _DEDENT]))
+
+pair_key : string [key_properties]
+key_properties : "(" [key_property ("," key_property)*] ")"
+key_property : required | description
+description: "description" "=" string
+required : "required" "=" (true | false)
+
+true : "true" | "True"
+false : "false" | "False"
+string : STRING
+
+STRING :  /[^-:#()\[\]{}\n]+/ 
+COMMENT: /#[^\n]*/
+%import common.WS_INLINE
+%declare _INDENT _DEDENT
+%ignore COMMENT
+%ignore WS_INLINE
+_NL: /(\r?\n[\t ]*)+/

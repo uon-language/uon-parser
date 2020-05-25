@@ -1,7 +1,7 @@
 from collections.abc import MutableMapping
 
 
-class UONDictionary(MutableMapping):
+class customDictionary(MutableMapping):
     '''
     Courtesy of https://stackoverflow.com/questions/21361106/how-would-i-implement-a-dict-with-abstract-base-classes-in-python
     Mapping that works like both a dict and a mutable object, i.e.
@@ -38,6 +38,13 @@ class UONDictionary(MutableMapping):
 
     def __repr__(self):
         '''echoes class, id, & reproducible representation in the REPL'''
-        return '{}, D({})'.format(super(UONDictionary, self).__repr__(),
+        return '{}, D({})'.format(super(customDictionary, self).__repr__(), 
                                   self.__dict__)
-                             
+
+
+d = customDictionary({"d": 3})
+d['s'] = {"a": 2, "sd": 5}
+print(d)
+print(d.s)
+dictionary = {'a': 3, 'b': 4}
+dictionary
