@@ -6,26 +6,46 @@ pair: pair_key ":" _uon_value
 seq_item : "-" _uon_value
 _uon_value: scalar | collection
 
-scalar : (string | number) _NL+ 
+scalar : (escaped_string | string | number) _NL+ 
 collection: _NL [_INDENT _value _DEDENT]
 
-pair_key : string [key_properties]
-key_properties : "(" [key_property ("," key_property)*] ")"
-key_property : required | description
+pair_key : (string | escaped_string) [key_properties]
+key_properties : "(" [_key_property ("," _key_property)*] ")"
+_key_property : optional | description
 description: "description" "=" string
-required : "required" "=" (true | false)
+optional : "optional" "=" (true | false)
 
 true : "true" | "True"
 false : "false" | "False"
-string : STRING
-number : DECIMAL | FLOAT_NUMBER
-DECIMAL : /0|[1-9]\d*/i
-// Priority 2
+// TODO: import escaped string perhaps
+escaped_string : "\"" WORD+ "\"" | "'" WORD+ "'"
+string :  number WORD+ | WORD+
+number : DECIMAL | FLOAT_NUMBER | SIGNED_NUMBER
+DECIMAL.2 : /0|[1-9]\d*/i
 FLOAT_NUMBER.2: /((\d+\.\d*|\.\d+)(e[-+]?\d+)?|\d+(e[-+]?\d+))/i
-signed_number: SIGNED_NUMBER
+
+// Collections types
+MAPPING_TYPE: "!!mapping"
+SEQUENCE_TYPE: "!!seq"
+
+// Scalar
+STR_TYPE: "!!str"
+
+FLOAT_128_TYPE: "!!float128"
+FLOAT_64_TYPE: "!!float64"
+FLOAT_32_TYPE: "!!float32"
+
+INT_128_TYPE: "!!int128"
+INT_64_TYPE: "!!int64"
+INT_32_TYPE: "!!int32"
+
+UINT_128_TYPE: "!!uint128"
+UINT_64_TYPE: "!!uint64"
+UINT_32_TYPE: "!!uint32"
 
 // TODO: folded style strings?
-STRING.2 :  /[^-:#()\[\]{}\n]+/ 
+// Priority 2
+WORD:  /[^:#()\[\]{}\n\"\'\s]+/
 COMMENT: /#[^\n]*/
 %import common.SIGNED_NUMBER
 %import common.WS_INLINE
