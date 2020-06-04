@@ -5,4 +5,6 @@ class UonScalar:
         of its type
         '''
         self.value = value
-        self.uon_type = type
+        self.uon_type = uon_type
+
+    # TODO: Type coercion methods here

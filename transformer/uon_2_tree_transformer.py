@@ -2,6 +2,8 @@ from lark import Transformer, v_args
 
 from uonTypes.uon_pair_key import UonPairKey, UonPairKeyProperties
 from uonTypes.uon_pair import UonPair
+from uonTypes.uon_float import Float64
+from uonTypes.type_coercion import type_constructors
 
 
 class UON2TreeToPython(Transformer):
@@ -11,12 +13,14 @@ class UON2TreeToPython(Transformer):
         print("visiting name: ", string)
         (s,) = string
         return s
-
-    @v_args(inline=True)
+        
     def escaped_string(self, s):
         print("visiting escaped string: ", s)
-        (s,) = s
-        return s[1:-1].replace('\\"', '"')
+        # (s,) = s
+        # return s[1:-1].replace('\\"', '"')
+        s = ' '.join(s)
+        print("joining string: ", s)
+        return s
 
     def string(self, string):
         print("visiting string: ", string)
@@ -27,7 +31,7 @@ class UON2TreeToPython(Transformer):
     @v_args(inline=True)
     def number(self, n):
         print("visiting number: ", n)
-        return n
+        return Float64(n)
 
     # TODO map should contain the pair keyname as the key and the whole
     # pair as the value, since the pair key can contain properties
@@ -81,6 +85,26 @@ class UON2TreeToPython(Transformer):
         """
         print("visiting optional: ", value)
         return "optional", value
+
+    @v_args(inline=True)
+    def scalar(self, value):
+        print("visiting scalar: ", value)
+        return value
+    
+    def typed_scalar(self, value):
+        '''
+        Receive a typed scalar in the form of a list ["!!<TYPE>"", <VALUE>]
+        We extract <TYPE> from the first element and use it to find the
+        corresponding constructor to coerce the type of <VALUE>
+        '''
+        print("visiting typed_scalar: ", value, " with type: ", value[0])
+        return_value = type_constructors[value[0][2:]](value[1].value)
+        return return_value
+    
+    @v_args(inline=True)
+    def scalar_type(self, t):
+        print("visiting scalar_type: ", t)
+        return t
         
 
     null = lambda self, _: None

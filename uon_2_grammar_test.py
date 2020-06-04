@@ -43,12 +43,21 @@ test_escaped_strings = """
 "b" : 28
 """
 
+test_type_coercion = """
+a : !!int64 5.876
+"""
+
+test_successive_types = """
+a : !!str !!int32 !!float64 !!int32 5
+b (description = "No type"): 5
+"""
+
 uon_parser_2 = Lark.open(uon_2_grammar_file, parser='lalr',
                          postlex=TreeIndenter(), start='start', debug=True)
 
 
 def test():
-    parse_tree = uon_parser_2.parse(test_uon_strings)
+    parse_tree = uon_parser_2.parse(test_successive_types)
     print(parse_tree.pretty(indent_str='  '))
     transformed = UON2TreeToPython().transform(parse_tree)
     print(transformed)

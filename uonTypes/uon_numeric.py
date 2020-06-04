@@ -1,4 +1,4 @@
-from uon_scalar import UonScalar
+from uonTypes.uon_scalar import UonScalar
 
 
 class UonNumeric(UonScalar):

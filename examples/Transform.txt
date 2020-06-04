@@ -1,3 +1,1 @@
-{'a': a : Tree(scalar, ['!!str 28.5 I put numbers 28.5 or -28.5 in my string but this should still be parsed as a string']),
- 'b': b : Tree(scalar, [Token(SIGNED_NUMBER, '-28.5')]),
- 'c': c : Tree(collection, [[Tree(scalar, [Token(DECIMAL, '28')]), Tree(scalar, [Token(SIGNED_NUMBER, '-28.5')])]])}
+{'a': a : 5, 'b': b (description= No type, optional= False) : !!float64 5.0}
