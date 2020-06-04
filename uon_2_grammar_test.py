@@ -1,22 +1,12 @@
 from pathlib import Path
 
 from lark import Lark
-from lark.indenter import Indenter
 
 from pprint import pprint
 
-from transformer.uon_2_tree_transformer import UON2TreeToPython
+from transformer.uon_2_tree_transformer import UON2TreeToPython, TreeIndenter
 
 uon_2_grammar_file = Path('grammar/uon_2_grammar.lark')
-
-
-class TreeIndenter(Indenter):
-    NL_type = '_NL'
-    OPEN_PAREN_types = []
-    CLOSE_PAREN_types = []
-    INDENT_type = '_INDENT'
-    DEDENT_type = '_DEDENT'
-    tab_len = 8
 
 
 test_uon = """

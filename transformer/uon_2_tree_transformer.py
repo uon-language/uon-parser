@@ -1,9 +1,20 @@
 from lark import Transformer, v_args
+from lark.indenter import Indenter
 
 from uonTypes.uon_pair_key import UonPairKey, UonPairKeyProperties
 from uonTypes.uon_pair import UonPair
-from uonTypes.uon_float import Float64
+from uonTypes.scalars.uon_float import Float64
 from uonTypes.type_coercion import type_constructors
+from uonTypes.collections.uon_dict import UONDictionary
+
+
+class TreeIndenter(Indenter):
+    NL_type = '_NL'
+    OPEN_PAREN_types = []
+    CLOSE_PAREN_types = []
+    INDENT_type = '_INDENT'
+    DEDENT_type = '_DEDENT'
+    tab_len = 8
 
 
 class UON2TreeToPython(Transformer):
@@ -37,7 +48,7 @@ class UON2TreeToPython(Transformer):
     # pair as the value, since the pair key can contain properties
     def top_map(self, mapping):
         print("visiting tree_mapping: ", mapping)
-        return dict(mapping)
+        return UONDictionary(mapping)
 
     def top_seq(self, seq):
         print("visiting top_seq: ", seq)

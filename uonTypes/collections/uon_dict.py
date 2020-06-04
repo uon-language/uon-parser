@@ -20,7 +20,7 @@ class UONDictionary(MutableMapping):
         self.__dict__[key] = value
 
     def __getitem__(self, key):
-        return self.__dict__[key]
+        return self.__dict__[key].value
 
     def __delitem__(self, key):
         del self.__dict__[key]
