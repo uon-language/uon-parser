@@ -1,22 +1,65 @@
 ?start: _NL* _value
-_value : top_map | top_seq
+_value : [MAPPING_TYPE] top_map | [SEQUENCE_TYPE] top_seq
+// TODO: json type maps and seqs
 top_seq: seq_item+
 top_map : pair+
-pair: pair_key ":" ((string _NL+) | (_NL [_INDENT _value _DEDENT]))
-seq_item : "-" ((string _NL+) | (_NL [_INDENT _value _DEDENT]))
+pair: pair_key ":" _uon_value
+seq_item : "-" _uon_value
+_uon_value: scalar | collection
 
-pair_key : string [key_properties]
-key_properties : "(" [key_property ("," key_property)*] ")"
-key_property : required | description
-description: "description" "=" string
-required : "required" "=" (true | false)
+scalar : (typed_scalar | _scalar_value) _NL+ 
+typed_scalar : scalar_type  (typed_scalar | _scalar_value)
+_scalar_value : (escaped_string | string | number)
+collection: _NL [_INDENT _value _DEDENT]
+
+pair_key : (string | escaped_string) [key_properties]
+key_properties : "(" [_key_property ("," _key_property)*] ")"
+_key_property : optional | description
+description: "description" "=" (string | escaped_string)
+optional : "optional" "=" (true | false)
 
 true : "true" | "True"
 false : "false" | "False"
-string : STRING
+// TODO: import escaped string perhaps
+escaped_string : "\"" WORD+ "\"" | "'" WORD+ "'"
+string :  number WORD+ | WORD+
+number : DECIMAL | FLOAT_NUMBER | SIGNED_NUMBER
+DECIMAL.2 : /0|[1-9]\d*/i
+FLOAT_NUMBER.2: /((\d+\.\d*|\.\d+)(e[-+]?\d+)?|\d+(e[-+]?\d+))/i
 
-STRING :  /[^-:#()\[\]{}\n]+/ 
+
+// TODO: Fix strings that may begin with "!!" if none of the types below matched
+// https://www.regextester.com/95226
+
+// Collections types
+collection_type : MAPPING_TYPE | SEQUENCE_TYPE
+MAPPING_TYPE: "!!mapping"
+SEQUENCE_TYPE: "!!seq"
+
+// Scalar types
+scalar_type : STR_TYPE | FLOAT_128_TYPE | FLOAT_64_TYPE | FLOAT_32_TYPE
+               | INT_128_TYPE | INT_64_TYPE | INT_32_TYPE
+               | UINT_128_TYPE | UINT_64_TYPE | UINT_32_TYPE
+
+STR_TYPE: "!!str"
+
+FLOAT_128_TYPE: "!!float128"
+FLOAT_64_TYPE: "!!float64"
+FLOAT_32_TYPE: "!!float32"
+
+INT_128_TYPE: "!!int128"
+INT_64_TYPE: "!!int64"
+INT_32_TYPE: "!!int32"
+
+UINT_128_TYPE: "!!uint128"
+UINT_64_TYPE: "!!uint64"
+UINT_32_TYPE: "!!uint32"
+
+// TODO: folded style strings?
+// Priority 2
+WORD:  /[^:#()\[\]{}\n\"\'\s]+/
 COMMENT: /#[^\n]*/
+%import common.SIGNED_NUMBER
 %import common.WS_INLINE
 %declare _INDENT _DEDENT
 %ignore COMMENT

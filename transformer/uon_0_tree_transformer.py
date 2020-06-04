@@ -1,8 +1,8 @@
 from lark import Transformer
 
 # import custom made classes
-from uonTypes.uon_key import UonKey, UonKeyProperties
-from uonTypes.uon_value import UonValue
+from uonTypes.uon0.uon_key import UonKey, UonKeyProperties
+from uonTypes.uon0.uon_value import UonValue
 
 
 class UON0TreeToPython(Transformer):

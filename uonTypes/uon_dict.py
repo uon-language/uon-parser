@@ -1,6 +1,7 @@
 from collections.abc import MutableMapping
 
-
+# TODO: Uon Dictionary should contain simple keys and values that are pairs.
+# Should return value of pair when retrieving
 class UONDictionary(MutableMapping):
     '''
     Courtesy of https://stackoverflow.com/questions/21361106/how-would-i-implement-a-dict-with-abstract-base-classes-in-python

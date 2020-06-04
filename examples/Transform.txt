@@ -1,2 +1,1 @@
-{'american': ['Boston Red Sox', 'Detroit Tigers', 'New York Yankees'],
- 'national': ['New York Mets', 'Chicago Cubs', 'Atlanta Braves']}
+{'a': a : 5, 'b': b (description= No type, optional= False) : !!float64 5.0}
