@@ -13,6 +13,7 @@ class Uon:
         self.transformer = UON2TreeToPython()
 
     def load(self, filename):
+        # TODO: check filename ends in uon
         with open(filename) as f:
             read_data = f.read()
             parse_tree = self.parser.parse(read_data)
