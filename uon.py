@@ -11,3 +11,15 @@ class Uon:
         self.parser = Lark.open(uon_2_grammar_file, parser='lalr',
                                 postlex=TreeIndenter(), start='start')
         self.transformer = UON2TreeToPython()
+
+    def load(self, filename):
+        with open(filename) as f:
+            read_data = f.read()
+            parse_tree = self.parser.parse(read_data)
+            transformed_tree = self.transformer.transform(parse_tree)
+            return transformed_tree
+            
+    def parse(self, input):
+        parse_tree = self.parser.parse(input)
+        transformed_tree = self.transformer.transform(parse_tree)
+        return transformed_tree

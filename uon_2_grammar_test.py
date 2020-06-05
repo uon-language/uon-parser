@@ -15,6 +15,17 @@ b : 28
 c : f
 """
 
+test_grammar_nested_mappings_in_seq = """
+-
+  name: Mark McGwire
+  hr:   65
+  avg:  0.278
+-
+  name: Sammy Sosa
+  hr:   63
+  avg:  0.288
+"""
+
 test_uon_strings = """
 a : !!str 28.5 I put numbers 28.5 or -28.5 in my string but this should still be parsed as a string
 b : -28.5
@@ -40,6 +51,9 @@ a : !!int64 5.876
 test_successive_types = """
 a : !!str !!int32 !!float64 !!int32 5
 b (description = "No type"): 5
+c :
+    d : !!int64 !!float32 63.7
+    e : !!str 2.0
 """
 
 uon_parser_2 = Lark.open(uon_2_grammar_file, parser='lalr',

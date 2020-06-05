@@ -4,7 +4,10 @@ class UonPair:
         self.value = value
     
     def getKeyname(self):
-        return self.key.keyname
+        return self.key.keyname        
+    
+    def __str__(self):
+        return str(self.key) + " : " + str(self.value)
 
     def __repr__(self):
-        return str(self.key) + " : " + str(self.value)
+        return self.__str__()

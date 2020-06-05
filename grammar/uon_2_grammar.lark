@@ -5,12 +5,12 @@ top_seq: seq_item+
 top_map : pair+
 pair: pair_key ":" _uon_value
 seq_item : "-" _uon_value
-_uon_value: scalar | collection
+_uon_value: scalar | _collection
 
 scalar : (typed_scalar | _scalar_value) _NL+ 
 typed_scalar : scalar_type  (typed_scalar | _scalar_value)
 _scalar_value : (escaped_string | string | number)
-collection: _NL [_INDENT _value _DEDENT]
+_collection: _NL [_INDENT _value _DEDENT]
 
 pair_key : (string | escaped_string) [key_properties]
 key_properties : "(" [_key_property ("," _key_property)*] ")"
