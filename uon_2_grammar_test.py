@@ -1,28 +1,29 @@
 from pathlib import Path
 
 from lark import Lark
-from lark.indenter import Indenter
 
 from pprint import pprint
 
-from transformer.uon_2_tree_transformer import UON2TreeToPython
+from transformer.uon_2_tree_transformer import UON2TreeToPython, TreeIndenter
 
 uon_2_grammar_file = Path('grammar/uon_2_grammar.lark')
-
-
-class TreeIndenter(Indenter):
-    NL_type = '_NL'
-    OPEN_PAREN_types = []
-    CLOSE_PAREN_types = []
-    INDENT_type = '_INDENT'
-    DEDENT_type = '_DEDENT'
-    tab_len = 8
 
 
 test_uon = """
 a (description = A key) : d
 b : 28
 c : f
+"""
+
+test_grammar_nested_mappings_in_seq = """
+-
+  name: Mark McGwire
+  hr:   65
+  avg:  0.278
+-
+  name: Sammy Sosa
+  hr:   63
+  avg:  0.288
 """
 
 test_uon_strings = """
@@ -50,6 +51,9 @@ a : !!int64 5.876
 test_successive_types = """
 a : !!str !!int32 !!float64 !!int32 5
 b (description = "No type"): 5
+c :
+    d : !!int64 !!float32 63.7
+    e : !!str 2.0
 """
 
 uon_parser_2 = Lark.open(uon_2_grammar_file, parser='lalr',

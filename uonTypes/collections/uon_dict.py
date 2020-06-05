@@ -31,14 +31,12 @@ class UONDictionary(MutableMapping):
     def __len__(self):
         return len(self.__dict__)
 
-    # The final two methods aren't required, but nice for demo purposes:
+    # The final two methods aren't required for implementing an ABC class
     def __str__(self):
         '''returns simple dict representation of the mapping'''
-
-        return str(self.__dict__)
+        return "{" + ", ".join([str(value) for value in self.values()]) + "}"
 
     def __repr__(self):
         '''echoes class, id, & reproducible representation in the REPL'''
         return '{}, D({})'.format(super(UONDictionary, self).__repr__(),
                                   self.__dict__)
-                             

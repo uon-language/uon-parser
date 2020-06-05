@@ -1,5 +1,5 @@
-from uonTypes.uon_float import Float32, Float64, Float128
-from uonTypes.uon_integer import Integer32, Integer64, Integer128
+from uonTypes.scalars.uon_float import Float32, Float64, Float128
+from uonTypes.scalars.uon_integer import Integer32, Integer64, Integer128
 
 type_constructors = {
     "float32": Float32,

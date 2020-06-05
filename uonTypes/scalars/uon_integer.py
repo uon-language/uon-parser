@@ -1,6 +1,6 @@
 import numpy as np
 
-from uonTypes.uon_numeric import UonNumeric
+from uonTypes.scalars.uon_numeric import UonNumeric
 
 
 class Integer32(UonNumeric):
