@@ -72,3 +72,5 @@ def getWhitespaces(s):
 
 
 print(replaceSpaces(indented.splitlines(), 0, ""))
+
+print(type((tel, [])))
