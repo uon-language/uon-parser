@@ -21,8 +21,8 @@
     key_property: optional | description
 
     unit: "(unit:" word ")"
-    description: "description" "="  string 
-    optional: "optional" "=" (true | false) 
+    description: "description" ":"  string 
+    optional: "optional" ":" (true | false) 
     uon_type: (UINT | INT | STR | NUM)*
 
     // Terminals

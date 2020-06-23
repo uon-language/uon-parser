@@ -51,6 +51,10 @@ test_type_coercion = """
 a : !!int64 5.876
 """
 
+test_type_coercion_to_integer = """
+a : !!int32 !!float64 58767638927.4
+"""
+
 # TODO: keep the types maybe?
 test_successive_types = """
 a : !!str !!int32 !!float64 !!int32 5
@@ -65,7 +69,7 @@ uon_parser_2 = Lark.open(uon_2_grammar_file, parser='lalr',
 
 
 def test():
-    parse_tree = uon_parser_2.parse(test_uon)
+    parse_tree = uon_parser_2.parse(test_type_coercion_to_integer)
     print(parse_tree.pretty(indent_str='  '))
     transformed = UON2TreeToPython().transform(parse_tree)
     print(transformed)

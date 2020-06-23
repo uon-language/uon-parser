@@ -23,10 +23,12 @@ json_grammar = r"""
     %ignore WS
     """
 
+
 class TreeToJson(Transformer):
     def string(self, s):
         (s,) = s
         return s[1:-1]
+
     def number(self, n):
         (n,) = n
         return float(n)
@@ -34,10 +36,12 @@ class TreeToJson(Transformer):
     def list(self, items):
         print("visiting list: ", items, end="\n")
         return list(items)
+
     def pair(self, key_value):
         print("visiting pair: ", key_value, end="\n")
         k, v = key_value
         return k, v
+        
     def dict(self, items):
         print("visiting dict: ", items, end="\n")
         return dict(items)
