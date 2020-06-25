@@ -13,7 +13,7 @@ test_json = """{foo : 42
 
 
 test_uon = """
-a (description = A key) : d
+a (description : A key) : d
 b : 28
 c : f
 """
@@ -58,7 +58,7 @@ a : !!int32 !!float64 58767638927.4
 # TODO: keep the types maybe?
 test_successive_types = """
 a : !!str !!int32 !!float64 !!int32 5
-b (description = "No type"): 5
+b (description : "No type"): 5
 c :
     d : !!int64 !!float32 63.7
     e : !!str 2.0
