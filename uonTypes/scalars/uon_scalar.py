@@ -1,4 +1,7 @@
-class UonScalar:
+from uonTypes.uon_definition import UonBase
+
+
+class UonScalar(UonBase):
     def __init__(self, value, uon_type):
         '''
         A Uon scalar takes a value and a string representation

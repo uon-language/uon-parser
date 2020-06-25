@@ -34,7 +34,7 @@ def main():
     text = '{"key": ["item0", "item1", 3.14, true]}'    
     data = """
     {
-        foo(description="A Foo description"): !uint 42,
+        foo(description:"A Foo description"): !uint 42,
         bar: !num(unit: meters) 1123123412153121.41832154245214
     }
     """
@@ -42,18 +42,18 @@ def main():
     data2 = """
     {
         foo: !uint 42,
-        bar(optional=true, description ="balala"): 30.7,
-        tuf (description = "tuf tuf"): !uint !int !uint 10.5
+        bar(optional:true, description :"balala"): 30.7,
+        tuf (description : "tuf tuf"): !uint !int !uint 10.5
     }
     """
     
     # Nested maps example
     data3 = """
         foo: 42,
-        bar(optional=true, description ="balala"): {
+        bar(optional: true, description : "balala"): {
             nestedmap : !uint !int !uint 56
         },
-        tuf (description = "tuf tuf"): !int 10.5
+        tuf (description : "tuf tuf"): !int 10.5
     """
 
     # Sequences example
@@ -64,7 +64,7 @@ def main():
     """
 
     # Description rule
-    example2 = """(description= "baloney")"""
+    example2 = """(description: "baloney")"""
 
     # Parse the example with the grammar and return a parse tree (AST)
     parse_tree = uon_parser.parse(data3)

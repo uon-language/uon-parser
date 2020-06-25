@@ -1,4 +1,7 @@
-class UonPairKey:
+from uonTypes.uon_definition import UonBase
+
+
+class UonPairKey(UonBase):
     """
     A class for representing the key in a UON pair key-value
     which also hold its properties
@@ -17,7 +20,7 @@ class UonPairKey:
             return "{} ({})".format(self.keyname, self.properties)
 
 
-class UonPairKeyProperties:
+class UonPairKeyProperties(UonBase):
     """ A class for representing the properties of a UON pair key-value """
     def __init__(self, description, optional=False):
         self.description = description

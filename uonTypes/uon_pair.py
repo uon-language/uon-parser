@@ -1,4 +1,7 @@
-class UonPair:
+from uonTypes.uon_definition import UonBase
+
+
+class UonPair(UonBase):
     def __init__(self, key, value):
         self.key = key
         self.value = value
