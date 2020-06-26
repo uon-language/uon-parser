@@ -1,7 +1,10 @@
 ?start: _NL* _value
 _value : [MAPPING_TYPE] top_map | [SEQUENCE_TYPE] top_seq
+// TODO: json type maps and seqs
 top_seq: seq_item+
-top_map : pair+
+top_map : pair+ | json_mapping
+json_mapping : "{" [json_pair ("," json_pair)*] "}"
+json_pair: pair_key ":" scalar
 pair: pair_key ":" _uon_value
 seq_item : "-" _uon_value
 _uon_value: scalar | _collection

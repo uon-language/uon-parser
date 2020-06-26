@@ -8,8 +8,10 @@ from transformer.uon_2_tree_transformer import UON2TreeToPython, TreeIndenter
 
 uon_2_grammar_file = Path('grammar/uon_2_grammar.lark')
 
-test_json = """{foo : 42
-}"""
+test_json = """
+{foo : 42, 
+boy: 65,
+ass : 32}"""
 
 
 test_uon = """
@@ -69,7 +71,7 @@ uon_parser_2 = Lark.open(uon_2_grammar_file, parser='lalr',
 
 
 def test():
-    parse_tree = uon_parser_2.parse(test_type_coercion_to_integer)
+    parse_tree = uon_parser_2.parse(test_json)
     print(parse_tree.pretty(indent_str='  '))
     transformed = UON2TreeToPython().transform(parse_tree)
     print(transformed)

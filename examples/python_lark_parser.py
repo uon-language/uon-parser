@@ -23,10 +23,11 @@ python_parser = Lark.open(
 )
 
 test_python = """
-if 2 == 2:
-    True
-else :
-    False
+if (2 == 
+2):
+        print(True)
+else:
+    print(False)
 """
 
 
