@@ -1,18 +1,28 @@
 ?start: _NL* _value
-_value : [MAPPING_TYPE] top_map | [SEQUENCE_TYPE] top_seq
-// TODO: json type maps and seqs
-top_seq: seq_item+
-top_map : pair+ | json_mapping
-json_mapping : "{" [json_pair ("," json_pair)*] "}"
-json_pair: pair_key ":" scalar
-pair: pair_key ":" _uon_value
-seq_item : "-" _uon_value
-_uon_value: scalar | _collection
+_value : [MAPPING_TYPE] uon_mapping | [SEQUENCE_TYPE] uon_seq
+uon_mapping: yaml_mapping | json_mapping
+uon_seq: yaml_seq | json_seq
 
-scalar : (typed_scalar | _scalar_value) _NL+ 
+// yaml structure
+yaml_seq: seq_item+
+yaml_mapping : pair+
+yaml_collection: [MAPPING_TYPE] yaml_mapping | [SEQUENCE_TYPE] yaml_seq
+pair: pair_key ":" yaml_value
+seq_item : "-" yaml_value
+yaml_collection_nested: _NL [_INDENT yaml_collection _DEDENT]
+yaml_value: scalar _NL+ | yaml_collection_nested
+
+// json structure
+json_mapping : "{" [json_pair ("," json_pair)*] "}"
+json_pair: pair_key ":" json_value
+json_seq : "[" [json_value ("," json_value)*] "]"
+json_collection: [MAPPING_TYPE] json_mapping | [SEQUENCE_TYPE] json_seq
+json_value: json_collection | scalar
+
+// TODO: fix null, true/false values in transformer
+scalar : (typed_scalar | _scalar_value)
 typed_scalar : scalar_type  (typed_scalar | _scalar_value)
 _scalar_value : (escaped_string | string | number)
-_collection: _NL [_INDENT _value _DEDENT]
 
 pair_key : (string | escaped_string) [key_properties]
 key_properties : "(" [_key_property ("," _key_property)*] ")"
@@ -35,31 +45,31 @@ FLOAT_NUMBER.2: /((\d+\.\d*|\.\d+)(e[-+]?\d+)?|\d+(e[-+]?\d+))/i
 
 // Collections types
 collection_type : MAPPING_TYPE | SEQUENCE_TYPE
-MAPPING_TYPE: "!!mapping"
-SEQUENCE_TYPE: "!!seq"
+MAPPING_TYPE: "!mapping"
+SEQUENCE_TYPE: "!seq"
 
 // Scalar types
 scalar_type : STR_TYPE | FLOAT_128_TYPE | FLOAT_64_TYPE | FLOAT_32_TYPE
                | INT_128_TYPE | INT_64_TYPE | INT_32_TYPE
                | UINT_128_TYPE | UINT_64_TYPE | UINT_32_TYPE
 
-STR_TYPE: "!!str"
+STR_TYPE: "!str"
 
-FLOAT_128_TYPE: "!!float128"
-FLOAT_64_TYPE: "!!float64"
-FLOAT_32_TYPE: "!!float32"
+FLOAT_128_TYPE: "!float128"
+FLOAT_64_TYPE: "!float64"
+FLOAT_32_TYPE: "!float32"
 
-INT_128_TYPE: "!!int128"
-INT_64_TYPE: "!!int64"
-INT_32_TYPE: "!!int32"
+INT_128_TYPE: "!int128"
+INT_64_TYPE: "!int64"
+INT_32_TYPE: "!int32"
 
-UINT_128_TYPE: "!!uint128"
-UINT_64_TYPE: "!!uint64"
-UINT_32_TYPE: "!!uint32"
+UINT_128_TYPE: "!uint128"
+UINT_64_TYPE: "!uint64"
+UINT_32_TYPE: "!uint32"
 
 // TODO: folded style strings?
 // Priority 2
-WORD:  /[^:#()\[\]{}\n\"\'\s]+/
+WORD:  /[^:#,()\[\]{}\n\"\'\s]+/
 COMMENT: /#[^\n]*/
 %import common.SIGNED_NUMBER
 %import common.WS_INLINE
