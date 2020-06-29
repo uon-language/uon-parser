@@ -24,12 +24,14 @@ scalar : (typed_scalar | _scalar_value)
 typed_scalar : scalar_type  (typed_scalar | _scalar_value)
 _scalar_value : (escaped_string | string | number)
 
-pair_key : (string | escaped_string) [key_properties]
-key_properties : "(" [_key_property ("," _key_property)*] ")"
-_key_property : optional | description
+pair_key : (string | escaped_string) [presentation_properties]
+presentation_properties : "(" [_presentation_property ("," _presentation_property)*] ")"
+_presentation_property : optional | description
 description: "description" ":" (string | escaped_string)
-optional : "optional" ":" (true | false)
+optional : "optional" ":" _boolean_value
 
+boolean: [BOOL_TYPE] _boolean_value
+_boolean_value: true | false
 true : "true" | "True"
 false : "false" | "False"
 // TODO: import escaped string perhaps
@@ -54,6 +56,7 @@ scalar_type : STR_TYPE | FLOAT_128_TYPE | FLOAT_64_TYPE | FLOAT_32_TYPE
                | UINT_128_TYPE | UINT_64_TYPE | UINT_32_TYPE
 
 STR_TYPE: "!str"
+BOOL_TYPE: "!bool"
 
 FLOAT_128_TYPE: "!float128"
 FLOAT_64_TYPE: "!float64"
