@@ -14,7 +14,8 @@ bar: {
     hey: ho,
     boy: hood
 },
-l : [one, 2, three]}"""
+l : [one, 2, three]}
+"""
 
 test_uon = """
 foo: 42
@@ -22,12 +23,19 @@ json:
     h:1
 """
 
+test_schema = """
+!!person: schema {
+    name: !str(min:3, max:25),
+    age: !uint32(max: 125)
+}
+"""
+
 uon_parser_2 = Lark.open(uon_2_grammar_file, parser='lalr',
                          postlex=TreeIndenter(), start='start', debug=True)
 
 
 def test():
-    parse_tree = uon_parser_2.parse(test_json)
+    parse_tree = uon_parser_2.parse(test_schema)
     print(parse_tree.pretty(indent_str='  '))
     """ transformed = UON2TreeToPython().transform(parse_tree)
     print(transformed)

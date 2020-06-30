@@ -1,7 +1,7 @@
 ?start: _NL* _value
-_value : [MAPPING_TYPE] uon_mapping | [SEQUENCE_TYPE] uon_seq
-uon_mapping: yaml_mapping | json_mapping
-uon_seq: yaml_seq | json_seq
+_value : [MAPPING_TYPE] uon_mapping | [SEQUENCE_TYPE] uon_seq | schema
+uon_mapping: yaml_mapping | (json_mapping _NL*)
+uon_seq: yaml_seq | (json_seq _NL*)
 
 // yaml structure
 yaml_seq: seq_item+
@@ -17,7 +17,7 @@ json_mapping : "{" [json_pair ("," json_pair)*] "}"
 json_pair: pair_key ":" json_value
 json_seq : "[" [json_value ("," json_value)*] "]"
 json_collection: [MAPPING_TYPE] json_mapping | [SEQUENCE_TYPE] json_seq
-json_value: json_collection | scalar
+json_value: (json_collection _NL*) | scalar
 
 // TODO: fix null, true/false values in transformer
 scalar : (typed_scalar | _scalar_value)
@@ -25,16 +25,41 @@ typed_scalar : scalar_type  (typed_scalar | _scalar_value)
 _scalar_value : (escaped_string | string | number)
 
 pair_key : (string | escaped_string) [presentation_properties]
+
 presentation_properties : "(" [_presentation_property ("," _presentation_property)*] ")"
 _presentation_property : optional | description
 description: "description" ":" (string | escaped_string)
 optional : "optional" ":" _boolean_value
+
+schema: custom_type ":" "schema" "{" attribute ("," attribute)* "}" _NL*
+attribute: attribute_name ":" validation_property
+attribute_name: WORD
+
+// Validation properties
+validation_property: string_validation | number_validation
+
+// number validation
+number_validation: _number_type ["(" number_property ("," number_property)* ")"]
+number_property: number_max | number_min
+number_max: "max" ":" number
+number_min: "min" ":" number
+
+// string validation
+string_validation: STR_TYPE ["(" string_property ("," string_property)* ")"]
+string_property: string_max | string_min
+string_max: "max" ":" DECIMAL
+string_min: "min" ":" DECIMAL
+
+// User defined types
+custom_type: "!!" WORD
 
 boolean: [BOOL_TYPE] _boolean_value
 _boolean_value: true | false
 true : "true" | "True"
 false : "false" | "False"
 // TODO: import escaped string perhaps
+// Don't need to add number at the start of escaped_string because they will be interpreted 
+// as strings anyways since quotes mark the beginning of a string.
 escaped_string : "\"" WORD+ "\"" | "'" WORD+ "'"
 string :  number WORD+ | WORD+
 number : DECIMAL | FLOAT_NUMBER | SIGNED_NUMBER
@@ -42,7 +67,8 @@ DECIMAL.2 : /0|[1-9]\d*/i
 FLOAT_NUMBER.2: /((\d+\.\d*|\.\d+)(e[-+]?\d+)?|\d+(e[-+]?\d+))/i
 
 
-// TODO: Fix strings that may begin with "!!" if none of the types below matched
+// TODO: Fix strings that may begin with "!!" if none of the types below matched 
+// TODO: (maybe use a punctuation rule to complement the string rule)
 // https://www.regextester.com/95226
 
 // Collections types
@@ -51,7 +77,9 @@ MAPPING_TYPE: "!mapping"
 SEQUENCE_TYPE: "!seq"
 
 // Scalar types
-scalar_type : STR_TYPE | FLOAT_128_TYPE | FLOAT_64_TYPE | FLOAT_32_TYPE
+scalar_type : STR_TYPE | _number_type
+
+_number_type: FLOAT_128_TYPE | FLOAT_64_TYPE | FLOAT_32_TYPE
                | INT_128_TYPE | INT_64_TYPE | INT_32_TYPE
                | UINT_128_TYPE | UINT_64_TYPE | UINT_32_TYPE
 
@@ -72,7 +100,7 @@ UINT_32_TYPE: "!uint32"
 
 // TODO: folded style strings?
 // Priority 2
-WORD:  /[^:#,()\[\]{}\n\"\'\s]+/
+WORD:  /[^:#,()\[\]{}!?.\n\"\'\s]+/
 COMMENT: /#[^\n]*/
 %import common.SIGNED_NUMBER
 %import common.WS_INLINE
