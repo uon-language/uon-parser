@@ -1,23 +1,23 @@
 ?start: _NL* _value
-_value : [MAPPING_TYPE] uon_mapping | [SEQUENCE_TYPE] uon_seq | schema
-uon_mapping: yaml_mapping | (json_mapping _NL*)
-uon_seq: yaml_seq | (json_seq _NL*)
+_value : [MAPPING_TYPE] _uon_mapping | [SEQUENCE_TYPE] _uon_seq | schema
+_uon_mapping: yaml_mapping | (json_mapping _NL*)
+_uon_seq: yaml_seq | (json_seq _NL*)
 
 // yaml structure
 yaml_seq: seq_item+
 yaml_mapping : pair+
-yaml_collection: [MAPPING_TYPE] yaml_mapping | [SEQUENCE_TYPE] yaml_seq
-pair: pair_key ":" yaml_value
-seq_item : "-" yaml_value
-yaml_collection_nested: _NL [_INDENT yaml_collection _DEDENT]
-yaml_value: scalar _NL+ | yaml_collection_nested
+_yaml_collection: [MAPPING_TYPE] yaml_mapping | [SEQUENCE_TYPE] yaml_seq
+pair: pair_key ":" _yaml_value
+seq_item : "-" _yaml_value
+_yaml_collection_nested: _NL [_INDENT _yaml_collection _DEDENT]
+_yaml_value: scalar _NL+ | _yaml_collection_nested
 
 // json structure
 json_mapping : "{" [json_pair ("," json_pair)*] "}"
-json_pair: pair_key ":" json_value
-json_seq : "[" [json_value ("," json_value)*] "]"
-json_collection: [MAPPING_TYPE] json_mapping | [SEQUENCE_TYPE] json_seq
-json_value: (json_collection _NL*) | scalar
+json_pair: pair_key ":" _json_value
+json_seq : "[" [_json_value ("," _json_value)*] "]"
+_json_collection: [MAPPING_TYPE] json_mapping | [SEQUENCE_TYPE] json_seq
+_json_value: (_json_collection _NL*) | scalar
 
 // TODO: fix null, true/false values in transformer
 scalar : (typed_scalar | _scalar_value)

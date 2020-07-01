@@ -2,10 +2,10 @@ from abc import ABC, abstractmethod
 from validation.validator import ValidationError
 
 
-class ValidationProperty(ABC):
+class ValidationType(ABC):
 
     @abstractmethod
-    def validate_property(self, input):
+    def validate_type(self, input):
         """
         Given an input (a UON object), verifies the
         validation property against it
@@ -13,6 +13,6 @@ class ValidationProperty(ABC):
         pass
 
 
-class ValidationPropertyError(ValidationError):
+class ValidationTypeError(ValidationError):
     def __init__(self, expression, message):
         super().__init__(expression, message)

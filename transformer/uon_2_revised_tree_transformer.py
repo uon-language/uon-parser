@@ -1,11 +1,11 @@
 from lark import Transformer, v_args
 from lark.indenter import Indenter
 
-from uonTypes.uon_pair_key import UonPairKey, UonPairKeyProperties
-from uonTypes.uon_pair import UonPair
-from uonTypes.scalars.uon_float import Float64
-from uonTypes.type_coercion import type_constructors
-from uonTypes.collections.uon_dict import UONDictionary
+from uonrevisedtypes.uon_pair_key import UonPairKey, UonPairKeyProperties
+from uonrevisedtypes.uon_pair import UonPair
+from uonrevisedtypes.scalars.uon_float import Float64
+from uonrevisedtypes.type_coercion import type_constructors
+from uonrevisedtypes.collections.uon_dict import UONDictionary
 
 
 class TreeIndenter(Indenter):
@@ -17,7 +17,7 @@ class TreeIndenter(Indenter):
     tab_len = 8
 
 
-class UON2TreeToPython(Transformer):
+class UON2RevisedTreeToPython(Transformer):
 
     @v_args(inline=True)
     def name(self, string):
@@ -44,14 +44,20 @@ class UON2TreeToPython(Transformer):
         print("visiting number: ", n)
         return Float64(n)
 
-    # TODO map should contain the pair keyname as the key and the whole
-    # pair as the value, since the pair key can contain properties
-    def top_map(self, mapping):
-        print("visiting tree_mapping: ", mapping)
+    def yaml_mapping(self, mapping):
+        print("visiting yaml mapping: ", mapping)
         return UONDictionary(mapping)
 
-    def top_seq(self, seq):
-        print("visiting top_seq: ", seq)
+    def json_mapping(self, mapping):
+        print("visiting json mapping: ", mapping)
+        return UONDictionary(mapping)
+
+    def yaml_seq(self, seq):
+        print("visiting yaml seq: ", seq)
+        return seq
+    
+    def json_seq(self, seq):
+        print("visiting json seq: ", seq)
         return seq
 
     def seq_item(self, items):
@@ -62,11 +68,15 @@ class UON2TreeToPython(Transformer):
         print("visiting pair: ", pair)
         return pair[0].keyname, UonPair(pair[0], pair[1])
 
+    def json_pair(self, pair):
+        print("visiting json pair: ", pair)
+        return pair[0].keyname, UonPair(pair[0], pair[1])
+
     def pair_key(self, key):
         print("visiting pair_key: ", key)
         return UonPairKey(key[0], key[1] if 1 < len(key) else None)
     
-    def key_properties(self, properties):
+    def presentation_properties(self, properties):
         """
         We will be receiving properties as a list of pairs.
         We transform the properties into a dictionary of properties names
