@@ -31,27 +31,34 @@ _presentation_property : optional | description
 description: "description" ":" (string | escaped_string)
 optional : "optional" ":" _boolean_value
 
-schema: custom_type ":" "schema" "{" attribute ("," attribute)* "}" _NL*
-attribute: attribute_name ":" validation_property
+// TODO: handle optional parameter attributes
+schema: _custom_type ":" "schema" "{" [attributes] "}" _NL*
+attributes: attribute ("," attribute)*
+attribute: attribute_name ":" _validation_properties
 attribute_name: WORD
 
 // Validation properties
-validation_property: string_validation | number_validation
+_validation_properties: string_validation | number_validation
 
 // number validation
-number_validation: _number_type ["(" number_property ("," number_property)* ")"]
-number_property: number_max | number_min
+number_validation: number_validation_type [number_properties]
+number_properties: "(" _number_property ("," _number_property)* ")"
+_number_property: number_max | number_min
 number_max: "max" ":" number
 number_min: "min" ":" number
+number_validation_type: FLOAT_TYPE -> float_type 
+                        | INT_TYPE -> int_type
+                        | UINT_TYPE -> uint_type
 
 // string validation
-string_validation: STR_TYPE ["(" string_property ("," string_property)* ")"]
-string_property: string_max | string_min
-string_max: "max" ":" DECIMAL
-string_min: "min" ":" DECIMAL
+string_validation: STR_TYPE string_properties
+string_properties: ["(" _string_property ("," _string_property)* ")"]
+_string_property: string_max | string_min
+string_max: "max" ":" decimal
+string_min: "min" ":" decimal
 
 // User defined types
-custom_type: "!!" WORD
+_custom_type: "!!" WORD
 
 boolean: [BOOL_TYPE] _boolean_value
 _boolean_value: true | false
@@ -62,10 +69,10 @@ false : "false" | "False"
 // as strings anyways since quotes mark the beginning of a string.
 escaped_string : "\"" WORD+ "\"" | "'" WORD+ "'"
 string :  number WORD+ | WORD+
-number : DECIMAL | FLOAT_NUMBER | SIGNED_NUMBER
-DECIMAL.2 : /0|[1-9]\d*/i
-FLOAT_NUMBER.2: /((\d+\.\d*|\.\d+)(e[-+]?\d+)?|\d+(e[-+]?\d+))/i
-
+number : decimal | float_number | signed_number
+decimal.2 : DECIMAL
+float_number.2: FLOAT_NUMBER
+signed_number.2: SIGNED_NUMBER
 
 // TODO: Fix strings that may begin with "!!" if none of the types below matched 
 // TODO: (maybe use a punctuation rule to complement the string rule)
@@ -82,24 +89,31 @@ scalar_type : STR_TYPE | _number_type
 _number_type: FLOAT_128_TYPE | FLOAT_64_TYPE | FLOAT_32_TYPE
                | INT_128_TYPE | INT_64_TYPE | INT_32_TYPE
                | UINT_128_TYPE | UINT_64_TYPE | UINT_32_TYPE
+               | FLOAT_TYPE | INT_TYPE | UINT_TYPE
 
 STR_TYPE: "!str"
 BOOL_TYPE: "!bool"
 
+FLOAT_TYPE: "!float"
 FLOAT_128_TYPE: "!float128"
 FLOAT_64_TYPE: "!float64"
 FLOAT_32_TYPE: "!float32"
 
+INT_TYPE: "!int"
 INT_128_TYPE: "!int128"
 INT_64_TYPE: "!int64"
 INT_32_TYPE: "!int32"
 
+UINT_TYPE: "!uint"
 UINT_128_TYPE: "!uint128"
 UINT_64_TYPE: "!uint64"
 UINT_32_TYPE: "!uint32"
 
+DECIMAL : /0|[1-9]\d*/i
+FLOAT_NUMBER: /((\d+\.\d*|\.\d+)(e[-+]?\d+)?|\d+(e[-+]?\d+))/i
+
 // TODO: folded style strings?
-// Priority 2
+// Word with all possible characters except the following negated set
 WORD:  /[^:#,()\[\]{}!?.\n\"\'\s]+/
 COMMENT: /#[^\n]*/
 %import common.SIGNED_NUMBER

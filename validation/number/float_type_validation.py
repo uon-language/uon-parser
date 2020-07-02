@@ -1,4 +1,4 @@
-from validation.type_validator import ValidationType, ValidationTypeError
+from validation.type_validation import ValidationType, ValidationTypeError
 
 
 class FloatTypeValidation(ValidationType):
@@ -8,3 +8,6 @@ class FloatTypeValidation(ValidationType):
             raise ValidationTypeError(input, """The following input {} type
                                            does not correspond to float"""
                                              .format(input))
+
+    def __repr__(self):
+        return "FloatTypeValidation()"

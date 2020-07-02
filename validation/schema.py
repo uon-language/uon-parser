@@ -14,3 +14,8 @@ class Schema:
     def validateSchema(self, input):
         for k, v in input.items():
             self.validators[k].validate(v)
+    
+    def __repr__(self):
+        return "Schema({}, {})".format(
+            self.type_, self.validators
+        )

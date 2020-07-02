@@ -1,5 +1,5 @@
 from validation.property import ValidationProperty
 
 
-class StringValidation(ValidationProperty):
+class StringPropertiesValidation(ValidationProperty):
     pass

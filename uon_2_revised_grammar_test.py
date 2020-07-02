@@ -26,11 +26,17 @@ json:
     h:1
 """
 
-test_schema = """
+schema = """
 !!person: schema {
     name: !str(min:3, max:25),
-    age: !uint32(max: 125)
+    age: !uint(min: 100.5, max: 125)
 }
+"""
+
+test_schema = """
+p: !!mapping
+  a : s
+  d : e
 """
 
 uon_parser_2 = Lark.open(uon_2_grammar_file, parser='lalr',
@@ -38,7 +44,7 @@ uon_parser_2 = Lark.open(uon_2_grammar_file, parser='lalr',
 
 
 def test():
-    parse_tree = uon_parser_2.parse(test_json)
+    parse_tree = uon_parser_2.parse(test_schema)
     print(parse_tree.pretty(indent_str='  '))
     transformed = UON2RevisedTreeToPython().transform(parse_tree)
     print(transformed)

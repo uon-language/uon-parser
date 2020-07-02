@@ -1,4 +1,4 @@
-from validation.type_validator import ValidationType, ValidationTypeError
+from validation.type_validation import ValidationType, ValidationTypeError
 
 
 class StringTypeValidation(ValidationType):

@@ -1,8 +1,9 @@
-from validation.string.string_property_validation import StringValidation
+from validation.string.string_property_validation import (
+    StringPropertiesValidation)
 from validation.property import ValidationPropertyError
 
 
-class MaxStringValidation(StringValidation):
+class MaxStringValidation(StringPropertiesValidation):
     def __init__(self, maximum):
         self.maximum = maximum
 
@@ -11,6 +12,9 @@ class MaxStringValidation(StringValidation):
             raise MaxStringValidationError(input, """The following input {}
                                            has length bigger than {}"""
                                            .format(input, self.maximum))
+    
+    def __repr__(self):
+        return "MaxStringValidation({})".format(self.maximum)
 
 
 class MaxStringValidationError(ValidationPropertyError):
