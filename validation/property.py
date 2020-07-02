@@ -5,7 +5,7 @@ from validation.validator import ValidationError
 class ValidationProperty(ABC):
 
     @abstractmethod
-    def validate_property(self, input):
+    def validate_property(self, input_):
         """
         Given an input (a UON object), verifies the
         validation property against it

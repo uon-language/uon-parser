@@ -1,4 +1,5 @@
 ?start: _NL* _value
+// TODO: fix optional types to be None in transformer when there aren't any (maybe_placeholders?)
 _value : [MAPPING_TYPE] _uon_mapping | [SEQUENCE_TYPE] _uon_seq | schema
 _uon_mapping: yaml_mapping | (json_mapping _NL*)
 _uon_seq: yaml_seq | (json_seq _NL*)
@@ -10,14 +11,16 @@ _yaml_collection: [MAPPING_TYPE] yaml_mapping | [SEQUENCE_TYPE] yaml_seq
 pair: pair_key ":" _yaml_value
 seq_item : "-" _yaml_value
 _yaml_collection_nested: _NL [_INDENT _yaml_collection _DEDENT]
-_yaml_value: scalar _NL+ | _yaml_collection_nested
+yaml_user_type: _custom_type _NL _INDENT yaml_mapping _DEDENT
+_yaml_value: scalar _NL+ | _yaml_collection_nested | yaml_user_type
 
 // json structure
 json_mapping : "{" [json_pair ("," json_pair)*] "}"
 json_pair: pair_key ":" _json_value
 json_seq : "[" [_json_value ("," _json_value)*] "]"
 _json_collection: [MAPPING_TYPE] json_mapping | [SEQUENCE_TYPE] json_seq
-_json_value: (_json_collection _NL*) | scalar
+json_user_type: _custom_type json_mapping
+_json_value: (_json_collection _NL*) | scalar | json_user_type
 
 // TODO: fix null, true/false values in transformer
 scalar : (typed_scalar | _scalar_value)

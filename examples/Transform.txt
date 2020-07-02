@@ -1,1 +1,1 @@
-<uonrevisedtypes.collections.uon_dict.UONDictionary object at 0x7f7b4c7812d0>, D({'p': p : {a : s, d : e}})
+Schema(person, {'name': Validator(StringTypeValidation(), [MinStringValidation(3), MaxStringValidation(25)]), 'age': Validator(UintTypeValidation(), [MinNumberValidation(0.0), MaxNumberValidation(125.0)])})

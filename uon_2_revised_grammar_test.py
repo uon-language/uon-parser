@@ -9,6 +9,10 @@ from transformer.uon_2_revised_tree_transformer import (
     TreeIndenter
 )
 
+from uonrevisedtypes.uon_custom_type import UonCustomType
+from uonrevisedtypes.scalars.uon_uint import Uint64
+from uonrevisedtypes.scalars.uon_string import UonString
+
 uon_2_grammar_file = Path('grammar/uon_2_revised_grammar.lark')
 
 test_json = """
@@ -26,17 +30,25 @@ json:
     h:1
 """
 
-schema = """
+test_schema = """
 !!person: schema {
     name: !str(min:3, max:25),
-    age: !uint(min: 100.5, max: 125)
+    age: !uint(min: 0, max: 125)
 }
 """
 
-test_schema = """
-p: !!mapping
-  a : s
-  d : e
+test_schema_validation = """
+{p: !!person {
+        name: stephane,
+        age: 25
+    }
+}
+"""
+
+test_schema_validation_yaml = """
+p: !!person
+  name: stephane
+  age: 25
 """
 
 uon_parser_2 = Lark.open(uon_2_grammar_file, parser='lalr',
@@ -50,6 +62,11 @@ def test():
     print(transformed)
     with open("examples/Transform.txt", "w") as text_file:
         pprint(transformed, stream=text_file)
+
+    schema = transformed
+    schema.validateSchema(UonCustomType(
+        "person",
+        {"name": UonString("Guy"), "age": Uint64(120)}))
 
 
 if __name__ == '__main__':

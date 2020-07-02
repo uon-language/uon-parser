@@ -11,8 +11,8 @@ class Schema:
         self.type_ = type_
         self.validators = validators
 
-    def validateSchema(self, input):
-        for k, v in input.items():
+    def validateSchema(self, input_):
+        for k, v in input_.attributes.items():
             self.validators[k].validate(v)
     
     def __repr__(self):
