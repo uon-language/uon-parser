@@ -11,7 +11,6 @@ from transformer.uon_2_revised_tree_transformer import (
 
 from uonrevisedtypes.uon_custom_type import UonCustomType
 from uonrevisedtypes.scalars.uon_uint import Uint64
-from uonrevisedtypes.scalars.uon_string import UonString
 
 uon_2_grammar_file = Path('grammar/uon_2_revised_grammar.lark')
 
@@ -66,7 +65,7 @@ def test():
     schema = transformed
     schema.validateSchema(UonCustomType(
         "person",
-        {"name": UonString("Guy"), "age": Uint64(120)}))
+        {"name": "Guy", "age": Uint64(120)}))
 
 
 if __name__ == '__main__':

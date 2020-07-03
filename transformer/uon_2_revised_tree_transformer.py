@@ -29,6 +29,7 @@ class TreeIndenter(Indenter):
     DEDENT_type = '_DEDENT'
     tab_len = 8
 
+# TODO: use logging
 # TODO: consider using UON Dictionary throughout
 class UON2RevisedTreeToPython(Transformer):
     """
@@ -41,6 +42,13 @@ class UON2RevisedTreeToPython(Transformer):
     'Token' is a subclass of python string. So you can use usual string methods
     on them like slicing.
     """
+    def __init__(self):
+        '''
+        We save all the schemas we have in a dictionary. Whenever 
+        a custom type is encountered it is validated before that dictionary.
+        '''
+        super().__init__()
+        self.schemas = {}
 
     @v_args(inline=True)
     def name(self, string):
@@ -103,17 +111,19 @@ class UON2RevisedTreeToPython(Transformer):
         print("visiting seq items: ", items)
         return items[0]
 
-    def pair(self, pair):
-        print("visiting pair: ", pair)
-        return pair[0].keyname, UonPair(pair[0], pair[1])
+    @v_args(inline=True)
+    def pair(self, key, value):
+        print("visiting pair: ", key, ": ", value)
+        return key.keyname, value
 
-    def json_pair(self, pair):
-        print("visiting json pair: ", pair)
-        return pair[0].keyname, UonPair(pair[0], pair[1])
+    @v_args(inline=True)
+    def json_pair(self, key, value):
+        print("visiting json pair: ", key, ": ", value)
+        return key.keyname, value
 
     def pair_key(self, key):
         print("visiting pair_key: ", key)
-        return UonPairKey(key[0], key[1] if 1 < len(key) else None)
+        return UonPairKey(key[0], key[1] if len(key) > 1 else None)
     
     def presentation_properties(self, properties):
         """
@@ -153,12 +163,12 @@ class UON2RevisedTreeToPython(Transformer):
     
     def typed_scalar(self, value):
         '''
-        Receive a typed scalar in the form of a list ["!!<TYPE>"", <VALUE>]
+        Receive a typed scalar in the form of a list ["!<TYPE>"", <VALUE>]
         We extract <TYPE> from the first element and use it to find the
         corresponding constructor to coerce the type of <VALUE>
         '''
         print("visiting typed_scalar: ", value, " with type: ", value[0])
-        return_value = type_constructors[value[0][2:]](value[1].value)
+        return_value = type_constructors[value[0][1:]](value[1].value)
         return return_value
     
     @v_args(inline=True)
@@ -172,20 +182,30 @@ class UON2RevisedTreeToPython(Transformer):
         print("visiting json_user_type {} with attributes {}".format(
             custom_type, attributes
         ))
-        return UonCustomType(custom_type.value, attributes)
+        custom_object = UonCustomType(custom_type, attributes)
+        schema = self.schemas.get(custom_type)
+        if schema is not None:
+            schema.validateSchema(custom_object)
+        return custom_object
 
     @v_args(inline=True)
     def yaml_user_type(self, custom_type, attributes):
         print("visiting yaml_user_type {} with attributes {}".format(
             custom_type, attributes
         ))
-        return UonCustomType(custom_type.value, attributes)
+        custom_object = UonCustomType(custom_type, attributes)
+        schema = self.schemas.get(custom_type)
+        if schema is not None:
+            schema.validateSchema(custom_object)
+        return custom_object
 
     @v_args(inline=True)
     def schema(self, custom_type, attributes):
         print("visiting schema: {} with attributes {}"
               .format(custom_type, attributes))
-        return Schema(custom_type, dict(attributes))
+        schema_ = Schema(custom_type, dict(attributes))
+        self.schemas[custom_type] = schema_
+        return schema_
 
     def attributes(self, attributes_):
         print("visiting schema attributes: ", attributes_)
@@ -249,6 +269,10 @@ class UON2RevisedTreeToPython(Transformer):
     
     def uint_type(self, type_):
         return UintTypeValidation()
+
+    # ======================== UTILITY METHODS ========================
+    def supply_schemas(self, schemas):
+        self.schemas.update(schemas)
 
     null = lambda self, _: None
     true = lambda self, _: True

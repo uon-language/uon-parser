@@ -8,7 +8,7 @@ class MinStringValidation(StringPropertiesValidation):
         self.minimum = minimum
 
     def validate_property(self, input_):
-        if (len(input_.value) < self.minimum):
+        if (len(input_) < self.minimum):
             raise MinStringValidationError(input_, """The following input {}
          has length smaller than {}""".format(input_, self.minimmum))
 

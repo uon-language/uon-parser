@@ -11,4 +11,4 @@ class UonNumeric(UonScalar):
             self.value, self.uon_type, self.precision)
     
     def __str__(self):
-        return "!!{} {}".format(self.uon_type, self.value)
+        return "!{} {}".format(self.uon_type, self.value)

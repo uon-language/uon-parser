@@ -1,4 +1,7 @@
 class Schema:
+    '''
+    TODO: Need to add UUID
+    '''
     def __init__(self, type_, validators):
         """
         A Schema defines a type with a list of

@@ -1,6 +1,6 @@
 from uonrevisedtypes.scalars.uon_scalar import UonScalar
 
-
+# TODO: maybe inherit from string also?
 class UonString(UonScalar):
     def __init__(self, value):
         super().__init__(value, "str")

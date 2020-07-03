@@ -8,7 +8,7 @@ class MaxStringValidation(StringPropertiesValidation):
         self.maximum = maximum
 
     def validate_property(self, input_):
-        if (len(input_.value) > self.maximum):
+        if (len(input_) > self.maximum):
             raise MaxStringValidationError(input_, """The following input {}
          has length bigger than {}""".format(input_, self.maximum))
     
