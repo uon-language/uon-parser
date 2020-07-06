@@ -11,3 +11,6 @@ class UonCustomType(UonBase):
         return "UonCustomType({}, {})".format(
             self.type_, self.attributes
         )
+
+    def to_binary(self):
+        return b"\x00"

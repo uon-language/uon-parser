@@ -14,3 +14,6 @@ class UonPair(UonBase):
 
     def __repr__(self):
         return self.__str__()
+
+    def to_binary(self):
+        return b"\x00"

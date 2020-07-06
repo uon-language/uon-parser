@@ -8,7 +8,7 @@ class ValidationType(ABC):
     def validate_type(self, input_):
         """
         Given an input (a UON object), verifies the
-        validation property against it
+        its type according to some validation.
         """
         pass
 

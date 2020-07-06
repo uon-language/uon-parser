@@ -9,18 +9,18 @@ from uonrevisedtypes.type_coercion import type_constructors
 from uonrevisedtypes.collections.uon_dict import UONDictionary
 from uonrevisedtypes.uon_custom_type import UonCustomType
 
-from validation.string.string_min_property import MinStringValidation
-from validation.string.string_max_property import MaxStringValidation
-from validation.string.string_type_validation import StringTypeValidation
-from validation.number.number_min_property import MinNumberValidation
-from validation.number.number_max_property import MaxNumberValidation
-from validation.number.int_type_validation import IntegerTypeValidation
-from validation.number.float_type_validation import FloatTypeValidation
-from validation.number.uint_type_validation import UintTypeValidation
+from validation.properties.string.string_min_property import MinStringValidation
+from validation.properties.string.string_max_property import MaxStringValidation
+from validation.properties.number.number_min_property import MinNumberValidation
+from validation.properties.number.number_max_property import MaxNumberValidation
+from validation.types.string.string_type_validation import StringTypeValidation
+from validation.types.number.int_type_validation import IntegerTypeValidation
+from validation.types.number.float_type_validation import FloatTypeValidation
+from validation.types.number.uint_type_validation import UintTypeValidation
 from validation.validator import Validator
 from validation.schema import Schema
 
-
+# TODO: multiline string as OPEN/CLOSED PAREN TYPES
 class TreeIndenter(Indenter):
     NL_type = '_NL'
     OPEN_PAREN_types = ['LPAR', 'LSQB', 'LBRACE']

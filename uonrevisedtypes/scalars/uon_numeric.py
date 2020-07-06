@@ -9,6 +9,6 @@ class UonNumeric(UonScalar):
     def __repr__(self):
         return "UonNumeric(self, {}, {}, {}".format(
             self.value, self.uon_type, self.precision)
-    
+
     def __str__(self):
         return "!{} {}".format(self.uon_type, self.value)

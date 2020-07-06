@@ -60,7 +60,7 @@ test_schema = """
 test_schema_validation = """
 {p: !!person {
         name: stephane,
-        age: !uint32 125
+        age: !uint32 130
     }
 }
 """

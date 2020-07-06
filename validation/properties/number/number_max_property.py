@@ -1,6 +1,6 @@
-from validation.number.number_property_validation import (
+from validation.properties.number.number_property_validation import (
     NumberPropertiesValidation)
-from validation.property import ValidationPropertyError
+from validation.properties.property import ValidationPropertyError
 
 
 class MaxNumberValidation(NumberPropertiesValidation):
@@ -9,8 +9,10 @@ class MaxNumberValidation(NumberPropertiesValidation):
 
     def validate_property(self, input_):
         if (input_.value > self.maximum):
-            raise MaxNumberValidationError(input_, """The following input {}
-         is bigger than {}""".format(input_, self.maximum))
+            raise MaxNumberValidationError(input_,
+                                           "The following input {} "
+                                           "is bigger than {}"
+                                           .format(input_, self.maximum))
 
     def __repr__(self):
         return "MaxNumberValidation({})".format(self.maximum)

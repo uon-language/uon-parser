@@ -1,6 +1,6 @@
-from validation.number.number_property_validation import (
+from validation.properties.number.number_property_validation import (
     NumberPropertiesValidation)
-from validation.property import ValidationPropertyError
+from validation.properties.property import ValidationPropertyError
 
 
 class MinNumberValidation(NumberPropertiesValidation):
@@ -13,8 +13,10 @@ class MinNumberValidation(NumberPropertiesValidation):
 
     def validate_property(self, input_):
         if (input_.value < self.minimum):
-            raise MinNumberValidationError(input_, """The following input {}
-         is smaller than {}""".format(input_, self.minimmum))
+            raise MinNumberValidationError(input_,
+                                           "The following input {} "
+                                           "is smaller than {}"
+                                           .format(input_, self.minimum))
 
     def __repr__(self):
         return "MinNumberValidation({})".format(self.minimum)

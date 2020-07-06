@@ -1,4 +1,4 @@
-from validation.property import ValidationProperty
+from validation.properties.property import ValidationProperty
 
 
 class StringPropertiesValidation(ValidationProperty):

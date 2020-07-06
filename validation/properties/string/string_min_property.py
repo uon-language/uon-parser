@@ -1,6 +1,6 @@
-from validation.string.string_property_validation import (
+from validation.properties.string.string_property_validation import (
     StringPropertiesValidation)
-from validation.property import ValidationPropertyError
+from validation.properties.property import ValidationPropertyError
 
 
 class MinStringValidation(StringPropertiesValidation):
@@ -9,8 +9,10 @@ class MinStringValidation(StringPropertiesValidation):
 
     def validate_property(self, input_):
         if (len(input_) < self.minimum):
-            raise MinStringValidationError(input_, """The following input {}
-         has length smaller than {}""".format(input_, self.minimmum))
+            raise MinStringValidationError(input_,
+                                           "The following input {} "
+                                           "has length smaller than {}"
+                                           .format(input_, self.minimum))
 
     def __repr__(self):
         return "MinStringValidation({})".format(self.minimum)

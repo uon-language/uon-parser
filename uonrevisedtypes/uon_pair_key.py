@@ -19,6 +19,9 @@ class UonPairKey(UonBase):
         else:
             return "{} ({})".format(self.keyname, self.presentation_properties)
 
+    def to_binary(self):
+        return b"\x00"
+
 
 class UonPairKeyProperties(UonBase):
     """ A class for representing the properties of a UON pair key-value """
@@ -40,3 +43,6 @@ class UonPairKeyProperties(UonBase):
             optional_repr = "optional= {}".format(self.optional)
             properties_list.append(optional_repr)
         return ", ".join(properties_list)
+
+    def to_binary(self):
+        return b"\x00"
