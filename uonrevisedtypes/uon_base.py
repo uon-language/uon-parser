@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+import copy
 
 
 class UonBase(ABC):
@@ -16,21 +17,32 @@ class UonBase(ABC):
     properties dict correspond to the accepted set of properties
     like description or optional.
     """
+    PRESENTATION_PROPERTIES_KEYWORDS = ["description", "optional"]
+
     def __init__(self, value, uon_type, presentation_properties={}):
         self.value = value
         self.uon_type = uon_type
+        UonBase.verify_presentation_properties(presentation_properties)
         self._presentation_properties = presentation_properties
 
     @property
     def presentation_properties(self):
-        """ Return the presentation properties of this uon object."""
-        return self._presentation_properties
+        """ Return a shallow copy of
+        the presentation properties of this uon object."""
+        return copy.copy(self._presentation_properties)
 
     @presentation_properties.setter
-    def presentation_properties(self, dict_):
+    def presentation_properties(self, presentation_properties_):
         """ Set the presentation properties of this uon object. """
-        self._presentation_properties = dict_
+        UonBase.verify_presentation_properties(presentation_properties_)
+        self._presentation_properties = presentation_properties_
 
     @abstractmethod
     def to_binary(self):
         pass
+
+    @staticmethod
+    def verify_presentation_properties(presentation_properties):
+        for k in presentation_properties.keys():
+            if k not in UonBase.PRESENTATION_PROPERTIES_KEYWORDS:
+                raise ValueError("{} is not a presentation_property".format(k))

@@ -4,6 +4,7 @@ from lark.indenter import Indenter
 from uonrevisedtypes.uon_pair_key import UonPairKey, UonPairKeyProperties
 from uonrevisedtypes.scalars.uon_float import Float64
 from uonrevisedtypes.scalars.uon_integer import Integer64
+from uonrevisedtypes.scalars.uon_string import UonString
 from uonrevisedtypes.type_coercion import type_constructors
 from uonrevisedtypes.collections.uon_dict import UonMapping
 from uonrevisedtypes.uon_custom_type import UonCustomType
@@ -54,7 +55,7 @@ class UON2RevisedTreeToPython(Transformer):
     def name(self, string):
         print("visiting name: ", string)
         (s,) = string
-        return s
+        return UonString(s)
         
     def escaped_string(self, s):
         print("visiting escaped string: ", s)
@@ -62,13 +63,13 @@ class UON2RevisedTreeToPython(Transformer):
         # return s[1:-1].replace('\\"', '"')
         s = ' '.join(s)
         print("joining string: ", s)
-        return s
+        return UonString(s)
 
     def string(self, string):
         print("visiting string: ", string)
         s = ' '.join(string)
         print("joining string: ", s)
-        return s
+        return UonString(s)
 
     @v_args(inline=True)
     def decimal(self, n):
@@ -126,8 +127,17 @@ class UON2RevisedTreeToPython(Transformer):
         return key.keyname, v
 
     def pair_key(self, key):
+        """ Will receive a list of a UonString which contains the keyname and 
+        optionally a dictionary of presentation properties. UonStrings can 
+        serve as keys since they are hashable but inconvenient when we 
+        will have to search the dictionary.
+        Thus, we extract the value from the UonString so we get a dictionary 
+        with keys that are just strings and thus that are easily searchable 
+        (otherwise we would have to construct a UonString object each time 
+        we'd like to search the dictionary).
+        """
         print("visiting pair_key: ", key)
-        return UonPairKey(key[0], key[1] if len(key) > 1 else {})
+        return UonPairKey(key[0].value, key[1] if len(key) > 1 else {})
     
     def presentation_properties(self, properties):
         """

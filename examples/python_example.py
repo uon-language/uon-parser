@@ -132,3 +132,14 @@ def getWhitespaces(s):
 print(replaceSpaces(indented.splitlines(), 0, ""))
 
 print(type((tel, [])))
+
+
+print("==================================================")
+class H:
+    @staticmethod
+    def doH():
+        """
+        This is a long method documentation to see how
+        it prints out when we use the built-in __doc__ method
+        """
+        pass

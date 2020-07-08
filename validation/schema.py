@@ -16,9 +16,10 @@ class Schema:
 
     def validateSchema(self, input_):
         """
-        Takes a UonCustomType and validates it.
+        Takes a UonCustomType and validates it. A UonCustomType
+        has a UonMapping as attributes.
         """
-        for k, v in input_.attributes.items():
+        for k, v in input_.attributes.value.items():
             self.validators[k].validate(v)
     
     def __repr__(self):
