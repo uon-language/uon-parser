@@ -1,9 +1,5 @@
-from uonrevisedtypes.uon_base import UonBase
-
-
-class UonCustomType(UonBase):
+class UonCustomType:
     def __init__(self, type_, attributes):
-        super().__init__()
         self.type_ = type_
         self.attributes = attributes
 

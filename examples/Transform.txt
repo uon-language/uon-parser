@@ -1,1 +1,1 @@
-Schema(person, {'name': Validator(StringTypeValidation(), [MinStringValidation(3), MaxStringValidation(25)]), 'age': Validator(UintTypeValidation(), [MinNumberValidation(0.0), MaxNumberValidation(125.0)])})
+UonMapping({'foo': Float64(self, 42.0, float64, 64), 'nested': UonMapping({'h': Float64(self, 1.0, float64, 64)})})

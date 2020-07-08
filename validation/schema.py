@@ -15,6 +15,9 @@ class Schema:
         self.validators = validators
 
     def validateSchema(self, input_):
+        """
+        Takes a UonCustomType and validates it.
+        """
         for k, v in input_.attributes.items():
             self.validators[k].validate(v)
     

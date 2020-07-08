@@ -2,11 +2,10 @@ from lark import Transformer, v_args
 from lark.indenter import Indenter
 
 from uonrevisedtypes.uon_pair_key import UonPairKey, UonPairKeyProperties
-from uonrevisedtypes.uon_pair import UonPair
 from uonrevisedtypes.scalars.uon_float import Float64
 from uonrevisedtypes.scalars.uon_integer import Integer64
 from uonrevisedtypes.type_coercion import type_constructors
-from uonrevisedtypes.collections.uon_dict import UONDictionary
+from uonrevisedtypes.collections.uon_dict import UonMapping
 from uonrevisedtypes.uon_custom_type import UonCustomType
 
 from validation.properties.string.string_min_property import MinStringValidation
@@ -19,6 +18,7 @@ from validation.types.number.float_type_validation import FloatTypeValidation
 from validation.types.number.uint_type_validation import UintTypeValidation
 from validation.validator import Validator
 from validation.schema import Schema
+
 
 # TODO: multiline string as OPEN/CLOSED PAREN TYPES
 class TreeIndenter(Indenter):
@@ -93,11 +93,11 @@ class UON2RevisedTreeToPython(Transformer):
     # TODO: Custom exceptions (for example a mapping type expected instead of seq)
     def yaml_mapping(self, mapping):
         print("visiting yaml mapping: ", mapping)
-        return dict(mapping)
+        return UonMapping(dict(mapping))
 
     def json_mapping(self, mapping):
         print("visiting json mapping: ", mapping)
-        return dict(mapping)
+        return UonMapping(dict(mapping))
 
     def yaml_seq(self, seq):
         print("visiting yaml seq: ", seq)
@@ -113,17 +113,21 @@ class UON2RevisedTreeToPython(Transformer):
 
     @v_args(inline=True)
     def pair(self, key, value):
-        print("visiting pair: ", key, ": ", value)
-        return key.keyname, value
+        print("visiting yaml_pair: ", key, ": ", value)
+        v = value
+        v.presentation_properties = key.presentation_properties
+        return key.keyname, v
 
     @v_args(inline=True)
     def json_pair(self, key, value):
         print("visiting json pair: ", key, ": ", value)
-        return key.keyname, value
+        v = value
+        v.presentation_properties = key.presentation_properties
+        return key.keyname, v
 
     def pair_key(self, key):
         print("visiting pair_key: ", key)
-        return UonPairKey(key[0], key[1] if len(key) > 1 else None)
+        return UonPairKey(key[0], key[1] if len(key) > 1 else {})
     
     def presentation_properties(self, properties):
         """
@@ -132,11 +136,8 @@ class UON2RevisedTreeToPython(Transformer):
         and their values. That way, if a certain property is repeated,
         it will keep only its last value.
         """
-        print("visiting key_properties: ", properties, end="\n")
-        properties = dict(properties)
-        description = properties.get("description")
-        optional = properties.get("optional", False)
-        return UonPairKeyProperties(description, optional)
+        print("visiting presentation_properties: ", properties, end="\n")
+        return dict(properties)
 
     @v_args(inline=True)
     def description(self, value):
@@ -239,6 +240,7 @@ class UON2RevisedTreeToPython(Transformer):
 
     @v_args(inline=True)
     def string_max(self, max_):
+        """ Here we receive decimals """
         print("visiting string_max: ", max_)
         return MaxStringValidation(max_.value)
 

@@ -22,7 +22,8 @@ _json_collection: [MAPPING_TYPE] json_mapping | [SEQUENCE_TYPE] json_seq
 json_user_type: _custom_type json_mapping
 _json_value: (_json_collection _NL*) | scalar | json_user_type
 
-// TODO: fix null, true/false values in transformer
+// TODO: fix null, true/false values in transformer 
+// TODO: (include null among scalar values and watch out for eventual ambiguities empty against null)
 scalar : (typed_scalar | _scalar_value)
 typed_scalar : scalar_type  (typed_scalar | _scalar_value)
 _scalar_value : (escaped_string | string | number)

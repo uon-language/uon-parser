@@ -1,4 +1,31 @@
 import re
+import pprint
+
+numpy_docstring = """
+My numpydoc description of a kind
+of very exhautive numpydoc format docstring.
+
+Parameters
+----------
+first : array_like
+    the 1st param name `first`
+second :
+    the 2nd param
+third : {'value', 'other'}, optional
+    the 3rd param, by default 'value'
+
+Returns
+-------
+string
+    a value in a string
+
+Raises
+------
+KeyError
+    when a key error
+OtherError
+    when an other error
+"""
 
 tel = {'jack': 4098, 'sape': 4139}
 print(tel["jack"])
@@ -16,6 +43,7 @@ print(d2['Jacko Lo'])
 
 ls = [1, 2, None]
 
+print("==================================================")
 
 class A:
     def __init__(self, otherObject):
@@ -39,6 +67,36 @@ class C:
 b = B()
 c = C()
 a = A(c)
+
+print("==================================================")
+
+class E:
+    def __init__(self, att1, att2=None):
+        self.att1 = att1
+        self.att2 = att2
+
+    def __repr__(self):
+        return "att1: {}, att2: {}".format(
+            self.att1, self.att2
+        )
+
+class F(E):
+    def __init__(self, att1, att3,  att2=None):
+        super().__init__(att1, att2)
+        self.att3 = att3
+
+    def __repr__(self):
+        return super().__repr__() + ", att3: {}".format(
+            self.att3
+        )
+
+e = E(2)
+f = F(2, 3, att2=5)
+
+print(e)
+print(f)
+
+print("==================================================")
 
 indented = """
   hello

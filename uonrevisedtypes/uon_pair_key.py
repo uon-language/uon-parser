@@ -1,29 +1,24 @@
-from uonTypes.uon_definition import UonBase
-
-
-class UonPairKey(UonBase):
+class UonPairKey:
     """
     A class for representing the key in a UON pair key-value
     which also hold its properties
     """
-    def __init__(self, keyname, presentation_properties):
+    def __init__(self, keyname, presentation_properties={}):
         self.keyname = keyname
         self.presentation_properties = presentation_properties
 
     def __str__(self):
-        return self.__repr__()
+        return "{} ({})".format(
+            self.keyname, self.presentation_properties
+        )
 
     def __repr__(self):
-        if (self.presentation_properties is None):
-            return self.keyname
-        else:
-            return "{} ({})".format(self.keyname, self.presentation_properties)
-
-    def to_binary(self):
-        return b"\x00"
+        return "UonPairKey({}, {})".format(
+            self.keyname, self.presentation_properties
+        )
 
 
-class UonPairKeyProperties(UonBase):
+class UonPairKeyProperties:
     """ A class for representing the properties of a UON pair key-value """
     def __init__(self, description, optional=False):
         self.description = description
@@ -43,6 +38,3 @@ class UonPairKeyProperties(UonBase):
             optional_repr = "optional= {}".format(self.optional)
             properties_list.append(optional_repr)
         return ", ".join(properties_list)
-
-    def to_binary(self):
-        return b"\x00"

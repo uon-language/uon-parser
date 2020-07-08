@@ -23,9 +23,14 @@ bar: {
 l : [one, 2, three]}
 """
 
+test_uon_simple = """
+foo (description: "A foo", optional: true): 42
+h : 1
+"""
+
 test_uon = """
-foo: 42
-json:
+foo (description: "A foo", optional: true): 42
+nested (description: "A dictionary"):
     h:1
 """
 
@@ -55,17 +60,17 @@ uon_parser_2 = Lark.open(uon_2_grammar_file, parser='lalr',
 
 
 def test():
-    parse_tree = uon_parser_2.parse(test_schema)
+    parse_tree = uon_parser_2.parse(test_uon)
     print(parse_tree.pretty(indent_str='  '))
     transformed = UON2RevisedTreeToPython().transform(parse_tree)
     print(transformed)
     with open("examples/Transform.txt", "w") as text_file:
         pprint(transformed, stream=text_file)
-
-    schema = transformed
+        
+    """ schema = transformed
     schema.validateSchema(UonCustomType(
         "person",
-        {"name": "Guy", "age": Uint64(120)}))
+        {"name": "Guy", "age": Uint64(120)})) """
 
 
 if __name__ == '__main__':
