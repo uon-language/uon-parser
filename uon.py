@@ -53,14 +53,16 @@ class Uon:
 test_schema = """
 !!person: schema {
     name: !str(min:3, max:25),
-    age: !uint(min: 0, max: 125)
+    age: !uint(min: 0, max: 125),
+    minor: !bool
 }
 """
 
 test_schema_validation = """
 {p: !!person {
         name: stephane,
-        age: !uint32 130
+        age: !uint32 25,
+        minor: !str true
     }
 }
 """

@@ -5,6 +5,7 @@ from uonrevisedtypes.uon_pair_key import UonPairKey, UonPairKeyProperties
 from uonrevisedtypes.scalars.uon_float import Float64
 from uonrevisedtypes.scalars.uon_integer import Integer64
 from uonrevisedtypes.scalars.uon_string import UonString
+from uonrevisedtypes.scalars.uon_bool import UonBoolean
 from uonrevisedtypes.type_coercion import type_constructors
 from uonrevisedtypes.collections.uon_dict import UonMapping
 from uonrevisedtypes.uon_custom_type import UonCustomType
@@ -17,6 +18,7 @@ from validation.types.string.string_type_validation import StringTypeValidation
 from validation.types.number.int_type_validation import IntegerTypeValidation
 from validation.types.number.float_type_validation import FloatTypeValidation
 from validation.types.number.uint_type_validation import UintTypeValidation
+from validation.types.boolean.bool_type_validation import BooleanTypeValidation
 from validation.validator import Validator
 from validation.schema import Schema
 
@@ -92,6 +94,7 @@ class UON2RevisedTreeToPython(Transformer):
         return n
 
     # TODO: Custom exceptions (for example a mapping type expected instead of seq)
+    # TODO: Duplicate key exception
     def yaml_mapping(self, mapping):
         print("visiting yaml mapping: ", mapping)
         return UonMapping(dict(mapping))
@@ -114,6 +117,13 @@ class UON2RevisedTreeToPython(Transformer):
 
     @v_args(inline=True)
     def pair(self, key, value):
+        """
+        We receive a pair (UonPairKey, UonObject).
+        Presentation properties are received as part of the UonPairKey.
+        We "transfer" them to be part of the value UonObject.
+        We return a pair (key, UonObject) with the key being the 
+        keyname (a string) of UonPairKey.
+        """
         print("visiting yaml_pair: ", key, ": ", value)
         v = value
         v.presentation_properties = key.presentation_properties
@@ -166,10 +176,14 @@ class UON2RevisedTreeToPython(Transformer):
         """
         print("visiting optional: ", value)
         return "optional", value
+        
+    def boolean_scalar(self, boolean):
+        print("Visiting boolean_scalar: ", boolean)
+        return boolean[1] if len(boolean) > 1 else boolean[0]
 
     @v_args(inline=True)
-    def scalar(self, value):
-        print("visiting scalar: ", value)
+    def coercible_scalar(self, value):
+        print("visiting coercible_scalar: ", value)
         return value
     
     def typed_scalar(self, value):
@@ -220,18 +234,28 @@ class UON2RevisedTreeToPython(Transformer):
 
     def attributes(self, attributes_):
         print("visiting schema attributes: ", attributes_)
+        # TODO: Make attributes a dictionary here instead of in schema above
         return attributes_
 
     @v_args(inline=True)
-    def attribute(self, attribute_name, validator):
+    def attribute(self, attribute_, validator):
         print("visiting schema attribute: {} with validator {}"
-              .format(attribute_name, validator))
-        return (attribute_name, validator)
+              .format(attribute_, validator))
+        validator.presentation_properties = attribute_.presentation_properties
+        return (attribute_.keyname, validator)
 
     @v_args(inline=True)
     def attribute_name(self, attribute_name_):
         print("visiting attribute_name: ", attribute_name_)
         return attribute_name_.value
+
+    @v_args(inline=True)
+    def boolean_validation(self, bool_type):
+        """
+        No properties for Boolean.
+        """
+        print("visiting boolean validation: ", bool_type)
+        return Validator(BooleanTypeValidation(), {})
     
     @v_args(inline=True)
     def string_validation(self, str_type, string_validators):
@@ -287,5 +311,5 @@ class UON2RevisedTreeToPython(Transformer):
         self.schemas.update(schemas)
 
     null = lambda self, _: None
-    true = lambda self, _: True
-    false = lambda self, _: False
+    true = lambda self, _: UonBoolean(True)
+    false = lambda self, _: UonBoolean(False)

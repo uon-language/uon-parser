@@ -6,6 +6,8 @@ from uonrevisedtypes.scalars.uon_uint import (
     Uint32, Uint64, Uint128
 )
 
+from uonrevisedtypes.scalars.uon_string import UonString
+
 type_constructors = {
     "float32": Float32,
     "float64": Float64,
@@ -15,5 +17,5 @@ type_constructors = {
     "int128": Integer128,
     "uint32": Uint32,
     "uint64": Uint64,
-    "str": str
+    "str": UonString
 }

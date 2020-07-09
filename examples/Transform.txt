@@ -1,1 +1,3 @@
-UonMapping({'foo': Float64(self, 42.0, float64, 64), 'nested': UonMapping({'h': Float64(self, 1.0, float64, 64)})})
+UonMapping({'p': UonCustomType(person, {'age': Float64(self, 25.0, float64, 64),
+ 'minor': UonString(true),
+ 'name': UonString(stephane)})})

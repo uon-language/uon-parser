@@ -14,6 +14,12 @@ from uonrevisedtypes.scalars.uon_uint import Uint64
 
 uon_2_grammar_file = Path('grammar/uon_2_revised_grammar.lark')
 
+test_true_false = """
+old: !bool false
+young(optional : false): true
+old: true
+"""
+
 test_json = """
 {foo : 42,
 bar: {
@@ -36,15 +42,17 @@ nested (description: "A dictionary"):
 
 test_schema = """
 !!person: schema {
-    name: !str(min:3, max:25),
-    age: !uint(min: 0, max: 125)
+    name(description: name of the person, optional: false): !str(min:3, max:25),
+    age: !uint(min: 0, max: 125),
+    minor: !bool
 }
 """
 
 test_schema_validation = """
 {p: !!person {
         name: stephane,
-        age: 25
+        age: 25,
+        minor: false
     }
 }
 """
@@ -60,13 +68,13 @@ uon_parser_2 = Lark.open(uon_2_grammar_file, parser='lalr',
 
 
 def test():
-    parse_tree = uon_parser_2.parse(test_uon)
+    parse_tree = uon_parser_2.parse(test_schema_validation)
     print(parse_tree.pretty(indent_str='  '))
     transformed = UON2RevisedTreeToPython().transform(parse_tree)
     print(transformed)
     with open("examples/Transform.txt", "w") as text_file:
         pprint(transformed, stream=text_file)
-        
+
     """ schema = transformed
     schema.validateSchema(UonCustomType(
         "person",

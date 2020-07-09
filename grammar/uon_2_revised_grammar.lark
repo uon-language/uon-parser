@@ -12,7 +12,7 @@ pair: pair_key ":" _yaml_value
 seq_item : "-" _yaml_value
 _yaml_collection_nested: _NL [_INDENT _yaml_collection _DEDENT]
 yaml_user_type: _custom_type _NL _INDENT yaml_mapping _DEDENT
-_yaml_value: scalar _NL+ | _yaml_collection_nested | yaml_user_type
+_yaml_value: _scalar _NL+ | _yaml_collection_nested | yaml_user_type
 
 // json structure
 json_mapping : "{" [json_pair ("," json_pair)*] "}"
@@ -20,11 +20,13 @@ json_pair: pair_key ":" _json_value
 json_seq : "[" [_json_value ("," _json_value)*] "]"
 _json_collection: [MAPPING_TYPE] json_mapping | [SEQUENCE_TYPE] json_seq
 json_user_type: _custom_type json_mapping
-_json_value: (_json_collection _NL*) | scalar | json_user_type
+_json_value: _scalar | (_json_collection _NL*) | json_user_type
 
+
+_scalar : coercible_scalar | boolean_scalar
 // TODO: fix null, true/false values in transformer 
 // TODO: (include null among scalar values and watch out for eventual ambiguities empty against null)
-scalar : (typed_scalar | _scalar_value)
+coercible_scalar : (typed_scalar | _scalar_value)
 typed_scalar : scalar_type  (typed_scalar | _scalar_value)
 _scalar_value : (escaped_string | string | number)
 
@@ -33,17 +35,19 @@ pair_key : (string | escaped_string) [presentation_properties]
 presentation_properties : "(" [_presentation_property ("," _presentation_property)*] ")"
 _presentation_property : optional | description
 description: "description" ":" (string | escaped_string)
-optional : "optional" ":" _boolean_value
+optional : "optional" ":" _boolean
 
 // TODO: handle optional parameter attributes
 schema: _custom_type ":" "schema" "{" [attributes] "}" _NL*
 attributes: attribute ("," attribute)*
-attribute: attribute_name ":" _validation_properties
-attribute_name: WORD
+attribute: pair_key ":" _validation_properties
 
 // Validation properties
-_validation_properties: string_validation | number_validation
+_validation_properties: string_validation 
+                      | number_validation 
+                      | boolean_validation
 
+// TODO: keep properties optional as string properties below?
 // number validation
 number_validation: number_validation_type [number_properties]
 number_properties: "(" _number_property ("," _number_property)* ")"
@@ -51,8 +55,8 @@ _number_property: number_max | number_min
 number_max: "max" ":" number
 number_min: "min" ":" number
 number_validation_type: FLOAT_TYPE -> float_type 
-                        | INT_TYPE -> int_type
-                        | UINT_TYPE -> uint_type
+                      | INT_TYPE -> int_type
+                      | UINT_TYPE -> uint_type
 
 // string validation
 string_validation: STR_TYPE string_properties
@@ -61,11 +65,13 @@ _string_property: string_max | string_min
 string_max: "max" ":" decimal
 string_min: "min" ":" decimal
 
+// boolean validation
+boolean_validation: BOOL_TYPE
+
 // User defined types
 _custom_type: "!!" WORD
 
-boolean: [BOOL_TYPE] _boolean_value
-_boolean_value: true | false
+_boolean: (true | false)
 true : "true" | "True"
 false : "false" | "False"
 // TODO: import escaped string perhaps
@@ -87,13 +93,15 @@ collection_type : MAPPING_TYPE | SEQUENCE_TYPE
 MAPPING_TYPE: "!mapping"
 SEQUENCE_TYPE: "!seq"
 
-// Scalar types
+// Scalar types (Only those eligible for type coercion, so booleans are not included)
 scalar_type : STR_TYPE | _number_type
 
 _number_type: FLOAT_128_TYPE | FLOAT_64_TYPE | FLOAT_32_TYPE
                | INT_128_TYPE | INT_64_TYPE | INT_32_TYPE
                | UINT_128_TYPE | UINT_64_TYPE | UINT_32_TYPE
                | FLOAT_TYPE | INT_TYPE | UINT_TYPE
+
+boolean_scalar: [BOOL_TYPE] _boolean
 
 STR_TYPE: "!str"
 BOOL_TYPE: "!bool"

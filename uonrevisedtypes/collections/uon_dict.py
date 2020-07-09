@@ -13,7 +13,7 @@ class UonMapping(UonBase):
 
     def __repr__(self):
         '''echoes class, id, & reproducible representation in the REPL'''
-        return 'UonMapping({})'.format(self.value)
+        return 'UonMapping({})'.format(pprint.pformat(self.value))
 
     def to_binary(self):
         return b"\x00"
