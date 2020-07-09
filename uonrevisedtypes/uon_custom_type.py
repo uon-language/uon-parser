@@ -1,5 +1,16 @@
 class UonCustomType:
+    """
+    A class to represent a user-defined type in UON.
+    """
     def __init__(self, type_, attributes):
+        """
+        Parameters
+        ----------
+        type_: str
+               the name of the user type
+        attributes: UonMapping
+                    attributes of the object of that type
+        """
         self.type_ = type_
         self.attributes = attributes
 

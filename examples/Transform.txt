@@ -1,3 +1,3 @@
 UonMapping({'p': UonCustomType(person, {'age': Float64(self, 25.0, float64, 64),
- 'minor': UonString(true),
+ 'minor': UonBoolean(False),
  'name': UonString(stephane)})})

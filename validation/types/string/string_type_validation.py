@@ -4,6 +4,7 @@ from validation.types.type_validation import (
 
 from uonrevisedtypes.scalars.uon_string import UonString
 
+
 class StringTypeValidation(ValidationType):
 
     def validate_type(self, input_):

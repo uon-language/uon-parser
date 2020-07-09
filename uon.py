@@ -14,6 +14,10 @@ represent what was both plain strings and unicode in pre-Python3. But
 basestring is not available anymore in Python 3.x, str is now the type for 
 everything that is string in Python. If we use Python 2.x, we might get
 some unexpected behavior if we encounter unicode strings.
+
+Another example is the difference in the purposes of some built-in methods.
+For example the built-in method __nonzero__ in Python2 that determines the
+truth value of an object, is now simply __bool__ in Python3.
 """
 class Uon:
     def __init__(self):
@@ -52,17 +56,17 @@ class Uon:
 
 test_schema = """
 !!person: schema {
-    name: !str(min:3, max:25),
+    name (description: name of the person, optional: false): !str(min:3,
+     max:25),
     age: !uint(min: 0, max: 125),
-    minor: !bool
+    minor (optional: false): !bool
 }
 """
 
 test_schema_validation = """
 {p: !!person {
-        name: stephane,
         age: !uint32 25,
-        minor: !str true
+        minor: !bool true
     }
 }
 """

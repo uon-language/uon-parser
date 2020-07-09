@@ -7,7 +7,10 @@ from uonrevisedtypes.scalars.uon_integer import Integer64
 from uonrevisedtypes.scalars.uon_string import UonString
 from uonrevisedtypes.scalars.uon_bool import UonBoolean
 from uonrevisedtypes.type_coercion import type_constructors
-from uonrevisedtypes.collections.uon_dict import UonMapping
+from uonrevisedtypes.collections.uon_dict import (
+    UonMapping,
+    UonDuplicateKeyError
+)
 from uonrevisedtypes.uon_custom_type import UonCustomType
 
 from validation.properties.string.string_min_property import MinStringValidation

@@ -44,7 +44,7 @@ test_schema = """
 !!person: schema {
     name(description: name of the person, optional: false): !str(min:3, max:25),
     age: !uint(min: 0, max: 125),
-    minor: !bool
+    minor (optional: false): !bool
 }
 """
 
@@ -74,11 +74,6 @@ def test():
     print(transformed)
     with open("examples/Transform.txt", "w") as text_file:
         pprint(transformed, stream=text_file)
-
-    """ schema = transformed
-    schema.validateSchema(UonCustomType(
-        "person",
-        {"name": "Guy", "age": Uint64(120)})) """
 
 
 if __name__ == '__main__':

@@ -1,5 +1,6 @@
 import pprint
 
+
 class Schema:
     '''
     TODO: Need to add UUID
@@ -35,8 +36,19 @@ class Schema:
         """
         Takes a UonCustomType and validates it. A UonCustomType
         has a UonMapping as attributes.
+        First validates that all required attributes are present.
+        Then for each attribute apply the validation with their corresponding
+        validator.
         """
-        for k, v in input_.attributes.value.items():
+        attributes_mapping = input_.attributes.value
+        for k in self.required_attributes:
+            try:
+                attributes_mapping[k]
+            except KeyError:
+                raise RequiredAttributeError("Required attribute {} "
+                                             "missing".format(k))
+
+        for k, v in attributes_mapping.items():
             self.validators[k].validate(v)
     
     def __repr__(self):
@@ -48,3 +60,7 @@ class Schema:
         return "!!{}: {}".format(
             self.type_, pprint.pformat(self.validators)
         )
+
+
+class RequiredAttributeError(Exception):
+    pass

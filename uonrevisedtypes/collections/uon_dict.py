@@ -17,3 +17,7 @@ class UonMapping(UonBase):
 
     def to_binary(self):
         return b"\x00"
+
+
+class UonDuplicateKeyError(Exception):
+    pass
