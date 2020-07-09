@@ -100,11 +100,13 @@ class UON2RevisedTreeToPython(Transformer):
     # TODO: Duplicate key exception
     def yaml_mapping(self, mapping):
         print("visiting yaml mapping: ", mapping)
-        return UonMapping(dict(mapping))
+        return UonMapping(
+            UON2RevisedTreeToPython.to_dictionary(mapping))
 
     def json_mapping(self, mapping):
         print("visiting json mapping: ", mapping)
-        return UonMapping(dict(mapping))
+        return UonMapping(
+            UON2RevisedTreeToPython.to_dictionary(mapping))
 
     def yaml_seq(self, seq):
         print("visiting yaml seq: ", seq)
@@ -312,6 +314,26 @@ class UON2RevisedTreeToPython(Transformer):
     # ======================== UTILITY METHODS ========================
     def supply_schemas(self, schemas):
         self.schemas.update(schemas)
+
+    @staticmethod
+    def to_dictionary(tuples_list):
+        """
+        Construct a dictionary out of a list of tuples.
+        The 1st element of the tuple serves as key and the second
+        is the value. Throws an error if a duplicate key was found.
+        """
+        d = {}
+        for k, v in tuples_list:
+            try:
+                d[k]
+                # If d[k] passed, then a key with the same name exists.
+                raise UonDuplicateKeyError("Key {} already exists".format(k))
+            except KeyError:
+                # Didn't find the key in the dictionary. We can add it.
+                d[k] = v
+        return d
+
+
 
     null = lambda self, _: None
     true = lambda self, _: UonBoolean(True)
