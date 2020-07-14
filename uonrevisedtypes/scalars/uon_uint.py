@@ -18,7 +18,7 @@ class Uint32(UonUint):
             self.value, self.uon_type, self.precision)
 
     def to_binary(self):
-        return b"\x00"
+        return b"\x39" + self.value.tobytes()
 
 
 class Uint64(UonUint):
@@ -31,7 +31,7 @@ class Uint64(UonUint):
             self.value, self.uon_type, self.precision)
 
     def to_binary(self):
-        return b"\x00"
+        return b"\x3a" + self.value.tobytes()
 
 
 class Uint128(UonUint):
@@ -44,4 +44,4 @@ class Uint128(UonUint):
             self.value, self.uon_type, self.precision)
 
     def to_binary(self):
-        return b"\x00"
+        return b"\x3b" + self.value.tobytes()

@@ -18,7 +18,7 @@ class Float32(UonFloat):
             self.value, self.uon_type, self.precision)
 
     def to_binary(self):
-        return b"\x00"
+        return b"\x23" + self.value.tobytes()
 
 
 class Float64(UonFloat):
@@ -31,7 +31,7 @@ class Float64(UonFloat):
             self.value, self.uon_type, self.precision)
 
     def to_binary(self):
-        return b"\x00"
+        return b"\x24" + self.value.tobytes()
 
 
 class Float128(UonFloat):
@@ -44,7 +44,7 @@ class Float128(UonFloat):
             self.value, self.uon_type, self.precision)
 
     def to_binary(self):
-        return b"\x00"
+        return b"\x25" + self.value.tobytes()
 
 
 # l = [Float32, Float64, Float128]
