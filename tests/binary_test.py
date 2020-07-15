@@ -9,7 +9,15 @@ from uonrevisedtypes.scalars.uon_uint import (
 )
 from uonrevisedtypes.scalars.uon_string import UonString
 
-from binary.codec import decode_binary
+from binary.codec import (
+    decode_binary,
+    decode_binary_value,
+    decode_float,
+    decode_integer,
+    decode_uint,
+    decode_boolean,
+    decode_string
+)
 
 # We use < since numpy byte encoding is little-endian.
 float32_struct = struct.Struct("<f")
@@ -57,20 +65,25 @@ class TestUonEncoding:
 
 class TestUonDecoding:
     def test_binary_to_bool(self):
-        assert decode_binary(b"\x14\x01") == UonBoolean(True)
+        assert decode_binary_value(b"\x14\x01")[0] == UonBoolean(True)
+        assert decode_binary_value(b"\x14\x00")[0] == UonBoolean(False)
 
     def test_binary_to_float(self):
         test_value = b"\x24\x00\x00\x00\x00\x00\x00i@"
-        assert decode_binary(test_value) == Float64(200.0)
+        assert decode_binary_value(test_value)[0] == Float64(200.0)
         test_value = b"\x23\x00\x00HC"
-        assert decode_binary(test_value) == Float32(200.0)
+        assert decode_binary_value(test_value)[0] == Float32(200.0)
 
     def test_binary_to_uint(self):
         test_value = b"\x3a\xc8\x00\x00\x00\x00\x00\x00\x00"
-        assert decode_binary(test_value) == Uint64(200)
+        assert decode_binary_value(test_value)[0] == Uint64(200)
         test_value = b"\x39\xc8\x00\x00\x00"
-        assert decode_binary(test_value) == Uint32(200)
+        assert decode_binary_value(test_value)[0] == Uint32(200)
 
     def test_binary_to_string(self):
         test_value = b"\x11\r\x00Hello, world!"
-        assert decode_binary(test_value) == UonString("Hello, world!")
+        assert decode_binary_value(test_value)[0] == UonString("Hello, world!")
+
+    def test_binary_to_dict(self):
+        test_value = b"\x02\x12\x05\x00happy\x11\x03\x00yes\x12\x03\x00sad\x11\x02\x00no\x00"
+        assert decode_binary(test_value) == {}

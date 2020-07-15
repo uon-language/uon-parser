@@ -12,18 +12,43 @@ from uonrevisedtypes.scalars.uon_uint import (
     Uint32, Uint64, Uint128
 )
 from uonrevisedtypes.scalars.uon_string import UonString
+from uonrevisedtypes.collections.uon_dict import UonMapping
+
+
+"""Dictionary of all Uon numeric scalar constructors and
+their corresponding numpy dtype"""
+NUMERIC_SCALAR_CONSTRUCTORS = {
+    "int32": Integer32,
+    "int64": Integer64,
+    "int128": Integer128,
+    "float32": Float32,
+    "float64": Float64,
+    "float128": Float128,
+    "uint32": Uint32,
+    "uint64": Uint64,
+    "uint128": Uint128
+}
+
+PRECISIONS = [32, 64, 128]
 
 
 def decode_binary(binary_input):
-    return decode_binary_helper(binary_input, [])
-
-
-def decode_binary_helper(binary_input, acc):
     if len(binary_input) == 0:
-        return []
+        raise ValueError("Empty Binary")
+    elif binary_input.startswith(b"\x01"):
+        return decode_seq(binary_input[1:])
+    elif binary_input.startswith(b"\x02"):
+        return decode_mapping(binary_input[1:])
+    else:
+        raise ValueError("Bad Binary")
+
+
+def decode_binary_value(binary_input):
+    if len(binary_input) == 0:
+        raise ValueError("Empty Binary Value")
     elif binary_input.startswith(b"\x11"):
         # UonString
-        return decode_string(binary_input[1:])
+        return decode_uon_string(binary_input[1:])
     elif binary_input.startswith(b"\x14"):
         # UonBoolean
         return decode_boolean(binary_input[1:])
@@ -65,11 +90,22 @@ def decode_binary_helper(binary_input, acc):
 
 
 def decode_mapping(binary_input):
-    pass
+    retval = {}
+    rest = binary_input
+    while rest.startswith(b"\x12"):
+        key, value_encoded = decode_string(rest[1:])
+        value, rest = decode_binary_value(value_encoded)
+        retval[key] = value
+    return UonMapping(retval)
 
 
 def decode_seq(binary_input):
     pass
+
+
+def decode_uon_string(binary_input):
+    decoded_string, rest = decode_string(binary_input)
+    return UonString(decoded_string), rest
 
 
 def decode_string(binary_input):
@@ -84,49 +120,55 @@ def decode_string(binary_input):
     """
     length_encoded = binary_input[0:2]
     length = struct.unpack("<H", length_encoded)[0]
+    end_string_offset = length + 2
+
+    encoded_value = binary_input[2:end_string_offset]
+    rest = binary_input[end_string_offset:]
+
     unpack_format = f"{length}s"
-    value = struct.unpack(unpack_format, binary_input[2:])[0]
-    return UonString(value.decode("utf-8"))
+    value = struct.unpack(unpack_format, encoded_value)[0]
+    return value.decode("utf-8"), rest
 
 
 def decode_boolean(binary_input):
+    rest = binary_input[1:]
+    value: UonBoolean
     if binary_input[0] == 0x00:
-        return UonBoolean(False)
+        value = UonBoolean(False)
     elif binary_input[0] == 0x01:
-        return UonBoolean(True)
+        value = UonBoolean(True)
     else:
         raise ValueError("Bad boolean value")
+    return value, rest
 
 
 # TODO: Maybe inline these 3 functions
 def decode_float(binary_input, precision):
-    if precision == 32:
-        return Float32(np.frombuffer(binary_input, dtype="float32"))
-    elif precision == 64:
-        return Float64(np.frombuffer(binary_input, dtype="float64"))
-    elif precision == 128:
-        return Float128(np.frombuffer(binary_input, dtype="float128"))
-    else:
+    if precision not in PRECISIONS:
         raise ValueError("Bad Float value")
+    return decode_numeric_scalar(binary_input, "float", precision)
 
 
 def decode_integer(binary_input, precision):
-    if precision == 32:
-        return Integer32(np.frombuffer(binary_input, dtype="int32"))
-    elif precision == 64:
-        return Integer64(np.frombuffer(binary_input, dtype="int64"))
-    elif precision == 128:
-        return Integer128(np.frombuffer(binary_input, dtype="int128"))
-    else:
+    if precision not in PRECISIONS:
         raise ValueError("Bad Integer value")
+    return decode_numeric_scalar(binary_input, "int", precision)
 
 
 def decode_uint(binary_input, precision):
-    if precision == 32:
-        return Uint32(np.frombuffer(binary_input, dtype="uint32"))
-    elif precision == 64:
-        return Uint64(np.frombuffer(binary_input, dtype="uint64"))
-    elif precision == 128:
-        return Uint128(np.frombuffer(binary_input, dtype="uint128"))
-    else:
+    if precision not in PRECISIONS:
         raise ValueError("Bad Uint value")
+    return decode_numeric_scalar(binary_input, "uint", precision)
+
+
+def decode_numeric_scalar(binary_input, numpy_dtype, precision):
+    numpy_dtype = numpy_dtype + str(precision)
+    encoded_value, rest = split_nb_bytes(binary_input, precision)
+    numpy_decoded_value = np.frombuffer(encoded_value, dtype=numpy_dtype)
+    retval = NUMERIC_SCALAR_CONSTRUCTORS[numpy_dtype](numpy_decoded_value)
+    return retval, rest
+
+
+def split_nb_bytes(binary_input, precision):
+    number_of_bytes = int(precision/8)
+    return binary_input[:number_of_bytes], binary_input[number_of_bytes:]

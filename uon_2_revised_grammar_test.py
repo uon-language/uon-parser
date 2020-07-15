@@ -9,6 +9,8 @@ from transformer.uon_2_revised_tree_transformer import (
 from uonrevisedtypes.uon_custom_type import UonCustomType
 from uonrevisedtypes.scalars.uon_uint import Uint64
 
+from binary.codec import decode_binary
+
 import logging
 logging.basicConfig(level=logging.DEBUG)
 
@@ -81,6 +83,9 @@ def test():
         pprint(transformed, stream=text_file)
 
     logging.debug(transformed.to_binary())
+
+    test_value = b"\x02\x12\x05\x00happy\x11\x03\x00yes\x12\x03\x00sad\x11\x02\x00no\x00"
+    logging.debug(decode_binary(test_value))
 
 if __name__ == '__main__':
     test()

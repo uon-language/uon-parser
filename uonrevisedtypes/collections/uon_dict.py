@@ -22,9 +22,8 @@ class UonMapping(UonBase):
         for k, v in self.value.items():
             encoded_dict += (b"\x12"
                              + encode_string(k)
-                             + v.to_binary()
-                             + EOL)
-        return encoded_dict
+                             + v.to_binary())
+        return b"\x02" + encoded_dict + EOL
 
 
 class UonDuplicateKeyError(Exception):
