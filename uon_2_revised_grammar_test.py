@@ -16,10 +16,16 @@ logging.basicConfig(level=logging.DEBUG)
 
 uon_2_grammar_file = Path('grammar/uon_2_revised_grammar.lark')
 
-simple_example = """
+simple_mapping_example = """
 happy: yes
 sad: no
 """
+
+simple_seq_example = """
+- happy
+- sad
+"""
+
 
 test_true_false = """
 old: !bool false
@@ -75,7 +81,7 @@ uon_parser_2 = Lark.open(uon_2_grammar_file, parser='lalr',
 
 
 def test():
-    parse_tree = uon_parser_2.parse(simple_example)
+    parse_tree = uon_parser_2.parse(simple_seq_example)
     print(parse_tree.pretty(indent_str='  '))
     transformed = UON2RevisedTreeToPython().transform(parse_tree)
     print(transformed)
@@ -86,6 +92,8 @@ def test():
 
     test_value = b"\x02\x12\x05\x00happy\x11\x03\x00yes\x12\x03\x00sad\x11\x02\x00no\x00"
     logging.debug(decode_binary(test_value))
+    test_value_seq = b"\x01\x11\x05\x00happy\x11\x03\x00sad\x00"
+    logging.debug(decode_binary(test_value_seq))
 
 if __name__ == '__main__':
     test()

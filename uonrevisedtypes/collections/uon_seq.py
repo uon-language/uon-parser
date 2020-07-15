@@ -10,13 +10,13 @@ class UonSeq(UonBase):
         super().__init__(seq, "seq", presentation_properties)
 
     def __str__(self):
-        return pprint.pformat(self.seq)
+        return pprint.pformat(self.value)
 
     def __repr__(self):
-        return "UonSeq({})".format(pprint.pformat(self.seq))
+        return "UonSeq({})".format(pprint.pformat(self.value))
 
     def to_binary(self):
         encoded_seq = b""
         for v in self.value:
-            encoded_seq += v.tobinary()
+            encoded_seq += v.to_binary()
         return b"\x01" + encoded_seq + EOL

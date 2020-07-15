@@ -13,6 +13,7 @@ from uonrevisedtypes.scalars.uon_uint import (
 )
 from uonrevisedtypes.scalars.uon_string import UonString
 from uonrevisedtypes.collections.uon_dict import UonMapping
+from uonrevisedtypes.collections.uon_seq import UonSeq
 
 
 """Dictionary of all Uon numeric scalar constructors and
@@ -100,7 +101,12 @@ def decode_mapping(binary_input):
 
 
 def decode_seq(binary_input):
-    pass
+    retval = []
+    rest = binary_input
+    while not rest.startswith(b"\x00"):
+        value, rest = decode_binary_value(rest)
+        retval.append(value)
+    return UonSeq(retval)
 
 
 def decode_uon_string(binary_input):

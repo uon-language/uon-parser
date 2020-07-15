@@ -1,1 +1,1 @@
-UonMapping({'happy': UonString(yes), 'sad': UonString(no)})
+UonSeq([UonString(happy), UonString(sad)])
