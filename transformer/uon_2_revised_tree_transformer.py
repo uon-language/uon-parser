@@ -11,6 +11,8 @@ from uonrevisedtypes.collections.uon_dict import (
     UonMapping,
     UonDuplicateKeyError
 )
+from uonrevisedtypes.collections.uon_seq import UonSeq
+
 from uonrevisedtypes.uon_custom_type import UonCustomType
 
 from validation.properties.string.string_min_property import MinStringValidation
@@ -110,11 +112,11 @@ class UON2RevisedTreeToPython(Transformer):
 
     def yaml_seq(self, seq):
         print("visiting yaml seq: ", seq)
-        return seq
+        return UonSeq(seq)
     
     def json_seq(self, seq):
         print("visiting json seq: ", seq)
-        return seq
+        return UonSeq(seq)
 
     def seq_item(self, items):
         print("visiting seq items: ", items)

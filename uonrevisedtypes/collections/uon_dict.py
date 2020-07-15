@@ -2,6 +2,8 @@ import pprint
 
 from uonrevisedtypes.uon_base import UonBase
 
+from binary.utils import encode_string, EOL
+
 
 class UonMapping(UonBase):
     def __init__(self, mapping, presentation_properties={}):
@@ -16,7 +18,13 @@ class UonMapping(UonBase):
         return 'UonMapping({})'.format(pprint.pformat(self.value))
 
     def to_binary(self):
-        return b"\x00"
+        encoded_dict = b""
+        for k, v in self.value.items():
+            encoded_dict += (b"\x12"
+                             + encode_string(k)
+                             + v.to_binary()
+                             + EOL)
+        return encoded_dict
 
 
 class UonDuplicateKeyError(Exception):

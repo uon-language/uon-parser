@@ -1,6 +1,6 @@
-import struct
-
 from uonrevisedtypes.scalars.uon_scalar import UonScalar
+
+from binary.utils import encode_string
 
 # TODO: maybe inherit from string also?
 class UonString(UonScalar):
@@ -27,7 +27,4 @@ class UonString(UonScalar):
         later on). Length will be encoded as an unsigned
         short (max 65535).
         """
-        encoded = self.value.encode("utf-8")
-        length = len(encoded)
-        length_encoded = struct.pack("<H", length)
-        return b"\x11" + length_encoded + encoded
+        return b"\x11" + encode_string(self.value)

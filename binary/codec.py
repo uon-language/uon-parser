@@ -130,15 +130,3 @@ def decode_uint(binary_input, precision):
         return Uint128(np.frombuffer(binary_input, dtype="uint128"))
     else:
         raise ValueError("Bad Uint value")
-
-
-
-# input_ = b"\x14\x00"
-# element_type = char_struct.unpack(input_[0:1])[0]
-# print(len(input_) == 2)
-# print(element_type == 0x14)
-# print(input_[0])
-# print(decode_binary(b"\x14\x00"))
-# print(input_.startswith(b"\x14"))
-# print(input_[0] == int.from_bytes(b"\x14", byteorder="big"))
-# print(input_[1])
