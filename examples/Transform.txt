@@ -1,3 +1,1 @@
-UonMapping({'happy': UonString(yes),
- 'scale': UonMapping({'max': Float64(self, 10.0, float64, 64),
- 'min': Float64(self, 0.0, float64, 64)})})
+UonSeq([UonString(a), UonSeq([UonString(b), UonString(c)])])

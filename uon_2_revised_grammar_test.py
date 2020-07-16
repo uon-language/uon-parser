@@ -33,6 +33,13 @@ scale:
     min: 0
 """
 
+simple_nested_seq_example = """
+- a
+- 
+    - b
+    - c
+"""
+
 test_true_false = """
 old: !bool false
 young(optional : false): true
@@ -87,7 +94,7 @@ uon_parser_2 = Lark.open(uon_2_grammar_file, parser='lalr',
 
 
 def test():
-    parse_tree = uon_parser_2.parse(simple_nested_mapping_example)
+    parse_tree = uon_parser_2.parse(simple_nested_seq_example)
     print(parse_tree.pretty(indent_str='  '))
     transformed = UON2RevisedTreeToPython().transform(parse_tree)
     print(transformed)
@@ -104,6 +111,8 @@ def test():
                               b'\x02\x12\x03\x00max$\x00\x00\x00\x00\x00\x00$@\x12\x03\x00min$'
                               b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00')
     logging.debug(decode_binary(test_simple_nested_map))
+    test_simple_nested_seq = b'\x01\x11\x01\x00a\x01\x11\x01\x00b\x11\x01\x00c\x00\x00'
+    logging.debug(decode_binary(test_simple_nested_seq))
 
 if __name__ == '__main__':
     test()
