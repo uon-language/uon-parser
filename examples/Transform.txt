@@ -1,1 +1,1 @@
-UonSeq([UonString(a), UonSeq([UonString(b), UonString(c)])])
+UonMapping({'happy': UonString(yes), 'scale': UonNull()})

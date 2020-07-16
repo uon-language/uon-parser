@@ -12,7 +12,7 @@ pair: pair_key ":" _yaml_value
 seq_item : "-" _yaml_value
 _yaml_collection_nested: _NL [_INDENT _yaml_collection _DEDENT]
 yaml_user_type: _custom_type _NL _INDENT yaml_mapping _DEDENT
-_yaml_value: _scalar _NL+ | _yaml_collection_nested | yaml_user_type
+_yaml_value: _scalar _NL+ | _yaml_collection_nested | yaml_user_type | null _NL+
 
 // json structure
 json_mapping : "{" [json_pair ("," json_pair)*] "}"
@@ -20,7 +20,7 @@ json_pair: pair_key ":" _json_value
 json_seq : "[" [_json_value ("," _json_value)*] "]"
 _json_collection: [MAPPING_TYPE] json_mapping | [SEQUENCE_TYPE] json_seq
 json_user_type: _custom_type json_mapping
-_json_value: _scalar | (_json_collection _NL*) | json_user_type
+_json_value: _scalar | (_json_collection _NL*) | json_user_type | null
 
 
 _scalar : coercible_scalar | boolean_scalar
@@ -29,6 +29,8 @@ _scalar : coercible_scalar | boolean_scalar
 coercible_scalar : (typed_scalar | _scalar_value)
 typed_scalar : scalar_type  (typed_scalar | _scalar_value)
 _scalar_value : (escaped_string | string | number)
+
+boolean_scalar: [BOOL_TYPE] _boolean
 
 pair_key : (string | escaped_string) [presentation_properties]
 
@@ -74,6 +76,7 @@ _custom_type: "!!" WORD
 _boolean: (true | false)
 true : "true" | "True"
 false : "false" | "False"
+null: "null"
 // TODO: import escaped string perhaps
 // Don't need to add number at the start of escaped_string because they will be interpreted 
 // as strings anyways since quotes mark the beginning of a string.
@@ -95,13 +98,10 @@ SEQUENCE_TYPE: "!seq"
 
 // Scalar types (Only those eligible for type coercion, so booleans are not included)
 scalar_type : STR_TYPE | _number_type
-
 _number_type: FLOAT_128_TYPE | FLOAT_64_TYPE | FLOAT_32_TYPE
                | INT_128_TYPE | INT_64_TYPE | INT_32_TYPE
                | UINT_128_TYPE | UINT_64_TYPE | UINT_32_TYPE
                | FLOAT_TYPE | INT_TYPE | UINT_TYPE
-
-boolean_scalar: [BOOL_TYPE] _boolean
 
 STR_TYPE: "!str"
 BOOL_TYPE: "!bool"

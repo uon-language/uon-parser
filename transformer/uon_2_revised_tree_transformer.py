@@ -1,6 +1,7 @@
 from lark import Transformer, v_args
 from lark.indenter import Indenter
 
+from uonrevisedtypes.uon_null import UonNull
 from uonrevisedtypes.uon_pair_key import UonPairKey, UonPairKeyProperties
 from uonrevisedtypes.scalars.uon_float import Float64
 from uonrevisedtypes.scalars.uon_integer import Integer64
@@ -337,6 +338,6 @@ class UON2RevisedTreeToPython(Transformer):
 
 
 
-    null = lambda self, _: None
+    null = lambda self, _: UonNull()
     true = lambda self, _: UonBoolean(True)
     false = lambda self, _: UonBoolean(False)

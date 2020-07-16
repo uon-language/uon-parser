@@ -8,6 +8,13 @@ class UonFloat(UonNumeric):
         super().__init__(value, uon_type, precision, presentation_properties)
 
 
+class Float16(UonFloat):
+    """
+    https://stackoverflow.com/questions/38975770/python-numpy-float16-datatype-operations-and-float8
+    """
+    pass
+
+
 class Float32(UonFloat):
     def __init__(self, value, presentation_properties={}):
         v = np.float32(value)
