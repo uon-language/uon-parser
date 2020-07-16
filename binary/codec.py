@@ -37,9 +37,9 @@ def decode_binary(binary_input):
     if len(binary_input) == 0:
         raise ValueError("Empty Binary")
     elif binary_input.startswith(b"\x01"):
-        return decode_seq(binary_input[1:])
+        return decode_seq(binary_input[1:])[0]
     elif binary_input.startswith(b"\x02"):
-        return decode_mapping(binary_input[1:])
+        return decode_mapping(binary_input[1:])[0]
     else:
         raise ValueError("Bad Binary")
 
@@ -97,7 +97,8 @@ def decode_mapping(binary_input):
         key, value_encoded = decode_string(rest[1:])
         value, rest = decode_binary_value(value_encoded)
         retval[key] = value
-    return UonMapping(retval)
+    # Return rest[1:] to get rid of the initial EOL byte
+    return UonMapping(retval), rest[1:]
 
 
 def decode_seq(binary_input):
@@ -106,7 +107,8 @@ def decode_seq(binary_input):
     while not rest.startswith(b"\x00"):
         value, rest = decode_binary_value(rest)
         retval.append(value)
-    return UonSeq(retval)
+    # Return rest[1:] to get rid of the initial EOL byte
+    return UonSeq(retval), rest[1:]
 
 
 def decode_uon_string(binary_input):
@@ -148,7 +150,6 @@ def decode_boolean(binary_input):
     return value, rest
 
 
-# TODO: Maybe inline these 3 functions
 def decode_float(binary_input, precision):
     if precision not in PRECISIONS:
         raise ValueError("Bad Float value")
