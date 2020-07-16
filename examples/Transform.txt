@@ -1,1 +1,3 @@
-<uonTypes.collections.uon_dict.UONDictionary object at 0x7f368dcf4950>, D({'a': a : !!int32 -2147483648})
+UonMapping({'happy': UonString(yes),
+ 'scale': UonMapping({'max': Float64(self, 10.0, float64, 64),
+ 'min': Float64(self, 0.0, float64, 64)})})

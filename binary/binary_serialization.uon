@@ -1,0 +1,16 @@
+"UonSeq": \x01
+"UonMapping": \x02
+"UonString": \x11
+"Keyname" (description: "keyword in spec"): \x12
+"value" (description:"Not like spec" ): \x13
+"UonBoolean": \x14
+"Float32": \x23
+"Float64": \x24
+"Float128": \x25
+"Integer32": \x33
+"Integer64": \x34
+"Integer128": \x35
+"Uint32": \x39
+"Uint64": \x3a
+"Uint128": \x3b
+"EOL" (description: "Not like spec"): \x00

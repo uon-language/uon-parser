@@ -1,6 +1,5 @@
 ?start: _NL* _value
 _value : [MAPPING_TYPE] top_map | [SEQUENCE_TYPE] top_seq
-// TODO: json type maps and seqs
 top_seq: seq_item+
 top_map : pair+
 pair: pair_key ":" _uon_value
