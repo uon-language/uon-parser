@@ -73,8 +73,14 @@ class UON2RevisedTreeToPython(Transformer):
         print("joining string: ", s)
         return UonString(s)
 
-    def string(self, string):
+    def unescaped_string(self, string):
         print("visiting string: ", string)
+        s = ' '.join(string)
+        print("joining string: ", s)
+        return UonString(s)
+
+    def multiline_string(self, string):
+        print("visiting multiline string: ", string)
         s = ' '.join(string)
         print("joining string: ", s)
         return UonString(s)

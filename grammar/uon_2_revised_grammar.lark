@@ -28,15 +28,15 @@ _scalar : coercible_scalar | boolean_scalar
 // TODO: (include null among scalar values and watch out for eventual ambiguities empty against null)
 coercible_scalar : (typed_scalar | _scalar_value)
 typed_scalar : scalar_type  (typed_scalar | _scalar_value)
-_scalar_value : (escaped_string | string | number)
+_scalar_value : (_string | number)
 
 boolean_scalar: [BOOL_TYPE] _boolean
 
-pair_key : (string | escaped_string) [presentation_properties]
+pair_key : _string [presentation_properties]
 
 presentation_properties : "(" [_presentation_property ("," _presentation_property)*] ")"
 _presentation_property : optional | description
-description: "description" ":" (string | escaped_string)
+description: "description" ":" _string
 optional : "optional" ":" _boolean
 
 // TODO: handle optional parameter attributes
@@ -80,8 +80,11 @@ null: "null"
 // TODO: import escaped string perhaps
 // Don't need to add number at the start of escaped_string because they will be interpreted 
 // as strings anyways since quotes mark the beginning of a string.
+_string: escaped_string | unescaped_string | multiline_string
 escaped_string : "\"" WORD+ "\"" | "'" WORD+ "'"
-string :  number WORD+ | WORD+
+unescaped_string :  number WORD+ | WORD+
+multiline_string: "(" WORD+ ")"
+
 number : decimal | float_number | signed_number
 decimal.2 : DECIMAL
 float_number.2: FLOAT_NUMBER
@@ -123,6 +126,9 @@ UINT_32_TYPE: "!uint32"
 
 DECIMAL : /0|[1-9]\d*/i
 FLOAT_NUMBER: /((\d+\.\d*|\.\d+)(e[-+]?\d+)?|\d+(e[-+]?\d+))/i
+
+//MULTILINE_STRING: /"""/i
+//multine_line_string: MULTILINE_STRING WORD+ MULTILINE_STRING
 
 // TODO: folded style strings?
 // Word with all possible characters except the following negated set

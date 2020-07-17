@@ -1,1 +1,2 @@
-UonMapping({'happy': UonString(yes), 'scale': UonNull()})
+UonMapping({'a': UonString(an example of a loooong string),
+ 'b': UonString(Another example of a loooooooooong string)})
