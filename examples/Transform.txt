@@ -1,1 +1,1 @@
-UonMapping({'foo': Float64(self, 42.0, float64, 64), 'h': Float64(self, 1.0, float64, 64)})
+UonMapping({'happy': UonString(yes), 'scale': UonNull()})

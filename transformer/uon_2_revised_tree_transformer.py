@@ -200,7 +200,8 @@ class UON2RevisedTreeToPython(Transformer):
         """
         print("visiting optional: ", value)
         return "optional", value
-        
+    
+    @v_args(inline=True)
     def boolean_scalar(self, boolean_type, boolean):
         print("Visiting boolean_scalar: ", boolean)
         return boolean

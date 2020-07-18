@@ -57,7 +57,7 @@ number)
 test_true_false = """
 old: !bool false
 young(optional : false): true
-old: true
+oldAgain: true
 """
 
 test_json = """
@@ -121,7 +121,7 @@ uon_parser_2 = Lark.open(uon_2_grammar_file, parser='lalr',
 
 
 def test():
-    parse_tree = uon_parser_2.parse(test_uon_simple)
+    parse_tree = uon_parser_2.parse(simple_mapping_example)
     print(parse_tree.pretty(indent_str='  '))
     transformed = UON2RevisedTreeToPython().transform(parse_tree)
     print(transformed)
