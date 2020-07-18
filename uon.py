@@ -55,7 +55,7 @@ class Uon:
 
 
 test_schema = """
-!!person: schema {
+!!person: !schema {
     name (description: name of the person, optional: false): !str(min:3,
      max:25),
     age: !uint(min: 0, max: 125),

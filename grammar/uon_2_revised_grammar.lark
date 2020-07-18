@@ -1,13 +1,14 @@
 ?start: _NL* _value
 // TODO: fix optional types to be None in transformer when there aren't any (maybe_placeholders?)
-_value : [MAPPING_TYPE] _uon_mapping | [SEQUENCE_TYPE] _uon_seq | schema
+_value : _uon_mapping | _uon_seq | schema
 _uon_mapping: yaml_mapping | (json_mapping _NL*)
 _uon_seq: yaml_seq | (json_seq _NL*)
 
-// yaml structure
-yaml_seq: seq_item+
-yaml_mapping : pair+
-_yaml_collection: [MAPPING_TYPE] yaml_mapping | [SEQUENCE_TYPE] yaml_seq
+// yaml structure 
+// TODO: check yaml structures have to have at least one element
+yaml_seq: [SEQUENCE_TYPE] seq_item+
+yaml_mapping :  [MAPPING_TYPE]  pair+
+_yaml_collection: yaml_mapping | yaml_seq
 pair: pair_key ":" _yaml_value
 seq_item : "-" _yaml_value
 _yaml_collection_nested: _NL [_INDENT _yaml_collection _DEDENT]
@@ -15,15 +16,15 @@ yaml_user_type: _custom_type _NL _INDENT yaml_mapping _DEDENT
 _yaml_value: _scalar _NL+ | _yaml_collection_nested | yaml_user_type | null _NL+
 
 // json structure
-json_mapping : "{" [json_pair ("," json_pair)*] "}"
+json_mapping : [MAPPING_TYPE] "{" [json_pair ("," json_pair)*] "}"
 json_pair: pair_key ":" _json_value
-json_seq : "[" [_json_value ("," _json_value)*] "]"
-_json_collection: [MAPPING_TYPE] json_mapping | [SEQUENCE_TYPE] json_seq
+json_seq : [SEQUENCE_TYPE] "[" [_json_value ("," _json_value)*] "]"
+_json_collection: json_mapping | json_seq
 json_user_type: _custom_type json_mapping
 _json_value: _scalar | (_json_collection _NL*) | json_user_type | null
 
 
-_scalar : coercible_scalar | boolean_scalar
+_scalar : coercible_scalar | boolean_scalar | url
 // TODO: fix null, true/false values in transformer 
 // TODO: (include null among scalar values and watch out for eventual ambiguities empty against null)
 coercible_scalar : (typed_scalar | _scalar_value)
@@ -31,6 +32,7 @@ typed_scalar : scalar_type  (typed_scalar | _scalar_value)
 _scalar_value : (_string | number)
 
 boolean_scalar: [BOOL_TYPE] _boolean
+url: [URL_TYPE] URL
 
 pair_key : _string [presentation_properties]
 
@@ -40,9 +42,14 @@ description: "description" ":" _string
 optional : "optional" ":" _boolean
 
 // TODO: handle optional parameter attributes
-schema: _custom_type ":" "schema" "{" [attributes] "}" _NL*
+schema: _custom_type ":" "!schema" [schema_presentations] "{" [attributes] "}" _NL*
 attributes: attribute ("," attribute)*
 attribute: pair_key ":" _validation_properties
+
+schema_presentations: "(" [_schema_presentation ("," _schema_presentation)*] ")"
+_schema_presentation: schema_name | schema_uuid | description
+schema_name: "name" ":" _string
+schema_uuid: "uuid" ":" url
 
 // Validation properties
 _validation_properties: string_validation 
@@ -108,6 +115,7 @@ _number_type: FLOAT_128_TYPE | FLOAT_64_TYPE | FLOAT_32_TYPE
 
 STR_TYPE: "!str"
 BOOL_TYPE: "!bool"
+URL_TYPE: "!url"
 
 FLOAT_TYPE: "!float"
 FLOAT_128_TYPE: "!float128"
@@ -134,6 +142,8 @@ FLOAT_NUMBER: /((\d+\.\d*|\.\d+)(e[-+]?\d+)?|\d+(e[-+]?\d+))/i
 // Word with all possible characters except the following negated set
 WORD:  /[^:#,()\[\]{}!?.\n\"\'\s]+/
 COMMENT: /#[^\n]*/
+URL: /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/
+
 %import common.SIGNED_NUMBER
 %import common.WS_INLINE
 %declare _INDENT _DEDENT

@@ -11,5 +11,20 @@ class UonNull(UonBase):
     def __repr__(self):
         return "UonNull()"
 
+    def __eq__(self, other):
+        """Override equals method. If the other instance
+        is UonNull then by default return true, since there
+        is no value to compare.
+
+        Args:
+            other (UonNull): Value to compare to.
+
+        Returns:
+            bool: Result of equals
+        """
+        if isinstance(other, UonNull):
+            return True
+        return NotImplemented
+
     def to_binary(self):
-        return b"\x02"
+        return b"\x10"

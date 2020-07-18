@@ -143,3 +143,13 @@ class H:
         it prints out when we use the built-in __doc__ method
         """
         pass
+
+print("==================================================")
+
+class I:
+    def __init__(self, d={}):
+        self.d = d
+
+
+i = I(None)
+print(i.d)

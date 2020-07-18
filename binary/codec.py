@@ -11,6 +11,8 @@ from uonrevisedtypes.scalars.uon_integer import (
 from uonrevisedtypes.scalars.uon_uint import (
     Uint32, Uint64, Uint128
 )
+from uonrevisedtypes.scalars.uon_url import UonUrl
+from uonrevisedtypes.uon_null import UonNull
 from uonrevisedtypes.scalars.uon_string import UonString
 from uonrevisedtypes.collections.uon_dict import UonMapping
 from uonrevisedtypes.collections.uon_seq import UonSeq
@@ -47,6 +49,12 @@ def decode_binary(binary_input):
 def decode_binary_value(binary_input):
     if len(binary_input) == 0:
         raise ValueError("Empty Binary Value")
+    elif binary_input.startswith(b"\x10"):
+        # UonNull (no value to decode)
+        return UonNull(), binary_input[1:]
+    elif binary_input.startswith(b"\x4c"):
+        # UonUrl
+        return decode_uon_url(binary_input[1:])
     elif binary_input.startswith(b"\x11"):
         # UonString
         return decode_uon_string(binary_input[1:])
@@ -109,6 +117,11 @@ def decode_seq(binary_input):
         retval.append(value)
     # Return rest[1:] to get rid of the initial EOL byte
     return UonSeq(retval), rest[1:]
+
+
+def decode_uon_url(binary_input):
+    decoded_string, rest = decode_string(binary_input)
+    return UonUrl(decoded_string), rest
 
 
 def decode_uon_string(binary_input):

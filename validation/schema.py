@@ -5,7 +5,8 @@ class Schema:
     '''
     TODO: Need to add UUID
     '''
-    def __init__(self, type_, validators):
+    def __init__(self, type_, validators, name=None,
+                 description=None, uuid=None):
         """
         A Schema defines a type with a list of attributes. 
         Attributes have to verify certain properties. So it's 
@@ -27,6 +28,11 @@ class Schema:
         self.type_ = type_
         self.validators = validators
         self.required_attributes = []
+        self.name = name
+        if name is None:
+            self.name = self.type_
+        self.description = description
+        self.uuid = uuid
         for attribute, validator in validators.items():
             optional = validator.presentation_properties.get('optional')
             if optional is not None and not optional:

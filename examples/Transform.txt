@@ -1,2 +1,1 @@
-UonMapping({'a': UonString(an example of a loooong string),
- 'b': UonString(Another example of a loooooooooong string)})
+UonMapping({'foo': Float64(self, 42.0, float64, 64), 'h': Float64(self, 1.0, float64, 64)})

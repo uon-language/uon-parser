@@ -81,7 +81,19 @@ nested (description: "A dictionary"):
 """
 
 test_schema = """
-!!person: schema {
+!!person: !schema {
+    name(description: name of the person, optional: false): !str(min:3, max:25),
+    age: !uint(min: 0, max: 125),
+    minor (optional: false): !bool
+}
+"""
+
+test_schema_with_description = """
+!!person: !schema (
+    name: "A Person", 
+    description: "A description of a person",
+    uuid : http://www.google.com
+    ) {
     name(description: name of the person, optional: false): !str(min:3, max:25),
     age: !uint(min: 0, max: 125),
     minor (optional: false): !bool
@@ -104,11 +116,12 @@ p: !!person
 """
 
 uon_parser_2 = Lark.open(uon_2_grammar_file, parser='lalr',
-                         postlex=TreeIndenter(), start='start', debug=True)
+                         postlex=TreeIndenter(), start='start', 
+                         maybe_placeholders=True, debug=True)
 
 
 def test():
-    parse_tree = uon_parser_2.parse(test_multiline_string_json)
+    parse_tree = uon_parser_2.parse(test_uon_simple)
     print(parse_tree.pretty(indent_str='  '))
     transformed = UON2RevisedTreeToPython().transform(parse_tree)
     print(transformed)
