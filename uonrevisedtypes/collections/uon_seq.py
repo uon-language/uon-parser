@@ -6,8 +6,24 @@ from binary.utils import EOL
 
 
 class UonSeq(UonBase):
-    def __init__(self, seq, presentation_properties={}):
+    def __init__(self, seq=[], presentation_properties={}):
+        if seq is None:
+            seq = []
         super().__init__(seq, "seq", presentation_properties)
+
+    def get(self, index):
+        return self.value[index]
+
+    def append_(self, new_value):
+        self.value.append_(new_value)
+
+    def __eq__(self, other):
+        if isinstance(other, UonSeq):
+            return self.value == other.value
+        return NotImplemented
+
+    def __hash__(self):
+        return hash(self.value)
 
     def __str__(self):
         return pprint.pformat(self.value)

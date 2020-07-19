@@ -28,6 +28,8 @@ from validation.types.boolean.bool_type_validation import BooleanTypeValidation
 from validation.validator import Validator
 from validation.schema import Schema
 
+import logging
+logging.basicConfig(level=logging.DEBUG)
 
 # TODO: multiline string as OPEN/CLOSED PAREN TYPES
 class TreeIndenter(Indenter):
@@ -167,7 +169,7 @@ class UON2RevisedTreeToPython(Transformer):
         we'd like to search the dictionary).
         Presentation properties will be equal to None if not provided
         """
-        print("visiting pair_key: ", key)
+        print("visiting pair_key: ", key, presentation_properties)
         # return UonPairKey(key[0].value, key[1] if len(key) > 1 else {})
         if presentation_properties is None:
             presentation_properties = {}
@@ -184,13 +186,13 @@ class UON2RevisedTreeToPython(Transformer):
         return dict(properties)
 
     @v_args(inline=True)
-    def description(self, value):
+    def description(self, description_):
         """
         Get the description and return it as a pair
         "description" : <description>
         """
-        print("visiting description: ", value)
-        return "description", value
+        print("visiting description: ", description_)
+        return "description", description_.value
 
     @v_args(inline=True)
     def optional(self, value):
@@ -258,6 +260,10 @@ class UON2RevisedTreeToPython(Transformer):
     def schema(self, custom_type, schema_presentations, attributes):
         print("visiting schema: {} with attributes {}"
               .format(custom_type, attributes))
+        name = None
+        description = None
+        uuid = None
+        custom_type = custom_type.value
         if (schema_presentations is not None):
             name = schema_presentations.get("name")
             description = schema_presentations.get("description")
@@ -272,14 +278,14 @@ class UON2RevisedTreeToPython(Transformer):
         return dict(presentations)
 
     @v_args(inline=True)
-    def schema_name(self, value):
-        print("visiting schema_name: ", value)
-        return "name", value
+    def schema_name(self, name):
+        print("visiting schema_name: ", name)
+        return "name", name.value
 
     @v_args(inline=True)
-    def schema_uuid(self, value):
-        print("visiting schema_uuid: ", value)
-        return "uuid", value
+    def schema_uuid(self, uuid):
+        print("visiting schema_uuid: ", uuid)
+        return "uuid", uuid.value
 
     def attributes(self, attributes_):
         print("visiting schema attributes: ", attributes_)

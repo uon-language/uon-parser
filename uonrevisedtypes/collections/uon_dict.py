@@ -6,8 +6,24 @@ from binary.utils import encode_string, EOL
 
 
 class UonMapping(UonBase):
-    def __init__(self, mapping, presentation_properties={}):
+    def __init__(self, mapping={}, presentation_properties={}):
+        if mapping is None:
+            mapping = {}
         super().__init__(mapping, "mapping", presentation_properties)
+
+    def get(self, key):
+        return self.value.get(key)
+
+    def set_(self, key, new_value):
+        self.value[key] = new_value
+
+    def __eq__(self, other):
+        if isinstance(other, UonMapping):
+            return self.value == other.value
+        return NotImplemented
+    
+    def __hash__(self):
+        return hash(self.value)
 
     def __str__(self):
         '''returns simple dict representation of the mapping'''

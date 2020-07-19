@@ -10,6 +10,9 @@ class UonString(UonScalar):
     def __len__(self):
         return len(self.value)
 
+    def __str__(self):
+        return self.value
+
     def __repr__(self):
         return "UonString({})".format(self.value)
 

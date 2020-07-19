@@ -1,1 +1,3 @@
-UonMapping({'happy': UonString(yes), 'scale': UonNull()})
+Schema(person, {'age': Validator(UintTypeValidation(), [MinNumberValidation(0.0), MaxNumberValidation(125.0)], {}),
+ 'minor': Validator(BooleanTypeValidation(), {}, {'optional': UonBoolean(False)}),
+ 'name': Validator(StringTypeValidation(), [MinStringValidation(3), MaxStringValidation(25)], {'description': 'name of the person', 'optional': UonBoolean(False)})}, person, None, None)

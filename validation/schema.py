@@ -1,5 +1,7 @@
 import pprint
 
+from binary.utils import encode_string
+
 
 class Schema:
     '''
@@ -12,7 +14,7 @@ class Schema:
         Attributes have to verify certain properties. So it's 
         fitting to store them in a dictionary where the attributes 
         serve as keys and the properties they have to verify serve as 
-        values.
+        values. By default its name is the same as its type.
 
         example: 
         Schema(person, 
@@ -58,14 +60,28 @@ class Schema:
             self.validators[k].validate(v)
     
     def __repr__(self):
-        return "Schema({}, {})".format(
-            self.type_, pprint.pformat(self.validators)
+        return "Schema({}, {}, {}, {}, {})".format(
+            self.type_, pprint.pformat(self.validators),
+            self.name, self.description, self.uuid
         )
 
     def __str__(self):
-        return "!!{}: {}".format(
-            self.type_, pprint.pformat(self.validators)
+        return ("!!{}: !schema("
+                "name: {}, "
+                "description: {}, "
+                "uuid: {}) {}").format(
+            self.type_, self.name, self.description,
+            self.uuid, pprint.pformat(self.validators)
         )
+
+    def to_binary(self):
+        name_encoded = (b"\x00" if self.name is None
+                        else encode_string(self.name))
+        description_encoded = (b"\x00" if self.description is None
+                               else encode_string(self.description))
+        uuid_encoded = (b"\x00" if self.uuid is None
+                        else encode_string(self.uuid))
+        return b"\x18" + name_encoded + description_encoded + uuid_encoded
 
 
 class RequiredAttributeError(Exception):

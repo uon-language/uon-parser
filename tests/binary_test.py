@@ -9,6 +9,9 @@ from uonrevisedtypes.scalars.uon_uint import (
 )
 from uonrevisedtypes.scalars.uon_string import UonString
 
+from uonrevisedtypes.collections.uon_dict import UonMapping
+from uonrevisedtypes.collections.uon_seq import UonSeq
+
 from binary.codec import (
     decode_binary,
     decode_binary_value,
@@ -86,4 +89,7 @@ class TestUonDecoding:
 
     def test_binary_to_dict(self):
         test_value = b"\x02\x12\x05\x00happy\x11\x03\x00yes\x12\x03\x00sad\x11\x02\x00no\x00"
-        assert decode_binary(test_value) == {}
+        assert (decode_binary(test_value)
+                ==
+                UonMapping({"happy": UonString("yes"),
+                            "sad": UonString("no")}))

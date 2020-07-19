@@ -13,4 +13,7 @@
 "Uint32": \x39
 "Uint64": \x3a
 "Uint128": \x3b
+"UonUrl": \x4c
+"UonNull": \x10
+"Schema": \x18
 "EOL" (description: "Not like spec"): \x00

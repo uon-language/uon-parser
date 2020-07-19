@@ -78,12 +78,12 @@ string_min: "min" ":" decimal
 boolean_validation: BOOL_TYPE
 
 // User defined types
-_custom_type: "!!" WORD
+_custom_type: "!!" _string
 
 _boolean: (true | false)
 true : "true" | "True"
 false : "false" | "False"
-null: "null"
+null: "null" | "none" | "None"
 // TODO: import escaped string perhaps
 // Don't need to add number at the start of escaped_string because they will be interpreted 
 // as strings anyways since quotes mark the beginning of a string.
