@@ -14,3 +14,6 @@ class IntegerTypeValidation(ValidationType):
 
     def __repr__(self):
         return "IntegerTypeValidation()"
+
+    def __str__(self):
+        return "!int"

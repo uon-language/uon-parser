@@ -14,3 +14,6 @@ class UintTypeValidation(ValidationType):
 
     def __repr__(self):
         return "UintTypeValidation()"
+
+    def __str__(self):
+        return "!uint"

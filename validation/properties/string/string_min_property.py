@@ -17,6 +17,9 @@ class MinStringValidation(StringPropertiesValidation):
     def __repr__(self):
         return "MinStringValidation({})".format(self.minimum)
 
+    def __str__(self):
+        return f"min: {self.minimum}"
+
 
 class MinStringValidationError(ValidationPropertyError):
     def __init__(self, expression, message):

@@ -15,3 +15,6 @@ class StringTypeValidation(ValidationType):
 
     def __repr__(self):
         return "StringTypeValidation()"
+
+    def __str__(self):
+        return "!str"

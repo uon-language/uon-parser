@@ -2,8 +2,12 @@ import pprint
 
 
 class Validator:
-    def __init__(self, type_validation, properties_validations,
+    def __init__(self, type_validation, properties_validations=[],
                  presentation_properties={}):
+        if properties_validations is None:
+            properties_validations = []
+        if presentation_properties is None:
+            presentation_properties = {}
         self.type_validation = type_validation
         self.properties_validations = properties_validations
         self.presentation_properties = presentation_properties
@@ -17,6 +21,12 @@ class Validator:
         return "Validator({}, {}, {})".format(
             self.type_validation, pprint.pformat(self.properties_validations),
             self.presentation_properties)
+
+    def __str__(self):
+        properties_to_string = map(lambda x: str(x),
+                                   self.properties_validations)
+        return (f'{str(self.type_validation)} '
+                f'({", ".join(properties_to_string)})')
 
 
 class ValidationError(Exception):

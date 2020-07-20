@@ -145,7 +145,7 @@ class H:
         pass
 
 print("==================================================")
-
+print("None argument does not evaluate to its default value in constructor")
 class I:
     def __init__(self, d={}):
         self.d = d
@@ -153,3 +153,31 @@ class I:
 
 i = I(None)
 print(i.d)
+
+print("==================================================")
+print("Containers calling repr on contained objects")
+class H:
+    def __str__(self):
+        return "h"
+
+    def __repr__(self):
+        return "H()"
+
+l = [H(), H(), H()]
+print(l)
+s = ""
+for h in l:
+    s += str(h)
+
+print(s)
+
+l = map(lambda x: str(x), l)
+print(",".join(l))
+
+d = {
+    'a': H(),
+    'b': H()
+}
+
+d_prepped = {k: str(v) for k, v in d.items()}
+print(d_prepped)

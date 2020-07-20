@@ -14,3 +14,6 @@ class FloatTypeValidation(ValidationType):
 
     def __repr__(self):
         return "FloatTypeValidation()"
+
+    def __str__(self):
+        return "!float"

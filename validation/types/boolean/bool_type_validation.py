@@ -14,3 +14,6 @@ class BooleanTypeValidation(ValidationType):
 
     def __repr__(self):
         return "BooleanTypeValidation()"
+
+    def __str__(self):
+        return "!bool"

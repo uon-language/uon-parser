@@ -7,7 +7,7 @@ class Schema:
     '''
     TODO: Need to add UUID
     '''
-    def __init__(self, type_, validators, name=None,
+    def __init__(self, type_, validators={}, name=None,
                  description=None, uuid=None):
         """
         A Schema defines a type with a list of attributes. 
@@ -27,14 +27,16 @@ class Schema:
                         {'description': 'name of the person'})
                 })
         """
+        if (validators is None):
+            validators = {}
         self.type_ = type_
-        self.validators = validators
-        self.required_attributes = []
         self.name = name
         if name is None:
             self.name = self.type_
         self.description = description
         self.uuid = uuid
+        self.validators = validators
+        self.required_attributes = []
         for attribute, validator in validators.items():
             optional = validator.presentation_properties.get('optional')
             if optional is not None and not optional:
@@ -66,12 +68,17 @@ class Schema:
         )
 
     def __str__(self):
+        #validators_to_string = {k: str(v) for k, v in self.validators.items()}
+        # pprint.pformat(validators_to_string)
+        validators_to_string = '{'+',\n '.join(
+            [': '.join(map(str, k)) for k in self.validators.items()])+'}'
         return ("!!{}: !schema("
                 "name: {}, "
                 "description: {}, "
                 "uuid: {}) {}").format(
             self.type_, self.name, self.description,
-            self.uuid, pprint.pformat(self.validators)
+            self.uuid, 
+            validators_to_string
         )
 
     def to_binary(self):
@@ -81,7 +88,8 @@ class Schema:
                                else encode_string(self.description))
         uuid_encoded = (b"\x00" if self.uuid is None
                         else encode_string(self.uuid))
-        return b"\x18" + name_encoded + description_encoded + uuid_encoded
+        return (b"\x18" + name_encoded + description_encoded + uuid_encoded
+                        + b"\x00")
 
 
 class RequiredAttributeError(Exception):

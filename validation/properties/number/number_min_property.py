@@ -21,6 +21,9 @@ class MinNumberValidation(NumberPropertiesValidation):
     def __repr__(self):
         return "MinNumberValidation({})".format(self.minimum)
 
+    def __str__(self):
+        return f"min: {self.minimum}"
+
 
 class MinNumberValidationError(ValidationPropertyError):
     def __init__(self, expression, message):

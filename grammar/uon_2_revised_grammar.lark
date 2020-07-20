@@ -59,7 +59,7 @@ _validation_properties: string_validation
 // TODO: keep properties optional as string properties below?
 // number validation
 number_validation: number_validation_type [number_properties]
-number_properties: "(" _number_property ("," _number_property)* ")"
+number_properties: "(" [_number_property ("," _number_property)*] ")"
 _number_property: number_max | number_min
 number_max: "max" ":" number
 number_min: "min" ":" number
@@ -69,7 +69,7 @@ number_validation_type: FLOAT_TYPE -> float_type
 
 // string validation
 string_validation: STR_TYPE string_properties
-string_properties: ["(" _string_property ("," _string_property)* ")"]
+string_properties: "(" [_string_property ("," _string_property)*] ")"
 _string_property: string_max | string_min
 string_max: "max" ":" decimal
 string_min: "min" ":" decimal
