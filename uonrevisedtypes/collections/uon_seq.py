@@ -26,7 +26,7 @@ class UonSeq(UonBase):
         return hash(self.value)
 
     def __str__(self):
-        return pprint.pformat(self.value)
+        return '[%s]' % ', '.join(map(str, self.value))
 
     def __repr__(self):
         return "UonSeq({})".format(pprint.pformat(self.value))

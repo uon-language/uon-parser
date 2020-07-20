@@ -18,6 +18,9 @@ class UonCustomType:
         return "UonCustomType({}, {})".format(
             self.type_, self.attributes
         )
+    
+    def __str__(self):
+        return f"!!{self.type_} {self.attributes}"
 
     def to_binary(self):
         return b"\x00"

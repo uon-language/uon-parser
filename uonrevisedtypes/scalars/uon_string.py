@@ -11,7 +11,7 @@ class UonString(UonScalar):
         return len(self.value)
 
     def __str__(self):
-        return self.value
+        return f"!str {self.value}"
 
     def __repr__(self):
         return "UonString({})".format(self.value)

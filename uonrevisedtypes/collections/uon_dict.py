@@ -27,7 +27,8 @@ class UonMapping(UonBase):
 
     def __str__(self):
         '''returns simple dict representation of the mapping'''
-        return pprint.pformat(self.value)
+        return '{'+',\n '.join(
+            [': '.join(map(str, k)) for k in self.value.items()])+'}'
 
     def __repr__(self):
         '''echoes class, id, & reproducible representation in the REPL'''
