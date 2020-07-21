@@ -1,10 +1,14 @@
 from uonrevisedtypes.scalars.uon_scalar import UonScalar
 
-from binary.utils import encode_string
+from binary.utils import encode_string, STRING_LENGTH_MAX_VALUE
 
 # TODO: maybe inherit from string also?
 class UonString(UonScalar):
     def __init__(self, value, presentation_properties={}):
+        if len(value) > STRING_LENGTH_MAX_VALUE:
+            raise ValueError(("Uon strings cannot have a length "
+                              f"of more than {STRING_LENGTH_MAX_VALUE} "
+                              "characters"))
         super().__init__(value, "str", presentation_properties)
 
     def __len__(self):

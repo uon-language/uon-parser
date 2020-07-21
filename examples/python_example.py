@@ -165,12 +165,32 @@ print("==================================================")
 print("Containers calling repr on contained objects")
 
 
+class PrettyPrinter2(pprint.PrettyPrinter):
+    def _format_dict_items(self, items, stream, indent, allowance, context,
+                           level):
+        write = stream.write
+        indent += self._indent_per_level
+        delimnl = ',\n' + ' ' * indent
+        last_index = len(items) - 1
+        for i, (key, ent) in enumerate(items):
+            last = i == last_index
+            rep = self._repr(key, context, level)
+            write(rep)
+            write(': ')
+            self._format(str(ent), stream, indent + len(rep) + 2,
+                         allowance if last else 1,
+                         context, level)
+            if not last:
+                write(delimnl)
+
+
 class H:
     def __str__(self):
-        return "h"
+        return "This is my H class string representation"
 
     def __repr__(self):
         return "H()"
+    #__repr__ = __str__
 
 
 m = [H(), H(), H()]
@@ -186,11 +206,33 @@ print(",".join(m))
 
 d = {
     'a': H(),
+    'b': {
+        'c': H(),
+        'd': H()
+    }
+}
+
+d_simple = {
+    'a': H(),
     'b': H()
 }
 
+pp2 = PrettyPrinter2()
+print("\n")
+print("With Pretty Printer2: ")
+print(pp2.pformat(d_simple))
+pp2.pprint(d)
+pprint.pprint(d)
+
+print("\n")
+print("d_simple: ")
+print("{" + "\n".join("{!r}: {!s},".format(k, v) for k, v in d.items()) + "}")
+
+print("Pretty printed d: ")
+pprint.pprint(d, width=10)
+
 d_prepped = {k: str(v) for k, v in d.items()}
-print(d_prepped)
+print("d_prepped", d_prepped)
 
 d = {"two": 2, "a": {"one": 1, "four": 4, "five": 5, "six": 6, "seven": 7, "eight": 8}}
 print(d)

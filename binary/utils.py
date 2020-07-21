@@ -2,6 +2,9 @@ import struct
 
 EOL = b"\x00"
 
+# Integer limit unsigned short
+STRING_LENGTH_MAX_VALUE = 65535
+
 
 def encode_string(input_string):
     """Encode the string value in binary using utf-8

@@ -17,3 +17,14 @@ class IntegerTypeValidation(ValidationType):
 
     def __str__(self):
         return "!int"
+
+    def to_binary(self):
+        """Binary representation of integer type validation.
+
+        Concatenate the type validation property's binary (\x19)
+        to the int type (\x29).
+
+        Returns:
+            bytes: binary representation of integer type validation
+        """
+        return b"\x19\x29"

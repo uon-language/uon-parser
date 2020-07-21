@@ -4,6 +4,10 @@ from uonrevisedtypes.scalars.uon_numeric import UonNumeric
 
 
 class UonFloat(UonNumeric):
+    """A Uon type to represent floats.
+    In reality, the float represented by this class are what
+    we refer to as decimal in the uon specification.
+    """
     def __init__(self, value, uon_type, precision, presentation_properties={}):
         super().__init__(value, uon_type, precision, presentation_properties)
 

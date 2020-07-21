@@ -18,3 +18,14 @@ class StringTypeValidation(ValidationType):
 
     def __str__(self):
         return "!str"
+
+    def to_binary(self):
+        """Binary representation of String type validation.
+
+        Concatenate the type validation property's binary (\x19)
+        to the str type (\x11).
+
+        Returns:
+            bytes: binary representation of string type validation
+        """
+        return b"\x19\x11"

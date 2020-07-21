@@ -12,6 +12,10 @@ class ValidationType(ABC):
         """
         pass
 
+    @abstractmethod
+    def to_binary(self):
+        pass
+
 
 class ValidationTypeError(ValidationError):
     def __init__(self, expression, message):

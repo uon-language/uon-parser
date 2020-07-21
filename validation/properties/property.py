@@ -12,6 +12,13 @@ class ValidationProperty(ABC):
         """
         pass
 
+    @abstractmethod
+    def to_binary(self):
+        """Convert the validation property
+        into its binary representation.
+        """
+        pass
+
 
 class ValidationPropertyError(ValidationError):
     def __init__(self, expression, message):

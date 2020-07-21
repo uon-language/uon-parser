@@ -17,3 +17,14 @@ class UintTypeValidation(ValidationType):
 
     def __str__(self):
         return "!uint"
+
+    def to_binary(self):
+        """Binary representation of unsigned integer type validation.
+
+        Concatenate the type validation property's binary (\x19)
+        to the uint type (\x30).
+
+        Returns:
+            bytes: binary representation of uint type validation
+        """
+        return b"\x19\x30"

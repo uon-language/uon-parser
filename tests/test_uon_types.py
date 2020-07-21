@@ -1,6 +1,17 @@
+import pytest
+
 from uonTypes.uon_pair_key import UonPairKey, UonPairKeyProperties
 
+from uonrevisedtypes.scalars.uon_string import UonString
+
 # ============================== PAIR KEY TESTS ==============================
+
+
+class TestUonString:
+    def test_string_max_length(self):
+        s = 'a' * 70000
+        with pytest.raises(ValueError):
+            UonString(s)
 
 
 class TestUonPairKey:

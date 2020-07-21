@@ -4,16 +4,24 @@
 "Keyname" (description: "keyword in spec"): \x12
 "value" (description:"Not like spec" ): \x13
 "UonBoolean": \x14
+"float": \x22
 "Float32": \x23
 "Float64": \x24
 "Float128": \x25
+"int": 0x29
 "Integer32": \x33
 "Integer64": \x34
 "Integer128": \x35
+"uint": 0x30
 "Uint32": \x39
 "Uint64": \x3a
 "Uint128": \x3b
 "UonUrl": \x4c
 "UonNull": \x10
 "Schema": \x18
+"TypeValidation": \x19
+"min": \x07
+"max": \x08
+"num" (description: ("Does not exist as a UonType, 
+                        Only there to denote numeric properties)): \x15
 "EOL" (description: "Not like spec"): \x00
