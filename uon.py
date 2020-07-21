@@ -7,6 +7,8 @@ from transformer.uon_2_revised_tree_transformer import (
     TreeIndenter
 )
 
+from serializer import python_to_uon
+
 """
 TODO: Specify that this project is only compatible with Python 3.x
 For example the str type is used heavily in this project and is used to
@@ -52,6 +54,9 @@ class Uon:
         transformed_tree = transformer.transform(parse_tree)
 
         return transformed_tree
+
+    def to_uon(self, input_):
+        return python_to_uon(input_)
 
 
 test_schema = """

@@ -77,7 +77,8 @@ h : 1
 test_uon = """
 foo (description: "A foo", optional: true): 42
 nested (description: "A dictionary"):
-    h:1
+    h: 1
+    c: 2
 """
 
 test_schema = """

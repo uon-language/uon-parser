@@ -27,11 +27,11 @@ class UonMapping(UonBase):
 
     def __str__(self):
         '''returns simple dict representation of the mapping'''
-        return '{'+',\n '.join(
+        return '{'+', '.join(
             [': '.join(map(str, k)) for k in self.value.items()])+'}'
 
     def __repr__(self):
-        '''echoes class, id, & reproducible representation in the REPL'''
+        '''echoes class and reproducible representation in the REPL'''
         return 'UonMapping({})'.format(pprint.pformat(self.value))
 
     def to_binary(self):

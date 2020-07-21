@@ -70,6 +70,7 @@ a = A(c)
 
 print("==================================================")
 
+
 class E:
     def __init__(self, att1, att2=None):
         self.att1 = att1
@@ -79,6 +80,7 @@ class E:
         return "att1: {}, att2: {}".format(
             self.att1, self.att2
         )
+
 
 class F(E):
     def __init__(self, att1, att3,  att2=None):
@@ -135,27 +137,34 @@ print(type((tel, [])))
 
 
 print("==================================================")
-class H:
+
+
+class L:
     @staticmethod
-    def doH():
+    def doL():
         """
         This is a long method documentation to see how
         it prints out when we use the built-in __doc__ method
         """
         pass
 
+
 print("==================================================")
 print("None argument does not evaluate to its default value in constructor")
-class I:
+
+
+class M:
     def __init__(self, d={}):
         self.d = d
 
 
-i = I(None)
+i = M(None)
 print(i.d)
 
 print("==================================================")
 print("Containers calling repr on contained objects")
+
+
 class H:
     def __str__(self):
         return "h"
@@ -163,16 +172,17 @@ class H:
     def __repr__(self):
         return "H()"
 
-l = [H(), H(), H()]
-print(l)
+
+m = [H(), H(), H()]
+print(m)
 s = ""
-for h in l:
+for h in m:
     s += str(h)
 
 print(s)
 
-l = map(lambda x: str(x), l)
-print(",".join(l))
+m = map(lambda x: str(x), m)
+print(",".join(m))
 
 d = {
     'a': H(),
@@ -181,3 +191,7 @@ d = {
 
 d_prepped = {k: str(v) for k, v in d.items()}
 print(d_prepped)
+
+d = {"two": 2, "a": {"one": 1, "four": 4, "five": 5, "six": 6, "seven": 7, "eight": 8}}
+print(d)
+pprint.pprint(d)

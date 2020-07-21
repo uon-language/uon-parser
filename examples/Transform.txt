@@ -1,2 +1,2 @@
 UonMapping({'foo': Float64(self, 42.0, float64, 64),
- 'nested': UonMapping({'h': Float64(self, 1.0, float64, 64)})})
+ 'nested': UonMapping({'c': Float64(self, 2.0, float64, 64), 'h': Float64(self, 1.0, float64, 64)})})
