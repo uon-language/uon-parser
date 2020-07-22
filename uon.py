@@ -25,7 +25,8 @@ class Uon:
     def __init__(self):
         uon_2_grammar_file = Path('grammar/uon_2_revised_grammar.lark')
         self.parser = Lark.open(uon_2_grammar_file, parser='lalr',
-                                postlex=TreeIndenter(), start='start')
+                                postlex=TreeIndenter(), 
+                                maybe_placeholders=True, start='start')
 
     def load(self, filename, schema=None):
         transformer = UON2RevisedTreeToPython()
@@ -46,9 +47,11 @@ class Uon:
     def parse(self, input_, schema_raw=None):
         transformer = UON2RevisedTreeToPython()
         parse_tree = self.parser.parse(input_)
+        print(parse_tree.pretty(indent_str='  '))
 
         if schema_raw is not None:
             schema_parse_tree = self.parser.parse(schema_raw)
+            print(schema_parse_tree.pretty(indent_str='  '))
             transformer.transform(schema_parse_tree)
 
         transformed_tree = transformer.transform(parse_tree)
@@ -64,14 +67,17 @@ test_schema = """
     name (description: name of the person, optional: false): !str(min:3,
      max:25),
     age: !uint(min: 0, max: 125),
-    minor (optional: false): !bool
+    minor (optional: false): !bool,
+    linkedin link: !url 
 }
 """
 
 test_schema_validation = """
 {p: !!person {
+        name: Stephane, 
         age: !uint32 25,
-        minor: !bool true
+        minor: !bool true,
+        linkedin link: www.google.com
     }
 }
 """

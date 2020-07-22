@@ -85,7 +85,8 @@ test_schema = """
 !!person: !schema {
     name(description: name of the person, optional: false): !str(min:3, max:25),
     age: !uint(min: 0, max: 125),
-    minor (optional: false): !bool
+    minor (optional: false): !bool,
+    linkedin link: !url
 }
 """
 
@@ -97,7 +98,8 @@ test_schema_with_description = """
     ) {
     name(description: name of the person, optional: false): !str(min:3, max:25),
     age: !uint(min: 0, max: 125),
-    minor (optional: false): !bool
+    minor (optional: false): !bool,
+    linkedin link: !url
 }
 """
 
@@ -106,6 +108,15 @@ test_schema_validation = """
         name: stephane,
         age: 25,
         minor: false
+    }
+}
+"""
+
+test_schema_validation_2 = """
+{p: !!person {
+        big age: !uint32 25,
+        minor: !bool true,
+        linkedin link : https://github.com/uon-language/uon-parser
     }
 }
 """
@@ -127,7 +138,7 @@ def test():
     transformed = UON2RevisedTreeToPython().transform(parse_tree)
     print(transformed)
     with open("examples/Transform.txt", "w") as text_file:
-        pprint(transformed, stream=text_file)
+        pprint(repr(transformed), stream=text_file)
 
     logging.debug(transformed.to_binary())
 

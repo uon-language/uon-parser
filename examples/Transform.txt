@@ -1,3 +1,7 @@
-Schema(person, {'age': Validator(!uint, [MinNumberValidation(0.0), MaxNumberValidation(125.0)], {}),
- 'minor': Validator(!bool, {}, {'optional': UonBoolean(False)}),
- 'name': Validator(!str, [MinStringValidation(3), MaxStringValidation(25)], {'description': 'name of the person', 'optional': UonBoolean(False)})}, person, None, None)
+("Schema(person, {'age': Validator(!uint, [MinNumberValidation(0.0), "
+ 'MaxNumberValidation(125.0)], {}),\n'
+ " 'linkedin link': Validator(!url, [], {}),\n"
+ " 'minor': Validator(!bool, [], {'optional': UonBoolean(False)}),\n"
+ " 'name': Validator(!str, [MinStringValidation(3), MaxStringValidation(25)], "
+ "{'description': 'name of the person', 'optional': UonBoolean(False)})}, "
+ 'person, None, None)')

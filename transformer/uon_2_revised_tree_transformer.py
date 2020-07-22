@@ -6,6 +6,7 @@ from uonrevisedtypes.uon_pair_key import UonPairKey, UonPairKeyProperties
 from uonrevisedtypes.scalars.uon_float import Float64
 from uonrevisedtypes.scalars.uon_integer import Integer64
 from uonrevisedtypes.scalars.uon_string import UonString
+from uonrevisedtypes.scalars.uon_url import UonUrl
 from uonrevisedtypes.scalars.uon_bool import UonBoolean
 from uonrevisedtypes.type_coercion import type_constructors
 from uonrevisedtypes.collections.uon_dict import (
@@ -25,6 +26,7 @@ from validation.types.number.int_type_validation import IntegerTypeValidation
 from validation.types.number.float_type_validation import FloatTypeValidation
 from validation.types.number.uint_type_validation import UintTypeValidation
 from validation.types.boolean.bool_type_validation import BooleanTypeValidation
+from validation.types.url.url_type_validation import UrlTypeValidation
 from validation.validator import Validator
 from validation.schema import Schema
 
@@ -211,7 +213,7 @@ class UON2RevisedTreeToPython(Transformer):
     @v_args(inline=True)
     def url(self, url_type, url_):
         print("visiting url: ", url_)
-        return url_
+        return UonUrl(url_)
 
     @v_args(inline=True)
     def coercible_scalar(self, value):
@@ -239,6 +241,7 @@ class UON2RevisedTreeToPython(Transformer):
         print("visiting json_user_type {} with attributes {}".format(
             custom_type, attributes
         ))
+        custom_type = custom_type.value
         custom_object = UonCustomType(custom_type, attributes)
         schema = self.schemas.get(custom_type)
         if schema is not None:
@@ -250,6 +253,7 @@ class UON2RevisedTreeToPython(Transformer):
         print("visiting yaml_user_type {} with attributes {}".format(
             custom_type, attributes
         ))
+        custom_type = custom_type.value
         custom_object = UonCustomType(custom_type, attributes)
         schema = self.schemas.get(custom_type)
         if schema is not None:
@@ -311,7 +315,7 @@ class UON2RevisedTreeToPython(Transformer):
         No properties for Boolean.
         """
         print("visiting boolean validation: ", bool_type)
-        return Validator(BooleanTypeValidation(), {})
+        return Validator(BooleanTypeValidation())
     
     @v_args(inline=True)
     def string_validation(self, str_type, string_validators):
@@ -352,6 +356,11 @@ class UON2RevisedTreeToPython(Transformer):
     def number_max(self, max_):
         print("visiting number_max: ", max_)
         return MaxNumberValidation(max_.value)
+
+    @v_args(inline=True)
+    def url_validation(self, url_type):
+        print("visiting url validation: ", url_type)
+        return Validator(UrlTypeValidation())
 
     def float_type(self, type_):
         return FloatTypeValidation()

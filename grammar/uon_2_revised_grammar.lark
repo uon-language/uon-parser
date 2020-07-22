@@ -55,6 +55,7 @@ schema_uuid: "uuid" ":" url
 _validation_properties: string_validation 
                       | number_validation 
                       | boolean_validation
+                      | url_validation
 
 // TODO: keep properties optional as string properties below?
 // number validation
@@ -73,6 +74,8 @@ string_properties: "(" [_string_property ("," _string_property)*] ")"
 _string_property: string_max | string_min
 string_max: "max" ":" decimal
 string_min: "min" ":" decimal
+
+url_validation: URL_TYPE
 
 // boolean validation
 boolean_validation: BOOL_TYPE
@@ -140,9 +143,10 @@ FLOAT_NUMBER: /((\d+\.\d*|\.\d+)(e[-+]?\d+)?|\d+(e[-+]?\d+))/i
 
 // TODO: folded style strings?
 // Word with all possible characters except the following negated set
-WORD:  /[^:#,()\[\]{}!?.\n\"\'\s]+/
+WORD:  /[^:#,()\[\]{}!?\n\"\'\s]+/
 COMMENT: /#[^\n]*/
-URL: /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/
+// Taken from stack overflow
+URL: /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/
 
 %import common.SIGNED_NUMBER
 %import common.WS_INLINE
