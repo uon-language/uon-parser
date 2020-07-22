@@ -22,10 +22,9 @@ class UrlTypeValidation(ValidationType):
     def to_binary(self):
         """Binary representation of url type validation.
 
-        Concatenate the type validation property's binary (\x19)
-        to the url type (\x4c).
+        b"\x4c" corresponds to UonUrl type in UON.
 
         Returns:
             bytes: binary representation of url type validation
         """
-        return b"\x19\x4c"
+        return b"\x4c"

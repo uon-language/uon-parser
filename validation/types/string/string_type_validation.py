@@ -22,10 +22,9 @@ class StringTypeValidation(ValidationType):
     def to_binary(self):
         """Binary representation of String type validation.
 
-        Concatenate the type validation property's binary (\x19)
-        to the str type (\x11).
+        b"\x11" corresponds to UonString type in UON.
 
         Returns:
             bytes: binary representation of string type validation
         """
-        return b"\x19\x11"
+        return b"\x11"

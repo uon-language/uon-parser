@@ -17,6 +17,9 @@ from uonrevisedtypes.scalars.uon_string import UonString
 from uonrevisedtypes.collections.uon_dict import UonMapping
 from uonrevisedtypes.collections.uon_seq import UonSeq
 
+import logging
+logging.basicConfig(level=logging.DEBUG)
+
 
 """Dictionary of all Uon numeric scalar constructors and
 their corresponding numpy dtype"""

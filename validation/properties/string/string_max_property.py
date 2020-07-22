@@ -37,7 +37,7 @@ class MaxStringValidation(StringPropertiesValidation):
         Returns:
             bytes: binary representation of string max property
         """
-        return b"\x11\x08" + struct.pack("<H", self.value)
+        return b"\x11\x08" + struct.pack("<H", self.maximum)
 
 
 # TODO: try dynamically generating exception classes in the class above

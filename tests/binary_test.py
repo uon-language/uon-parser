@@ -22,7 +22,8 @@ from binary.codec import (
     decode_string
 )
 
-# We use < since numpy byte encoding is little-endian.
+# We use < for little-endian since numpy is used to represent
+# numbers in uon-parser and numpy byte encoding is little-endian.
 float32_struct = struct.Struct("<f")
 float64_struct = struct.Struct("<d")
 int32_struct = struct.Struct("<i")

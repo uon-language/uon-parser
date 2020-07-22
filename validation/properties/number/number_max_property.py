@@ -31,7 +31,7 @@ class MaxNumberValidation(NumberPropertiesValidation):
         Returns:
             bytes: binary representation of number max property
         """
-        return b"\x15\x08" + struct.pack("<d", self.value)
+        return b"\x15\x08" + struct.pack("<d", self.maximum)
 
 
 class MaxNumberValidationError(ValidationPropertyError):

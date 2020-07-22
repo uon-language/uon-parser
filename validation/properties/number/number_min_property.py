@@ -35,7 +35,7 @@ class MinNumberValidation(NumberPropertiesValidation):
         Returns:
             bytes: binary representation of number min property
         """
-        return b"\x15\x07" + struct.pack("<d", self.value)
+        return b"\x15\x07" + struct.pack("<d", self.minimum)
 
 
 class MinNumberValidationError(ValidationPropertyError):

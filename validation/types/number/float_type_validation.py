@@ -21,10 +21,9 @@ class FloatTypeValidation(ValidationType):
     def to_binary(self):
         """Binary representation of float type validation.
 
-        Concatenate the type validation property's binary (\x19)
-        to the float type (\x22).
+        b"\x22" corresponds to float type in UON.
 
         Returns:
             bytes: binary representation of float type validation
         """
-        return b"\x19\x22"
+        return b"\x22"

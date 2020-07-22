@@ -20,8 +20,17 @@
 "UonNull": \x10
 "Schema": \x18
 "TypeValidation": \x19
-"min": \x07
-"max": \x08
+"ValidationProperty" (description: corresponds to !prop in the spec): \x0f
+"PresentationProperty" (description: (a reserved type in the spec,
+                           not attributed yet)): \x1e
+"Validator" (description: (a reserved type in the spec,
+                           not attributed yet)): \x1f
+"min" (description: Keyword): \x07
+"max" (description: Keyword): \x08
 "num" (description: ("Does not exist as a UonType, 
                         Only there to denote numeric properties)): \x15
+"description" (description: Keyword): \x04
+"optional" (description: Keyword): \x05 
+"true" (description: Keyword): \x01
+"false" (description: Keyword): \x00	
 "EOL" (description: "Not like spec"): \x00

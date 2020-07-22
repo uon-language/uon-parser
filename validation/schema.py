@@ -1,6 +1,6 @@
 import pprint
 
-from binary.utils import encode_string
+from binary.utils import encode_string, EOL
 
 
 class Schema:
@@ -62,7 +62,7 @@ class Schema:
             self.validators[k].validate(v)
     
     def __repr__(self):
-        return "Schema({}, {}, {}, {}, {})".format(
+        return "Schema({!r}, {}, {!r}, {!r}, {!r})".format(
             self.type_, pprint.pformat(self.validators),
             self.name, self.description, self.uuid
         )
@@ -70,7 +70,7 @@ class Schema:
     def __str__(self):
         #validators_to_string = {k: str(v) for k, v in self.validators.items()}
         # pprint.pformat(validators_to_string)
-        validators_to_string = '{'+',\n '.join(
+        validators_to_string = '{'+', '.join(
             [': '.join(map(str, k)) for k in self.validators.items()])+'}'
         return ("!!{}: !schema("
                 "name: {}, "
@@ -82,14 +82,41 @@ class Schema:
         )
 
     def to_binary(self):
+        """Return the binary representation of a schema.
+
+        First we encode the custom type (that the schema defines) name.
+
+        Then we encode the presentation properties of a schema such as its 
+        name, description, and uuid. Since name, description and uuid here
+        are not keywords, they have no corresponding binary encoding to 
+        identify them when decoding. So they are encoded as strings, in order,
+        and if one is None it is encoded to \x00.
+
+        Finally follows the encoding of the validators stored in a dictionary.
+        Each attribute has a validator. The attribute (the key) is encoded as
+        a keyname in a dictionary and the validator(the value) is encoded 
+        using its own to_binary() method (Refer to UonMapping to_binary()).
+
+        Finally the byte b"\x18" denotes the beginning of a schema
+
+        Returns:
+            bytes: Binary representation of a UON schema
+        """
         name_encoded = (b"\x00" if self.name is None
                         else encode_string(self.name))
         description_encoded = (b"\x00" if self.description is None
                                else encode_string(self.description))
         uuid_encoded = (b"\x00" if self.uuid is None
-                        else encode_string(self.uuid))
-        return (b"\x18" + name_encoded + description_encoded + uuid_encoded
-                        + b"\x00")
+                        else self.uuid.to_binary())
+        validators_to_binary = b""
+        for k, v in self.validators.items():
+            validators_to_binary += (b"\x12"
+                                     + encode_string(k)
+                                     + v.to_binary())
+        return (b"\x18" + encode_string(self.type_)
+                        + name_encoded + description_encoded + uuid_encoded
+                        + validators_to_binary
+                        + EOL)
 
 
 class RequiredAttributeError(Exception):

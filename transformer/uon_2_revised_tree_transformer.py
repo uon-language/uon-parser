@@ -288,8 +288,22 @@ class UON2RevisedTreeToPython(Transformer):
 
     @v_args(inline=True)
     def schema_uuid(self, uuid):
+        """Transform schema uuid.
+
+        A schema uuid is a unique url link to the schema defintion.
+        Here we receive a UonUrl instance. And unlike other
+        presentation properties of the scheme like the name and description
+        that are instances of UonString, we don't extract the value from
+        the Uon instance, instead we keep it as a UonUrl instance.
+
+        Args:
+            uuid (UonUrl): the url as UonUrl instance
+
+        Returns:
+            tuple: a tuple describing the key uuid and the UonUrl value
+        """
         print("visiting schema_uuid: ", uuid)
-        return "uuid", uuid.value
+        return "uuid", uuid
 
     def attributes(self, attributes_):
         print("visiting schema attributes: ", attributes_)

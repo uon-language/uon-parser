@@ -21,10 +21,9 @@ class BooleanTypeValidation(ValidationType):
     def to_binary(self):
         """Binary representation of boolean type validation.
 
-        Concatenate the type validation property's binary (\x19)
-        to the boolean type (\x14).
+        b"\x14" corresponds to UonBoolean type in UON.
 
         Returns:
             bytes: binary representation of boolean type validation
         """
-        return b"\x19\x14"
+        return b"\x14"

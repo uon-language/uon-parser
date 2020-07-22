@@ -31,7 +31,7 @@ class MinStringValidation(StringPropertiesValidation):
         Returns:
             bytes: binary representation of string max property
         """
-        return b"\x11\x07" + struct.pack("<H", self.value)
+        return b"\x11\x07" + struct.pack("<H", self.minimum)
 
 
 class MinStringValidationError(ValidationPropertyError):

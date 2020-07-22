@@ -21,10 +21,9 @@ class IntegerTypeValidation(ValidationType):
     def to_binary(self):
         """Binary representation of integer type validation.
 
-        Concatenate the type validation property's binary (\x19)
-        to the int type (\x29).
+        b"\x29" corresponds to integer type in UON.
 
         Returns:
             bytes: binary representation of integer type validation
         """
-        return b"\x19\x29"
+        return b"\x29"

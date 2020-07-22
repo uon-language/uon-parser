@@ -21,10 +21,9 @@ class UintTypeValidation(ValidationType):
     def to_binary(self):
         """Binary representation of unsigned integer type validation.
 
-        Concatenate the type validation property's binary (\x19)
-        to the uint type (\x30).
+        b"\x30" corresponds to uint type in UON.
 
         Returns:
             bytes: binary representation of uint type validation
         """
-        return b"\x19\x30"
+        return b"\x30"
