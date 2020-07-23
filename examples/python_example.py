@@ -250,6 +250,10 @@ class X:
 class Y(X):
     pass
 
+
+class Z(X):
+    pass
+
 print(X())
 print(None is None)
-print(type(Y()) is type(Y()))
+print(isinstance(Z(), Y))

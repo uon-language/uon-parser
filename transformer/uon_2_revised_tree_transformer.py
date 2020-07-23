@@ -45,6 +45,14 @@ from validation.types.number.float_type_validation import FloatTypeValidation
 from validation.types.number.uint_type_validation import UintTypeValidation
 from validation.types.boolean.bool_type_validation import BooleanTypeValidation
 from validation.types.url.url_type_validation import UrlTypeValidation
+
+from validation.properties.number.quantity_validation_property import (
+    LengthQuantityValidation,
+    MassQuantityValidation,
+    TemperatureQuantityValidation,
+    TimeQuantityValidation
+)
+
 from validation.validator import Validator
 from validation.schema import Schema
 
@@ -439,6 +447,23 @@ class UON2RevisedTreeToPython(Transformer):
     
     def uint_type(self, type_):
         return UintTypeValidation()
+
+    def length_validation(self, quantity):
+        print("visiting length_validation: ", quantity)
+        return LengthQuantityValidation()
+
+    def mass_validation(self, quantity):
+        print("visiting mass_validation: ", quantity)
+        return MassQuantityValidation()
+
+    def temperature_validation(self, quantity):
+        print("visiting temperature_validation: ", quantity)
+        return TemperatureQuantityValidation()
+
+    def time_validation(self, quantity):
+        print("visiting time_validation: ", quantity)
+        return TimeQuantityValidation()
+    
 
     # ======================== UTILITY METHODS ========================
     def supply_schemas(self, schemas):

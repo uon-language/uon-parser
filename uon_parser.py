@@ -82,12 +82,27 @@ test_schema_validation = """
 }
 """
 
+test_schema_with_quantity = """
+!!temperature: !schema {
+    t(description: The temperature of the room): !int (quantity: temperature)
+}
+"""
+
+test_schema_with_quantity_validation = """
+{t: !!temperature {
+    t: !int 32 km
+    }
+}
+
+"""
+
 # TODO: dynamically create classes for exceptions(maybe during compilation project)
 
 def test():
     uon = UonParser()
 
-    uon.parse(test_schema_validation, schema_raw=test_schema)
+    uon.parse(test_schema_with_quantity_validation, 
+              schema_raw=test_schema_with_quantity)
 
 
 if __name__ == '__main__':

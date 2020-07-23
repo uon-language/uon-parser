@@ -102,6 +102,12 @@ test_schema = """
 }
 """
 
+test_schema_with_quantity = """
+!!temperature: !schema {
+    t(description: The temperature of the room): !int (quantity: temperature)
+}
+"""
+
 test_schema_with_description = """
 !!person: !schema (
     name: "A Person", 
@@ -145,7 +151,7 @@ uon_parser_2 = Lark.open(uon_2_grammar_file, parser='lalr',
 
 
 def test():
-    parse_tree = uon_parser_2.parse(test_number_coercion)
+    parse_tree = uon_parser_2.parse(test_schema_with_quantity)
     print(parse_tree.pretty(indent_str='  '))
     transformed = UON2RevisedTreeToPython().transform(parse_tree)
     print(transformed)

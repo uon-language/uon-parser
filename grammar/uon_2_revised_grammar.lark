@@ -81,17 +81,23 @@ _validation_properties: string_validation
                       | url_validation
 
 // TODO: keep properties optional as string properties below?
-// number validation
+// numeric validation
 number_validation: number_validation_type [number_properties]
 number_properties: "(" [_number_property ("," _number_property)*] ")"
-_number_property: number_max | number_min
+_number_property: number_max | number_min | _quantity_validation
 number_max: "max" ":" number
 number_min: "min" ":" number
 number_validation_type: FLOAT_TYPE -> float_type 
                       | INT_TYPE -> int_type
                       | UINT_TYPE -> uint_type
+_quantity_validation: "quantity" ":" quantity_validation_helper
+quantity_validation_helper: "length" -> length_validation
+                            | "mass" -> mass_validation
+                            | "temperature" -> temperature_validation
+                            | "time" -> time_validation
 
 // string validation
+// TODO: string regex validation
 string_validation: STR_TYPE string_properties
 string_properties: "(" [_string_property ("," _string_property)*] ")"
 _string_property: string_max | string_min

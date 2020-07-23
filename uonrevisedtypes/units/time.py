@@ -9,9 +9,6 @@ class Second(Time):
     def __str__(self):
         return "s"
 
-    def __repr__(self):
-        return "Second()"
-
     def to_binary(self):
         pass
 
@@ -19,9 +16,6 @@ class Second(Time):
 class Minute(Time):
     def __str__(self):
         return "min"
-
-    def __repr__(self):
-        return "Minute()"
 
     def to_binary(self):
         pass

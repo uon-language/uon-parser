@@ -1,1 +1,3 @@
-"UonMapping({'bar': Float64(65.0, None), 'foo': Uint32(123, Kilometer())})"
+("Schema('temperature', {'t': Validator(IntegerTypeValidation(), "
+ "[TemperatureQuantityValidation()], {'description': 'The temperature of the "
+ "room'})}, 'temperature', None, None)")
