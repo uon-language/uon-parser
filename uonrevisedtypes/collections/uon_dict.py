@@ -1,11 +1,11 @@
 import pprint
 
-from uonrevisedtypes.uon_base import UonBase
+from uonrevisedtypes.uon_value import UonValue
 
 from binary.utils import encode_string, EOL
 
 
-class UonMapping(UonBase):
+class UonMapping(UonValue):
     def __init__(self, mapping={}, presentation_properties={}):
         if mapping is None:
             mapping = {}

@@ -1,4 +1,7 @@
-class UonCustomType:
+from uon import Uon
+
+
+class UonCustomType(Uon):
     """
     A class to represent a user-defined type in UON.
     """
@@ -22,5 +25,6 @@ class UonCustomType:
     def __str__(self):
         return f"!!{self.type_} {self.attributes}"
 
+    # TODO
     def to_binary(self):
         return b"\x00"

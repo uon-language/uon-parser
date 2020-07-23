@@ -1,7 +1,7 @@
-from uonrevisedtypes.uon_base import UonBase
+from uonrevisedtypes.uon_value import UonValue
 
 
-class UonNull(UonBase):
+class UonNull(UonValue):
     def __init__(self, presentation_properties={}):
         super().__init__(None, "null", presentation_properties)
 

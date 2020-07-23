@@ -195,3 +195,23 @@ def decode_numeric_scalar(binary_input, numpy_dtype, precision):
 def split_nb_bytes(binary_input, precision):
     number_of_bytes = int(precision/8)
     return binary_input[:number_of_bytes], binary_input[number_of_bytes:]
+
+
+# ============================== SCHEMA DECODING ==============================
+def decode_presentation_properties(binary_input):
+    return {}
+
+def decode_validation_property(binary_input):
+    return ""
+
+def decode_validation_type(binary_input):
+    return ""
+
+def decode_validator(binary_input):
+    return ""
+
+def decode_validators(binary_input):
+    return {}
+
+def decode_schema(binary_input):
+    return ""

@@ -1,4 +1,4 @@
-from uonrevisedtypes.uon_base import UonBase
+from uonrevisedtypes.uon_value import UonValue
 from uonrevisedtypes.uon_custom_type import UonCustomType
 
 
@@ -18,7 +18,8 @@ def python_to_uon(input_):
     Args:
         input_ (object): the Python object to serialize to uon
     """
-    if isinstance(input_, UonBase) or isinstance(input_, UonCustomType):
+    # TODO: check if uon type in general
+    if isinstance(input_, UonValue) or isinstance(input_, UonCustomType):
         return str(input_)
     elif isinstance(input_, dict):
         dict_to_uon = {}

@@ -1,10 +1,11 @@
-from abc import ABC, abstractmethod
+from uon import Uon
+
 import copy
 
 
-class UonBase(ABC):
+class UonValue(Uon):
     """
-    Represents the basic UON type.
+    Represents the basic UON value type.
 
     We provide a getter and a setter for _presentation_properties (we
     prefix it with an underscore to denote that it's a private variable)
@@ -22,7 +23,7 @@ class UonBase(ABC):
     def __init__(self, value, uon_type, presentation_properties={}):
         self.value = value
         self.uon_type = uon_type
-        UonBase.verify_presentation_properties(presentation_properties)
+        UonValue.verify_presentation_properties(presentation_properties)
         self._presentation_properties = presentation_properties
 
     @property
@@ -34,15 +35,11 @@ class UonBase(ABC):
     @presentation_properties.setter
     def presentation_properties(self, presentation_properties_):
         """ Set the presentation properties of this uon object. """
-        UonBase.verify_presentation_properties(presentation_properties_)
+        UonValue.verify_presentation_properties(presentation_properties_)
         self._presentation_properties = presentation_properties_
-
-    @abstractmethod
-    def to_binary(self):
-        pass
 
     @staticmethod
     def verify_presentation_properties(presentation_properties):
         for k in presentation_properties.keys():
-            if k not in UonBase.PRESENTATION_PROPERTIES_KEYWORDS:
+            if k not in UonValue.PRESENTATION_PROPERTIES_KEYWORDS:
                 raise ValueError("{} is not a presentation_property".format(k))

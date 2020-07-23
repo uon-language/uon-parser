@@ -9,11 +9,29 @@ from uonrevisedtypes.scalars.uon_string import UonString
 from uonrevisedtypes.scalars.uon_url import UonUrl
 from uonrevisedtypes.scalars.uon_bool import UonBoolean
 from uonrevisedtypes.type_coercion import type_constructors
+
 from uonrevisedtypes.collections.uon_dict import (
     UonMapping,
     UonDuplicateKeyError
 )
 from uonrevisedtypes.collections.uon_seq import UonSeq
+
+from uonrevisedtypes.units.length import (
+    Meter,
+    Kilometer
+)
+from uonrevisedtypes.units.temperature import (
+    Kelvin,
+    Celsius
+)
+from uonrevisedtypes.units.mass import (
+    Gram,
+    Kilogram
+)
+from uonrevisedtypes.units.time import (
+    Second,
+    Minute
+)
 
 from uonrevisedtypes.uon_custom_type import UonCustomType
 
@@ -234,6 +252,15 @@ class UON2RevisedTreeToPython(Transformer):
     def scalar_type(self, t):
         print("visiting scalar_type: ", t)
         return t
+
+    kilogram = lambda self, _: Kilogram()
+    gram = lambda self, _: Gram()
+    kilometer = lambda self, _: Kilometer()
+    meter = lambda self, _: Meter()
+    kelvin = lambda self, _: Kelvin()
+    celsius = lambda self, _: Celsius()
+    second = lambda self, _: Second()
+    minute = lambda self, _: Minute()
 
     # ======================== VALIDATION ========================
     @v_args(inline=True)

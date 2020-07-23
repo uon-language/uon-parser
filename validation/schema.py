@@ -1,9 +1,10 @@
 import pprint
 
+from uon import Uon
 from binary.utils import encode_string, EOL
 
 
-class Schema:
+class Schema(Uon):
     '''
     TODO: Need to add UUID
     '''

@@ -41,6 +41,26 @@ _presentation_property : optional | description
 description: "description" ":" _string
 optional : "optional" ":" _boolean
 
+// Units and Quantities
+_quantity: _length | _mass | _time | _temperature
+
+_length: METERS -> meters | KILOMETERS -> kilometers
+METERS: "m"
+KILOMETERS: "km"
+
+_mass: GRAMS -> grams | KILOGRAMS -> kilograms
+GRAMS: "g"
+KILOGRAMS: "kg"
+
+_time: SECOND -> second | MINUTE -> kilograms
+SECOND: "s"
+MINUTE: "min"
+
+_temperature: CELSIUS -> celsius | KELVIN -> kelvin
+CELSIUS: "C"
+KELVIN: "K"
+
+
 // TODO: handle optional parameter attributes
 schema: _custom_type ":" "!schema" [schema_presentations] "{" [attributes] "}" _NL*
 attributes: attribute ("," attribute)*

@@ -1,9 +1,10 @@
 import pprint
 
+from uon import Uon
 from binary.utils import EOL, encode_presentation_properties
 
 
-class Validator:
+class Validator(Uon):
     def __init__(self, type_validation, properties_validations=[],
                  presentation_properties={}):
         if properties_validations is None:

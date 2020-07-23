@@ -1,11 +1,11 @@
 import pprint
 
-from uonrevisedtypes.uon_base import UonBase
+from uonrevisedtypes.uon_value import UonValue
 
 from binary.utils import EOL
 
 
-class UonSeq(UonBase):
+class UonSeq(UonValue):
     def __init__(self, seq=[], presentation_properties={}):
         if seq is None:
             seq = []
