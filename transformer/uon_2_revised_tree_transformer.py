@@ -222,6 +222,11 @@ class UON2RevisedTreeToPython(Transformer):
         """
         print("visiting optional: ", value)
         return "optional", value
+
+    @v_args(inline=True)
+    def string_scalar(self, string_type, string):
+        print("Visiting string_scalar: ", string)
+        return string
     
     @v_args(inline=True)
     def boolean_scalar(self, boolean_type, boolean):
@@ -232,31 +237,54 @@ class UON2RevisedTreeToPython(Transformer):
     def url(self, url_type, url_):
         print("visiting url: ", url_)
         return UonUrl(url_)
+    
+    @v_args(inline=True)
+    def coercible_numeric_scalar(self, num_type, number):
+        """ Receive a typed numeric scalar in the form of a list ["!<TYPE>"", <VALUE>]
+        We extract <TYPE> from the first element and use it to find the
+        corresponding constructor to coerce the type of <VALUE>.
+
+        An example of <TYPE> is !uint32. To be able to find the corresponding
+        constructor, we first extract the actual type which is "uint32" which 
+        is just <TYPE> without the first exclamation point denoting type. Then
+        we use it to retrieve the corresponding constructor in the
+        type_constructors dictionary.
+
+        <VALUE> is a UonNumeric type. We only need to pass its numeric value
+        (a numpy value) to the constructor of the type that we'd like to
+        coerce it to.
+
+        Example: !int32 !uint32 4
+                -> !int32 (type_constructors["uint32"](4))
+                -> !int32 Uint32(4)
+                -> (type_constructors["int32"](Uint32(4).value))
+                -> (type_constructors["int32"](np.uint32(4)))
+                -> Integer32(np.int32(4))
+        """
+        print("visiting coercible_num_scalar: ", number, "with type", num_type)
+        return_value = type_constructors[num_type[1:]](number.value)
+        return return_value
 
     @v_args(inline=True)
-    def coercible_scalar(self, value):
-        print("visiting coercible_scalar: ", value)
-        return value
-    
-    def typed_scalar(self, value):
-        '''
-        Receive a typed scalar in the form of a list ["!<TYPE>"", <VALUE>]
-        We extract <TYPE> from the first element and use it to find the
-        corresponding constructor to coerce the type of <VALUE>
-        '''
-        print("visiting typed_scalar: ", value, " with type: ", value[0])
-        return_value = type_constructors[value[0][1:]](value[1].value)
-        return return_value
+    def quantity_scalar(self, numeric_scalar, quantity):
+        print("Visiting quantity scalar: ", numeric_scalar, quantity)
+        numeric_scalar.unit = quantity
+        return numeric_scalar
     
     @v_args(inline=True)
     def scalar_type(self, t):
         print("visiting scalar_type: ", t)
         return t
 
-    kilogram = lambda self, _: Kilogram()
-    gram = lambda self, _: Gram()
-    kilometer = lambda self, _: Kilometer()
-    meter = lambda self, _: Meter()
+    @v_args(inline=True)
+    def quantity(self, quantity_):
+        print("visiting quantity: ", quantity_)
+        return quantity_
+    
+    grams = lambda self, _: Gram()
+    kilograms = lambda self, _: Kilogram()
+    meters = lambda self, _: Meter()
+    kilometers = lambda self, _: Kilometer()
     kelvin = lambda self, _: Kelvin()
     celsius = lambda self, _: Celsius()
     second = lambda self, _: Second()

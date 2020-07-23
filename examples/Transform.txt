@@ -1,1 +1,1 @@
-<uonTypes.collections.uon_dict.UONDictionary object at 0x7f172901a490>, D({'a': a (description= A key, optional= False) : d, 'b': b : !!float64 28.0, 'c': c : f})
+"UonMapping({'bar': Float64(65.0, None), 'foo': Uint32(123, Kilometer())})"

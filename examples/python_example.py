@@ -237,3 +237,19 @@ print("d_prepped", d_prepped)
 d = {"two": 2, "a": {"one": 1, "four": 4, "five": 5, "six": 6, "seven": 7, "eight": 8}}
 print(d)
 pprint.pprint(d)
+
+print("==================================================")
+print("Calling __repr__ in subclasses")
+
+
+class X:
+    def __repr__(self):
+        return f"{self.__class__.__name__}()"
+
+
+class Y(X):
+    pass
+
+print(X())
+print(None is None)
+print(type(Y()) is type(Y()))

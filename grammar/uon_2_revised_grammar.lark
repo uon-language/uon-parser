@@ -24,13 +24,16 @@ json_user_type: _custom_type json_mapping
 _json_value: _scalar | (_json_collection _NL*) | json_user_type | null
 
 
-_scalar : coercible_scalar | boolean_scalar | url
+_scalar : quantity_scalar | string_scalar | boolean_scalar | url
 // TODO: fix null, true/false values in transformer 
 // TODO: (include null among scalar values and watch out for eventual ambiguities empty against null)
-coercible_scalar : (typed_scalar | _scalar_value)
-typed_scalar : scalar_type  (typed_scalar | _scalar_value)
-_scalar_value : (_string | number)
+// numeric scalar is a numtype followed by a number or another numtype 
+// This allows for chaining of numtypes for type coercion
+quantity_scalar: _numeric_scalar [quantity]
+_numeric_scalar: coercible_numeric_scalar | number
+coercible_numeric_scalar : _number_type (coercible_numeric_scalar | number)
 
+string_scalar: [STR_TYPE] _string
 boolean_scalar: [BOOL_TYPE] _boolean
 url: [URL_TYPE] URL
 
@@ -42,21 +45,21 @@ description: "description" ":" _string
 optional : "optional" ":" _boolean
 
 // Units and Quantities
-_quantity: _length | _mass | _time | _temperature
+quantity: length | mass | time | temperature
 
-_length: METERS -> meters | KILOMETERS -> kilometers
+length: METERS -> meters | KILOMETERS -> kilometers
 METERS: "m"
 KILOMETERS: "km"
 
-_mass: GRAMS -> grams | KILOGRAMS -> kilograms
+mass: GRAMS -> grams | KILOGRAMS -> kilograms
 GRAMS: "g"
 KILOGRAMS: "kg"
 
-_time: SECOND -> second | MINUTE -> kilograms
+time: SECOND -> second | MINUTE -> minute
 SECOND: "s"
 MINUTE: "min"
 
-_temperature: CELSIUS -> celsius | KELVIN -> kelvin
+temperature: CELSIUS -> celsius | KELVIN -> kelvin
 CELSIUS: "C"
 KELVIN: "K"
 
@@ -130,7 +133,7 @@ MAPPING_TYPE: "!mapping"
 SEQUENCE_TYPE: "!seq"
 
 // Scalar types (Only those eligible for type coercion, so booleans are not included)
-scalar_type : STR_TYPE | _number_type
+scalar_type : STR_TYPE | _number_type | BOOL_TYPE | URL_TYPE
 _number_type: FLOAT_128_TYPE | FLOAT_64_TYPE | FLOAT_32_TYPE
                | INT_128_TYPE | INT_64_TYPE | INT_32_TYPE
                | UINT_128_TYPE | UINT_64_TYPE | UINT_32_TYPE

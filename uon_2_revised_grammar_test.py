@@ -88,6 +88,11 @@ nested (description: "A dictionary"):
     c: 2
 """
 
+test_number_coercion = """
+foo: !uint32 123 km
+bar: !float !int 65
+"""
+
 test_schema = """
 !!person: !schema {
     name(description: name of the person, optional: false): !str(min:3, max:25),
@@ -140,7 +145,7 @@ uon_parser_2 = Lark.open(uon_2_grammar_file, parser='lalr',
 
 
 def test():
-    parse_tree = uon_parser_2.parse(test_uon_simple)
+    parse_tree = uon_parser_2.parse(test_number_coercion)
     print(parse_tree.pretty(indent_str='  '))
     transformed = UON2RevisedTreeToPython().transform(parse_tree)
     print(transformed)
