@@ -16,7 +16,7 @@ class Uint32(UonUint):
         super().__init__(v, "uint32", 32, unit, presentation_properties)
 
     def to_binary(self):
-        return b"\x39" + self.value.tobytes()
+        return b"\x39" + super().to_binary()
 
 
 class Uint64(UonUint):
@@ -25,7 +25,7 @@ class Uint64(UonUint):
         super().__init__(v, "uint64", 64, unit, presentation_properties)
 
     def to_binary(self):
-        return b"\x3a" + self.value.tobytes()
+        return b"\x3a" + super().to_binary()
 
 
 class Uint128(UonUint):
@@ -34,4 +34,4 @@ class Uint128(UonUint):
         super().__init__(value, "uint128", 128, unit, presentation_properties)
 
     def to_binary(self):
-        return b"\x3b" + self.value.tobytes()
+        return b"\x3b" + super().to_binary()

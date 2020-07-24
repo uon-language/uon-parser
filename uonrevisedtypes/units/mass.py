@@ -10,7 +10,7 @@ class Kilogram(Mass):
         return "kg"
 
     def to_binary(self):
-        pass
+        return b"\x21"
 
 
 class Gram(Mass):
@@ -18,4 +18,4 @@ class Gram(Mass):
         return "g"
 
     def to_binary(self):
-        pass
+        return b"\x69"

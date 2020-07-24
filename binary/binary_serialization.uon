@@ -32,5 +32,13 @@
 "description" (description: Keyword): \x04
 "optional" (description: Keyword): \x05 
 "true" (description: Keyword): \x01
-"false" (description: Keyword): \x00	
+"false" (description: Keyword): \x00
+"kilogram" (description: unit Keyword): \x21
+"gram" (description: unit Keyword): \x69
+"meter" (description: unit Keyword): \x20
+"kilometer" (description: unit Keyword): \x6a
+"kelvin" (description: unit Keyword): \x24
+"celsius" (description: unit Keyword): \x3c
+"second" (description: unit Keyword): \x22
+"minute" (description: unit Keyword): \x45
 "EOL" (description: "Not like spec"): \x00

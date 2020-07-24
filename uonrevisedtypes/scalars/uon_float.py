@@ -27,7 +27,7 @@ class Float32(UonFloat):
         super().__init__(v, "float32", 32, unit, presentation_properties)
 
     def to_binary(self):
-        return b"\x23" + self.value.tobytes()
+        return b"\x23" + super().to_binary()
 
 
 class Float64(UonFloat):
@@ -36,7 +36,7 @@ class Float64(UonFloat):
         super().__init__(v, "float64", 64, unit, presentation_properties)
 
     def to_binary(self):
-        return b"\x24" + self.value.tobytes()
+        return b"\x24" + super().to_binary()
 
 
 class Float128(UonFloat):
@@ -45,9 +45,4 @@ class Float128(UonFloat):
         super().__init__(v, "float128", 128, unit, presentation_properties)
 
     def to_binary(self):
-        return b"\x25" + self.value.tobytes()
-
-
-# l = [Float32, Float64, Float128]
-# for f in l:
-#     print(f.__name__,   f(3.02))
+        return b"\x25" + super().to_binary()

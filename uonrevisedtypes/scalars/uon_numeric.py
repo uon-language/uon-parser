@@ -1,3 +1,5 @@
+from abc import abstractmethod
+
 from uonrevisedtypes.scalars.uon_scalar import UonScalar
 
 
@@ -27,3 +29,8 @@ class UonNumeric(UonScalar):
         if self.unit is not None:
             num_to_string += f" {self.unit}"
         return num_to_string
+
+    @abstractmethod
+    def to_binary(self):
+        unit_encoded = b"\x00" if self.unit is None else self.unit.to_binary()
+        return self.value.tobytes() + unit_encoded

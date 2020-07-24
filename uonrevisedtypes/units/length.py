@@ -10,7 +10,7 @@ class Kilometer(Length):
         return "km"
 
     def to_binary(self):
-        pass
+        return b"\x6a"
 
 
 class Meter(Length):
@@ -18,4 +18,4 @@ class Meter(Length):
         return "m"
 
     def to_binary(self):
-        pass
+        return b"\x20"

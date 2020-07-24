@@ -10,7 +10,7 @@ class Kelvin(Temperature):
         return "K"
 
     def to_binary(self):
-        pass
+        return b"\x24"
 
 
 class Celsius(Temperature):
@@ -18,4 +18,4 @@ class Celsius(Temperature):
         return "C"
 
     def to_binary(self):
-        pass
+        return b"\x3c"

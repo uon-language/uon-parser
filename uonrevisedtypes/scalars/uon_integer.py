@@ -16,7 +16,7 @@ class Integer32(UonInteger):
         super().__init__(v, "int32", 32, unit, presentation_properties)
     
     def to_binary(self):
-        return b"\x33" + self.value.tobytes()
+        return b"\x33" + super().to_binary()
 
 
 class Integer64(UonInteger):
@@ -25,7 +25,7 @@ class Integer64(UonInteger):
         super().__init__(v, "int64", 64, unit, presentation_properties)
 
     def to_binary(self):
-        return b"\x34" + self.value.tobytes()
+        return b"\x34" + super().to_binary()
 
 
 class Integer128(UonInteger):
@@ -34,4 +34,4 @@ class Integer128(UonInteger):
         super().__init__(value, "int128", 128, unit, presentation_properties)
 
     def to_binary(self):
-        return b"\x35" + self.value.tobytes()
+        return b"\x35" + super().to_binary()

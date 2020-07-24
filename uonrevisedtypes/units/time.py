@@ -10,7 +10,7 @@ class Second(Time):
         return "s"
 
     def to_binary(self):
-        pass
+        return b"\x22"
 
 
 class Minute(Time):
@@ -18,4 +18,4 @@ class Minute(Time):
         return "min"
 
     def to_binary(self):
-        pass
+        return b"\x45"

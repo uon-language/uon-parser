@@ -7,10 +7,16 @@ from uonrevisedtypes.scalars.uon_float import (
 from uonrevisedtypes.scalars.uon_uint import (
     Uint32, Uint64, Uint128
 )
+from uonrevisedtypes.scalars.uon_integer import (
+    Integer32, Integer64
+)
 from uonrevisedtypes.scalars.uon_string import UonString
 
 from uonrevisedtypes.collections.uon_dict import UonMapping
 from uonrevisedtypes.collections.uon_seq import UonSeq
+
+from uonrevisedtypes.units.length import Meter
+from uonrevisedtypes.units.mass import Kilogram
 
 from binary.codec import (
     decode_binary,
@@ -45,16 +51,37 @@ class TestUonEncoding:
     def test_float_to_binary(self):
         test_value = 64.0
         f = Float64(test_value)
-        assert f.to_binary() == b"\x24" + float64_struct.pack(test_value)
+        assert f.to_binary() == (b"\x24"
+                                 + float64_struct.pack(test_value)
+                                 + b"\x00")
         f = Float32(test_value)
-        assert f.to_binary() == b"\x23" + float32_struct.pack(test_value)
+        assert f.to_binary() == (b"\x23"
+                                 + float32_struct.pack(test_value)
+                                 + b"\x00")
 
     def test_uint_to_binary(self):
         test_value = 64
         f = Uint64(test_value)
-        assert f.to_binary() == b"\x3a" + uint64_struct.pack(test_value)
+        assert f.to_binary() == (b"\x3a"
+                                 + uint64_struct.pack(test_value)
+                                 + b"\x00")
         f = Uint32(test_value)
-        assert f.to_binary() == b"\x39" + uint32_struct.pack(test_value)
+        assert f.to_binary() == (b"\x39"
+                                 + uint32_struct.pack(test_value)
+                                 + b"\x00")
+
+    def test_num_quantity_to_binary(self):
+        test_value = 64
+        f = Integer32(test_value, unit=Meter())
+        assert f.to_binary() == (
+            b"\x33" + int32_struct.pack(test_value)
+            + b"\x20"
+        )
+        f = Integer64(test_value, unit=Kilogram())
+        assert f.to_binary() == (
+            b"\x34" + int64_struct.pack(test_value)
+            + b"\x21"
+        )
 
     def test_string_to_binary(self):
         test_value = "Hello, world!"
