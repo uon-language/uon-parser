@@ -33,6 +33,35 @@ from uonrevisedtypes.units.time import (
     Time, Second, Minute
 )
 
+from validation.schema import Schema
+from validation.validator import Validator
+from validation.properties.number.number_max_property import (
+    MaxNumberValidation
+)
+from validation.properties.number.number_min_property import (
+    MinNumberValidation
+)
+from validation.properties.string.string_max_property import (
+    MaxStringValidation
+)
+from validation.properties.string.string_min_property import (
+    MinStringValidation
+)
+
+from validation.properties.number.quantity_validation_property import (
+    LengthQuantityValidation, MassQuantityValidation,
+    TemperatureQuantityValidation, TimeQuantityValidation
+)
+
+from validation.types.string.string_type_validation import StringTypeValidation
+from validation.types.number.int_type_validation import IntegerTypeValidation
+from validation.types.number.float_type_validation import FloatTypeValidation
+from validation.types.number.uint_type_validation import UintTypeValidation
+from validation.types.boolean.bool_type_validation import BooleanTypeValidation
+from validation.types.url.url_type_validation import UrlTypeValidation
+
+import binary.binary_constants as binary_constants
+
 import logging
 logging.basicConfig(level=logging.DEBUG)
 
@@ -69,23 +98,36 @@ QUANTITY_UNIT_BINARY = {
     0x45: Minute
 }
 
+TYPE_VALIDATIONS = {
+    0x4c: UrlTypeValidation,
+    0x11: StringTypeValidation,
+    0x14: BooleanTypeValidation,
+    0x22: FloatTypeValidation,
+    0x29: IntegerTypeValidation,
+    0x30: UintTypeValidation
+}
+
 PRECISIONS = [32, 64, 128]
+
+
+class UonBinaryDecodingError(Exception):
+    pass
 
 
 def decode_binary(binary_input):
     if len(binary_input) == 0:
-        raise ValueError("Empty Binary")
+        raise UonBinaryDecodingError("Empty Binary")
     elif binary_input.startswith(b"\x01"):
         return decode_seq(binary_input[1:])[0]
     elif binary_input.startswith(b"\x02"):
         return decode_mapping(binary_input[1:])[0]
     else:
-        raise ValueError("Bad Binary")
+        raise UonBinaryDecodingError("Bad Binary")
 
 
 def decode_binary_value(binary_input):
     if len(binary_input) == 0:
-        raise ValueError("Empty Binary Value")
+        raise UonBinaryDecodingError("Empty Binary Value")
     elif binary_input.startswith(b"\x10"):
         # UonNull (no value to decode)
         return UonNull(), binary_input[1:]
@@ -132,7 +174,7 @@ def decode_binary_value(binary_input):
         # UonMapping
         return decode_mapping(binary_input[1:])
     else:
-        raise ValueError("Undefined binary")
+        raise UonBinaryDecodingError("Undefined binary")
 
 
 def decode_mapping(binary_input):
@@ -142,7 +184,7 @@ def decode_mapping(binary_input):
         key, value_encoded = decode_string(rest[1:])
         value, rest = decode_binary_value(value_encoded)
         retval[key] = value
-    # Return rest[1:] to get rid of the initial EOL byte
+    # Return rest[1:] to get rid of the final EOL byte
     return UonMapping(retval), rest[1:]
 
 
@@ -152,7 +194,7 @@ def decode_seq(binary_input):
     while not rest.startswith(b"\x00"):
         value, rest = decode_binary_value(rest)
         retval.append(value)
-    # Return rest[1:] to get rid of the initial EOL byte
+    # Return rest[1:] to get rid of the final EOL byte
     return UonSeq(retval), rest[1:]
 
 
@@ -174,7 +216,8 @@ def decode_string(binary_input):
         binary_input (bytes): a binary uon string
 
     Returns:
-        UonString: uon string with the decoded value
+        tuple: uon string with the decoded value, 
+                and the rest of the binary
     """
     length_encoded = binary_input[0:2]
     length = struct.unpack("<H", length_encoded)[0]
@@ -196,25 +239,25 @@ def decode_boolean(binary_input):
     elif binary_input[0] == 0x01:
         value = UonBoolean(True)
     else:
-        raise ValueError("Bad boolean value")
+        raise UonBinaryDecodingError("Bad boolean value")
     return value, rest
 
 
 def decode_float(binary_input, precision):
     if precision not in PRECISIONS:
-        raise ValueError("Bad Float value")
+        raise UonBinaryDecodingError("Bad Float value")
     return decode_numeric_scalar(binary_input, "float", precision)
 
 
 def decode_integer(binary_input, precision):
     if precision not in PRECISIONS:
-        raise ValueError("Bad Integer value")
+        raise UonBinaryDecodingError("Bad Integer value")
     return decode_numeric_scalar(binary_input, "int", precision)
 
 
 def decode_uint(binary_input, precision):
     if precision not in PRECISIONS:
-        raise ValueError("Bad Uint value")
+        raise UonBinaryDecodingError("Bad Uint value")
     return decode_numeric_scalar(binary_input, "uint", precision)
 
 
@@ -288,28 +331,117 @@ def decode_unit(binary_input):
         return None
     unit_decoded = QUANTITY_UNIT_BINARY.get(binary_input)()
     if unit_decoded is None:
-        raise ValueError("Bad binary for quantity unit")
+        raise UonBinaryDecodingError("Bad binary for quantity unit")
     return unit_decoded
 
 
 # ============================== SCHEMA DECODING ==============================
 def decode_presentation_properties(binary_input):
-    return {}
+    presentation_properties = {}
+    # Consume the \x1e byte that marks the presentation properties
+    rest = binary_input[1:]
+
+    # Decode description if there is one
+    if rest.startswith(b"\x04"):
+        description, rest = decode_string(rest[1:])
+        presentation_properties["description"] = description
+
+    if rest.startswith(b"\x05"):
+        # optional property is stored as a UonBoolean instance
+        optional, rest = decode_boolean(rest[1:])
+        presentation_properties["optional"] = optional
+
+    return presentation_properties, rest
+
 
 def decode_validation_property(binary_input):
-    return ""
+    property_encoded_start, rest = binary_input[0], binary_input[1:]
+    if property_encoded_start == 0x11:
+        # String validation properties
+        if rest.startswith(b"\x08"):
+            # TODO: decode the max and min
+            return MaxStringValidation(), rest[1:]
+        elif rest.startswith(b"\x07"):
+            return MinStringValidation(), rest[1:]
+    if property_encoded_start == 0x15:
+        # Number validation properties
+        if rest.startswith(b"\x08"):
+            return MaxNumberValidation(), rest[1:]
+        elif rest.startswith(b"\x07"):
+            return MinNumberValidation(), rest[1:]
+    if property_encoded_start == binary_constants.KILOGRAM:
+        return MassQuantityValidation(), rest
+    if property_encoded_start == binary_constants.METER:
+        return LengthQuantityValidation(), rest
+    if property_encoded_start == binary_constants.SECOND:
+        return TimeQuantityValidation(), rest
+    if property_encoded_start == binary_constants.KELVIN:
+        return TemperatureQuantityValidation(), rest
+    raise UonBinaryDecodingError("Unknown Validation Property")
+
 
 def decode_validation_type(binary_input):
-    return ""
+    type_validation_encoded, rest = binary_input[0], binary_input[1:]
+    type_validation = TYPE_VALIDATIONS.get(type_validation_encoded)()
+    if type_validation is None:
+        raise UonBinaryDecodingError("Unknown Type Validation")
+    return type_validation, rest
 
-def decode_quantity_validation(binary_input):
-    return ""
 
 def decode_validator(binary_input):
-    return ""
+    # Consume the initial \x1f byte that marks a validator
+    # as well as the following obligatory \x19 byte that marks
+    # a type validation
+    rest = binary_input[2:]
+    type_validation, rest = decode_validation_type(rest)
 
-def decode_validators(binary_input):
-    return {}
+    # Decode the list of validation properties
+    validation_properties = []
+    while rest.startswith(b"\x0f"):
+        validation_property, rest = decode_validation_property(rest[1:])
+        validation_properties.append(validation_property)
+    
+    # Next, decode the presentation properties that a validator validates
+    presentation_properties, rest = decode_presentation_properties(
+        rest
+    )
+
+    v = Validator(type_validation, 
+                  properties_validations=validation_properties,
+                  presentation_properties=presentation_properties)
+    return v, rest
+
 
 def decode_schema(binary_input):
-    return ""
+    # Consume the \x18 byte that marks a schema
+    rest = binary_input[1:]
+
+    # Get the type which is an encoded string
+    type_, rest = decode_string(rest)
+
+    # Decode the schema presentation properties
+    schema_name, rest = decode_schema_presentation_property(rest)
+    schema_description, rest = decode_schema_presentation_property(rest)
+    # TODO: use uon_rul instead
+    schema_uuid, rest = decode_schema_presentation_property(rest)
+
+    # Decode validators
+    validators = {}
+    while rest.startswith(b"\x12"):
+        attribute, validator_encoded = decode_string(rest[1:])
+        validator, rest = decode_validator(validator_encoded)
+        validators[attribute] = validator
+
+    schema = Schema(type_, validators=validators,
+                    name=schema_name, description=schema_description,
+                    uuid=schema_uuid)
+    # Return rest[1:] to get rid of the final EOL byte
+    return schema, rest[1:]
+
+
+def decode_schema_presentation_property(binary_input):
+    p = None
+    encoded_property_start, rest = binary_input[0], binary_input[1:]
+    if not encoded_property_start == 0x00:
+        p, rest = decode_string(binary_input)
+    return p, rest

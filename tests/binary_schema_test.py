@@ -8,6 +8,10 @@ from validation.types.number.uint_type_validation import UintTypeValidation
 from validation.properties.number.number_max_property import MaxNumberValidation
 from validation.properties.number.number_min_property import MinNumberValidation
 
+from validation.properties.number.quantity_validation_property import (
+    LengthQuantityValidation
+)
+
 from binary.utils import EOL, encode_string
 
 
@@ -33,7 +37,16 @@ class TestValidatorToBinary:
                 + b"\x0f\x15\x08" + struct.pack("<d", 125)
                 + b"\x1e" + b"\x04" + encode_string("An unsigned integer"
                                                     " validator")
-                + EOL) == v.to_binary()
+                ) == v.to_binary()
+
+    def test_simple_validator_number_quantity_to_binary(self):
+        v = Validator(UintTypeValidation(),
+                      [MinNumberValidation(0.0), MaxNumberValidation(125.0),
+                       LengthQuantityValidation()])
+        assert (b"\x1f\x19\x30\x0f\x15\x07" + struct.pack("<d", 0)
+                + b"\x0f\x15\x08" + struct.pack("<d", 125)
+                + b"\x0f" + b"\x20"
+                ) == v.to_binary()
 
 
 class TestSchemaToBinary:
@@ -52,4 +65,3 @@ class TestSchemaToBinary:
                 + b"\x12" + encode_string("age")
                 + v.to_binary()
                 + EOL) == s.to_binary()
-        

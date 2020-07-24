@@ -7,7 +7,10 @@ from transformer.uon_2_revised_tree_transformer import (
     TreeIndenter
 )
 
-from binary.codec import decode_binary, decode_binary_value
+from binary.codec import (
+    decode_binary, decode_binary_value,
+    decode_schema
+)
 
 # import struct
 
@@ -104,7 +107,8 @@ test_schema = """
 
 test_schema_with_quantity = """
 !!temperature: !schema {
-    t(description: The temperature of the room): !int (quantity: temperature)
+    t(description: The temperature of the room,
+         optional : false): !int (quantity: temperature)
 }
 """
 
@@ -151,14 +155,15 @@ uon_parser_2 = Lark.open(uon_2_grammar_file, parser='lalr',
 
 
 def test():
-    parse_tree = uon_parser_2.parse(test_schema_with_quantity)
+    parse_tree = uon_parser_2.parse(test_schema_with_description)
     print(parse_tree.pretty(indent_str='  '))
     transformed = UON2RevisedTreeToPython().transform(parse_tree)
     print(transformed)
     with open("examples/Transform.txt", "w") as text_file:
         pprint(repr(transformed), stream=text_file)
 
-    logging.debug(transformed.to_binary())
+    transformed_to_binary = transformed.to_binary()
+    logging.debug(transformed_to_binary)
     logging.debug("\n")
     logging.debug(repr(transformed))
     logging.debug("\n")
@@ -190,6 +195,9 @@ def test():
 
     # test_value = b"\x24\x00\x00\x00\x00\x00\x00i@\x00"
     # logging.debug(decode_binary_value(test_value))
+    # test_value = b"\x18\x0b\x00temperature\x0b\x00temperature\x00\x00\x12\x01\x00t\x1f\x19)\x0f$\x1e\x04\x1b\x00The temperature of the room\x00"
+    logging.debug(decode_schema(transformed_to_binary))
+    
 
 if __name__ == '__main__':
     test()

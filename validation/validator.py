@@ -50,8 +50,7 @@ class Validator(Uon):
 
         return (b"\x1f" + b"\x19" + self.type_validation.to_binary()
                 + validation_properties_to_binary
-                + presentation_properties_to_binary
-                + EOL)
+                + presentation_properties_to_binary)
 
 
 class ValidationError(Exception):
