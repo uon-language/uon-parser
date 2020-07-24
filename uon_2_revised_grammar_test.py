@@ -7,7 +7,7 @@ from transformer.uon_2_revised_tree_transformer import (
     TreeIndenter
 )
 
-from binary.codec import decode_binary
+from binary.codec import decode_binary, decode_binary_value
 
 # import struct
 
@@ -187,6 +187,9 @@ def test():
     # logging.debug("\n")
     # logging.debug((b"\x1f\x19\x30\x0f\x15\x07" + struct.pack("<d", 0)
     #                + b"\x0f\x15\x08" + struct.pack("<d", 125)))
+
+    # test_value = b"\x24\x00\x00\x00\x00\x00\x00i@\x00"
+    # logging.debug(decode_binary_value(test_value))
 
 if __name__ == '__main__':
     test()

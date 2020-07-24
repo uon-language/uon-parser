@@ -257,3 +257,13 @@ class Z(X):
 print(X())
 print(None is None)
 print(isinstance(Z(), Y))
+
+print("==================================================")
+print("Dictionary with binary string as keys")
+
+d = {
+    b"\x00": "hello",
+    b"\x01": "bye"
+}
+
+print(d[b"\x00"])

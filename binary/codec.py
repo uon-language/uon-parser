@@ -17,6 +17,22 @@ from uonrevisedtypes.scalars.uon_string import UonString
 from uonrevisedtypes.collections.uon_dict import UonMapping
 from uonrevisedtypes.collections.uon_seq import UonSeq
 
+from uonrevisedtypes.units.length import (
+    Length, Kilometer, Meter
+)
+
+from uonrevisedtypes.units.mass import (
+    Mass, Kilogram, Gram
+)
+
+from uonrevisedtypes.units.temperature import (
+    Temperature, Kelvin, Celsius
+)
+
+from uonrevisedtypes.units.time import (
+    Time, Second, Minute
+)
+
 import logging
 logging.basicConfig(level=logging.DEBUG)
 
@@ -33,6 +49,24 @@ NUMERIC_SCALAR_CONSTRUCTORS = {
     "uint32": Uint32,
     "uint64": Uint64,
     "uint128": Uint128
+}
+
+DEFAULT_QUANTITY_BINARY = {
+    0x21: Mass,
+    0x20: Length,
+    0x22: Time,
+    0x24: Temperature
+}
+
+QUANTITY_UNIT_BINARY = {
+    0x21: Kilogram,
+    0x69: Gram,
+    0x20: Meter,
+    0x6a: Kilometer,
+    0x24: Kelvin, 
+    0x3c: Celsius,
+    0x22: Second,
+    0x45: Minute
 }
 
 PRECISIONS = [32, 64, 128]
@@ -185,16 +219,77 @@ def decode_uint(binary_input, precision):
 
 
 def decode_numeric_scalar(binary_input, numpy_dtype, precision):
+    """Given a binary input, a numpy data type and the precision,
+    Reconstruct the UonNumeric value.
+
+    The datatype (float, int...) is prepended
+    to the precision to get the numpy datatype.
+    That datatype is used to reconstruct the numpy value using
+    np.frombuffer, and finally the UonNumericValue.
+
+    The last byte of a UonNumeric represents the encoded quantity unit
+    if there is one. If there is None, the byte will be \x00.
+
+    Args:
+        binary_input (bytes): the binary input representing a UonNumeric
+        numpy_dtype (str): the datatype
+        precision (int): the precision
+
+    Returns:
+        UonNumeric: The decoded UonNumeric instance.
+    """
     numpy_dtype = numpy_dtype + str(precision)
     encoded_value, rest = split_nb_bytes(binary_input, precision)
     numpy_decoded_value = np.frombuffer(encoded_value, dtype=numpy_dtype)
-    retval = NUMERIC_SCALAR_CONSTRUCTORS[numpy_dtype](numpy_decoded_value)
+
+    unit_encoded, rest = rest[0], rest[1:]
+    unit_decoded = decode_unit(unit_encoded)
+
+    retval = NUMERIC_SCALAR_CONSTRUCTORS[numpy_dtype](numpy_decoded_value,
+                                                      unit=unit_decoded)
+
     return retval, rest
 
 
 def split_nb_bytes(binary_input, precision):
+    """Given a binary input and a precision,
+    calculates the number of bytes necessary to encode a number with said
+    precision. It then uses this to split the binary input and return a tuple
+    with the first element containing the binary string encoded number,
+    and the second element containing the rest of the binary input.
+
+    Args:
+        binary_input (bytes): the binary_input that starts with an encoded
+                                UonNumeric.
+        precision (int): precision of the encoded number
+
+    Returns:
+        tuple: a tuple with the first element the encoded number
+                and the second element is the rest of the binary
+    """
     number_of_bytes = int(precision/8)
     return binary_input[:number_of_bytes], binary_input[number_of_bytes:]
+
+
+def decode_unit(binary_input):
+    """Decode the quantity unit in a UonNumeric binary.
+
+    The quantity is encoded on a single byte (at the end of a binary
+    UonNumeric). if it is 0x00, then this means that there is no
+    unit.
+
+    Args:
+        binary_input (bytes): the single-byte encoded quantity
+
+    Returns:
+        Quantity: The decoded quantity unit
+    """
+    if binary_input == 0x00:
+        return None
+    unit_decoded = QUANTITY_UNIT_BINARY.get(binary_input)()
+    if unit_decoded is None:
+        raise ValueError("Bad binary for quantity unit")
+    return unit_decoded
 
 
 # ============================== SCHEMA DECODING ==============================
@@ -205,6 +300,9 @@ def decode_validation_property(binary_input):
     return ""
 
 def decode_validation_type(binary_input):
+    return ""
+
+def decode_quantity_validation(binary_input):
     return ""
 
 def decode_validator(binary_input):

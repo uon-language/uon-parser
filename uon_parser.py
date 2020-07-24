@@ -97,7 +97,6 @@ test_schema_with_quantity_validation = """
 """
 
 # TODO: dynamically create classes for exceptions(maybe during compilation project)
-
 def test():
     uon = UonParser()
 

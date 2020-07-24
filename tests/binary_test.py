@@ -100,16 +100,24 @@ class TestUonDecoding:
         assert decode_binary_value(b"\x14\x00")[0] == UonBoolean(False)
 
     def test_binary_to_float(self):
-        test_value = b"\x24\x00\x00\x00\x00\x00\x00i@"
+        test_value = b"\x24\x00\x00\x00\x00\x00\x00i@\x00"
         assert decode_binary_value(test_value)[0] == Float64(200.0)
-        test_value = b"\x23\x00\x00HC"
+        test_value = b"\x23\x00\x00HC\x00"
         assert decode_binary_value(test_value)[0] == Float32(200.0)
 
     def test_binary_to_uint(self):
-        test_value = b"\x3a\xc8\x00\x00\x00\x00\x00\x00\x00"
+        test_value = b"\x3a\xc8\x00\x00\x00\x00\x00\x00\x00\x00"
         assert decode_binary_value(test_value)[0] == Uint64(200)
-        test_value = b"\x39\xc8\x00\x00\x00"
+        test_value = b"\x39\xc8\x00\x00\x00\x00"
         assert decode_binary_value(test_value)[0] == Uint32(200)
+
+    def test_binary_to_num_quantity(self):
+        test_value = b"\x24\x00\x00\x00\x00\x00\x00i@\x21"
+        assert (
+            decode_binary_value(test_value)[0]
+            ==
+            Float64(200.0, unit=Kilogram())
+        )
 
     def test_binary_to_string(self):
         test_value = b"\x11\r\x00Hello, world!"
