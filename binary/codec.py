@@ -181,6 +181,7 @@ def decode_binary_value(binary_input):
         raise UonBinaryDecodingError("Undefined binary")
 
 
+# TODO: supply schema to validate (maybe in uon parser)
 def decode_user_type(binary_input):
     user_type, rest = decode_string(binary_input)
     attributes, rest = decode_mapping(rest)

@@ -12,21 +12,24 @@ from serializer import python_to_uon
 """
 TODO: Specify that this project is only compatible with Python 3.x
 For example the str type is used heavily in this project and is used to
-represent what was both plain strings and unicode in pre-Python3. But 
-basestring is not available anymore in Python 3.x, str is now the type for 
+represent what was both plain strings and unicode in pre-Python3. But
+basestring is not available anymore in Python 3.x, str is now the type for
 everything that is string in Python. If we use Python 2.x, we might get
 some unexpected behavior if we encounter unicode strings.
 
 Another example is the difference in the purposes of some built-in methods.
 For example the built-in method __nonzero__ in Python2 that determines the
 truth value of an object, is now simply __bool__ in Python3.
+
+dicts are now ordered as of Python 3.6.
 """
 class UonParser:
-    def __init__(self):
+    def __init__(self, schemas={}):
         uon_2_grammar_file = Path('grammar/uon_2_revised_grammar.lark')
         self.parser = Lark.open(uon_2_grammar_file, parser='lalr',
                                 postlex=TreeIndenter(), 
                                 maybe_placeholders=True, start='start')
+        self.schemas = schemas
 
     def load(self, filename, schema=None):
         transformer = UON2RevisedTreeToPython()
@@ -38,7 +41,8 @@ class UonParser:
             if schema is not None:
                 read_schema = f.read()
                 schema_parse_tree = self.parser.parse(read_schema)
-                transformer.transform(schema_parse_tree)
+                parsed_schema = transformer.transform(schema_parse_tree)
+                
 
             transformed_tree = transformer.transform(parse_tree)
 
@@ -58,7 +62,7 @@ class UonParser:
 
         return transformed_tree
 
-    def to_uon(self, input_):
+    def dump(self, input_):
         return python_to_uon(input_)
 
 
