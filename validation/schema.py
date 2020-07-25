@@ -69,7 +69,7 @@ class Schema(Uon):
         )
 
     def __str__(self):
-        #validators_to_string = {k: str(v) for k, v in self.validators.items()}
+        # validators_to_string = {k: str(v) for k, v in self.validators.items()}
         # pprint.pformat(validators_to_string)
         validators_to_string = '{'+', '.join(
             [': '.join(map(str, k)) for k in self.validators.items()])+'}'
@@ -104,9 +104,9 @@ class Schema(Uon):
             bytes: Binary representation of a UON schema
         """
         name_encoded = (b"\x00" if self.name is None
-                        else encode_string(self.name))
+                        else b"\x11" + encode_string(self.name))
         description_encoded = (b"\x00" if self.description is None
-                               else encode_string(self.description))
+                               else b"\x11" + encode_string(self.description))
         uuid_encoded = (b"\x00" if self.uuid is None
                         else self.uuid.to_binary())
         validators_to_binary = b""

@@ -433,7 +433,7 @@ def decode_schema(binary_input):
     # For schema uuid, we're dealing with an encoded UonUrl,
     # so we need to consume the characteristic \x4c byte
     schema_uuid, rest = decode_schema_presentation_property(
-        rest[1:], decode_uon_url
+        rest, decode_uon_url
     )
 
     # Decode validators
@@ -454,5 +454,5 @@ def decode_schema_presentation_property(binary_input, decode_function):
     p = None
     encoded_property_start, rest = binary_input[0], binary_input[1:]
     if not encoded_property_start == 0x00:
-        p, rest = decode_function(binary_input)
+        p, rest = decode_function(rest)
     return p, rest
