@@ -60,6 +60,7 @@ from validation.types.number.uint_type_validation import UintTypeValidation
 from validation.types.boolean.bool_type_validation import BooleanTypeValidation
 from validation.types.url.url_type_validation import UrlTypeValidation
 
+from binary.utils import decode_number
 import binary.binary_constants as binary_constants
 
 import logging
@@ -359,16 +360,19 @@ def decode_validation_property(binary_input):
     if property_encoded_start == 0x11:
         # String validation properties
         if rest.startswith(b"\x08"):
-            # TODO: decode the max and min
-            return MaxStringValidation(), rest[1:]
+            decoded_max, rest = decode_number(rest[1:], "uint16")
+            return MaxStringValidation(decoded_max), rest
         elif rest.startswith(b"\x07"):
-            return MinStringValidation(), rest[1:]
+            decoded_min, rest = decode_number(rest[1:], "uint16")
+            return MinStringValidation(decoded_min), rest
     if property_encoded_start == 0x15:
         # Number validation properties
         if rest.startswith(b"\x08"):
-            return MaxNumberValidation(), rest[1:]
+            decoded_max, rest = decode_number(rest[1:], "float64")
+            return MaxNumberValidation(decoded_max), rest
         elif rest.startswith(b"\x07"):
-            return MinNumberValidation(), rest[1:]
+            decoded_min, rest = decode_number(rest[1:], "float64")
+            return MinNumberValidation(decoded_min), rest
     if property_encoded_start == binary_constants.KILOGRAM:
         return MassQuantityValidation(), rest
     if property_encoded_start == binary_constants.METER:
@@ -402,9 +406,9 @@ def decode_validator(binary_input):
         validation_properties.append(validation_property)
     
     # Next, decode the presentation properties that a validator validates
-    presentation_properties, rest = decode_presentation_properties(
-        rest
-    )
+    presentation_properties = {}
+    if rest[0] == 0x1e:
+        presentation_properties, rest = decode_presentation_properties(rest)
 
     v = Validator(type_validation, 
                   properties_validations=validation_properties,
@@ -420,10 +424,17 @@ def decode_schema(binary_input):
     type_, rest = decode_string(rest)
 
     # Decode the schema presentation properties
-    schema_name, rest = decode_schema_presentation_property(rest)
-    schema_description, rest = decode_schema_presentation_property(rest)
-    # TODO: use uon_rul instead
-    schema_uuid, rest = decode_schema_presentation_property(rest)
+    schema_name, rest = decode_schema_presentation_property(
+        rest, decode_string
+    )
+    schema_description, rest = decode_schema_presentation_property(
+        rest, decode_string
+    )
+    # For schema uuid, we're dealing with an encoded UonUrl,
+    # so we need to consume the characteristic \x4c byte
+    schema_uuid, rest = decode_schema_presentation_property(
+        rest[1:], decode_uon_url
+    )
 
     # Decode validators
     validators = {}
@@ -439,9 +450,9 @@ def decode_schema(binary_input):
     return schema, rest[1:]
 
 
-def decode_schema_presentation_property(binary_input):
+def decode_schema_presentation_property(binary_input, decode_function):
     p = None
     encoded_property_start, rest = binary_input[0], binary_input[1:]
     if not encoded_property_start == 0x00:
-        p, rest = decode_string(binary_input)
+        p, rest = decode_function(binary_input)
     return p, rest

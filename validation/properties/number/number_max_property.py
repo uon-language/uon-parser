@@ -27,6 +27,8 @@ class MaxNumberValidation(NumberPropertiesValidation):
 
         Concatenate the max keyword (\0x8) to \x15 reserved for 
         numeric types.
+
+        Numeric ranges are encoded on a double precision float.
         
         Returns:
             bytes: binary representation of number max property

@@ -27,6 +27,8 @@ class MinStringValidation(StringPropertiesValidation):
 
         Concatenate the min keyword (\0x7) to \x11 reserved for 
         string types.
+
+        String length is encoded on an unsigned short.
         
         Returns:
             bytes: binary representation of string max property

@@ -5,6 +5,18 @@ EOL = b"\x00"
 # Integer limit unsigned short
 STRING_LENGTH_MAX_VALUE = 65535
 
+DATA_TYPE_ENCODERS = {
+    "float16": (16, struct.Struct("<e")),
+    "float32": (32, struct.Struct("<f")),
+    "float64": (64, struct.Struct("<d")),
+    "int16": (16, struct.Struct("<h")),
+    "int32": (32, struct.Struct("<i")),
+    "int64": (64, struct.Struct("<q")),
+    "uint16": (16, struct.Struct("<H")),
+    "uint32": (32, struct.Struct("<I")),
+    "uint64": (64, struct.Struct("<Q"))
+}
+
 
 def encode_string(input_string):
     """Encode the string value in binary using utf-8
@@ -51,3 +63,16 @@ def encode_presentation_properties(presentation_properties):
     if optional is not None:
         result += b"\x05" + (b"\x01" if optional else b"\x00")
     return b"\x1e" + result
+
+
+def decode_number(binary_input, num_type):
+    precision, dtype_struct = DATA_TYPE_ENCODERS[num_type]
+    number_of_bytes = int(precision/8)
+    encoded_number, rest = (binary_input[:number_of_bytes],
+                            binary_input[number_of_bytes:])
+    return dtype_struct.unpack(encoded_number)[0], rest
+
+
+def encode_number(value, num_type):
+    precision, dtype_struct = DATA_TYPE_ENCODERS[num_type]
+    return dtype_struct.pack(value)

@@ -33,6 +33,8 @@ class MaxStringValidation(StringPropertiesValidation):
 
         Concatenate the max keyword (\0x8) to \x11 reserved for 
         string types.
+
+        String length is encoded on an unsigned short.
         
         Returns:
             bytes: binary representation of string max property

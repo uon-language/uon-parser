@@ -31,6 +31,8 @@ class MinNumberValidation(NumberPropertiesValidation):
 
         Concatenate the min keyword (\0x7) to \x15 reserved for 
         numeric types.
+
+        Numeric ranges are encoded on a double precision float.
         
         Returns:
             bytes: binary representation of number min property
