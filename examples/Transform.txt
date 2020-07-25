@@ -1,2 +1,2 @@
-("UonMapping({'p': UonCustomType(person, {name: !str stephane, age: !float64 "
+("UonMapping({'p': UonUserType(person, {name: !str stephane, age: !float64 "
  '25.0, minor: !bool False})})')

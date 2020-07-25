@@ -4,7 +4,7 @@ from pprint import pprint
 
 from transformer.uon_2_revised_tree_transformer import (
     UON2RevisedTreeToPython,
-    TreeIndenter
+    UonIndenter
 )
 
 from binary.codec import (
@@ -158,7 +158,7 @@ p: !!person
 """
 
 uon_parser_2 = Lark.open(uon_2_grammar_file, parser='lalr',
-                         postlex=TreeIndenter(), start='start', 
+                         postlex=UonIndenter(), start='start', 
                          maybe_placeholders=True, debug=True)
 
 

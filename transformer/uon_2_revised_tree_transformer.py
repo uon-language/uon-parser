@@ -60,7 +60,7 @@ import logging
 logging.basicConfig(level=logging.DEBUG)
 
 # TODO: multiline string as OPEN/CLOSED PAREN TYPES
-class TreeIndenter(Indenter):
+class UonIndenter(Indenter):
     NL_type = '_NL'
     OPEN_PAREN_types = ['LPAR', 'LSQB', 'LBRACE']
     CLOSE_PAREN_types = ['RPAR', 'RSQB', 'RBRACE']
