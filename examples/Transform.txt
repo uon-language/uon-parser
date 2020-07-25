@@ -1,3 +1,2 @@
-UonMapping({'happy': UonString(yes),
- 'scale': UonMapping({'max': Float64(self, 10.0, float64, 64),
- 'min': Float64(self, 0.0, float64, 64)})})
+("UonMapping({'p': UonCustomType(person, {name: !str stephane, age: !float64 "
+ '25.0, minor: !bool False})})')

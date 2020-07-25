@@ -1,3 +1,5 @@
+import struct
+
 from validation.properties.number.number_property_validation import (
     NumberPropertiesValidation)
 from validation.properties.property import ValidationPropertyError
@@ -16,6 +18,22 @@ class MaxNumberValidation(NumberPropertiesValidation):
 
     def __repr__(self):
         return "MaxNumberValidation({})".format(self.maximum)
+
+    def __str__(self):
+        return f"max: {self.maximum}"
+
+    def to_binary(self):
+        """Binary representation of number max property.
+
+        Concatenate the max keyword (\0x8) to \x15 reserved for 
+        numeric types.
+
+        Numeric ranges are encoded on a double precision float.
+        
+        Returns:
+            bytes: binary representation of number max property
+        """
+        return b"\x15\x08" + struct.pack("<d", self.maximum)
 
 
 class MaxNumberValidationError(ValidationPropertyError):

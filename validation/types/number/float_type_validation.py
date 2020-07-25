@@ -14,3 +14,16 @@ class FloatTypeValidation(ValidationType):
 
     def __repr__(self):
         return "FloatTypeValidation()"
+
+    def __str__(self):
+        return "!float"
+
+    def to_binary(self):
+        """Binary representation of float type validation.
+
+        b"\x22" corresponds to float type in UON.
+
+        Returns:
+            bytes: binary representation of float type validation
+        """
+        return b"\x22"

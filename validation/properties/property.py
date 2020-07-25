@@ -1,8 +1,10 @@
-from abc import ABC, abstractmethod
+from abc import abstractmethod
+
+from uon import Uon
 from validation.validator import ValidationError
 
 
-class ValidationProperty(ABC):
+class ValidationProperty(Uon):
 
     @abstractmethod
     def validate_property(self, input_):

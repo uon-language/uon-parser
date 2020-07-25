@@ -14,3 +14,16 @@ class UintTypeValidation(ValidationType):
 
     def __repr__(self):
         return "UintTypeValidation()"
+
+    def __str__(self):
+        return "!uint"
+
+    def to_binary(self):
+        """Binary representation of unsigned integer type validation.
+
+        b"\x30" corresponds to uint type in UON.
+
+        Returns:
+            bytes: binary representation of uint type validation
+        """
+        return b"\x30"

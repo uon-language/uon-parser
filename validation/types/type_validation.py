@@ -1,8 +1,10 @@
-from abc import ABC, abstractmethod
+from abc import abstractmethod
+
+from uon import Uon
 from validation.validator import ValidationError
 
 
-class ValidationType(ABC):
+class ValidationType(Uon):
 
     @abstractmethod
     def validate_type(self, input_):

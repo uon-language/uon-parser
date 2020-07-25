@@ -1,16 +1,46 @@
 "UonSeq": \x01
 "UonMapping": \x02
+"UonCustomType": (description: A reserved type in the spec, 
+                              not assigned yet): \x1a
 "UonString": \x11
 "Keyname" (description: "keyword in spec"): \x12
 "value" (description:"Not like spec" ): \x13
 "UonBoolean": \x14
+"float": \x22
 "Float32": \x23
 "Float64": \x24
 "Float128": \x25
+"int": 0x29
 "Integer32": \x33
 "Integer64": \x34
 "Integer128": \x35
+"uint": 0x30
 "Uint32": \x39
 "Uint64": \x3a
 "Uint128": \x3b
+"UonUrl": \x4c
+"UonNull": \x10
+"Schema": \x18
+"TypeValidation": \x19
+"ValidationProperty" (description: corresponds to !prop in the spec): \x0f
+"PresentationProperty" (description: (a reserved type in the spec,
+                           not attributed yet)): \x1e
+"Validator" (description: (a reserved type in the spec,
+                           not attributed yet)): \x1f
+"min" (description: Keyword): \x07
+"max" (description: Keyword): \x08
+"num" (description: ("Does not exist as a UonType, 
+                        Only there to denote numeric properties)): \x15
+"description" (description: Keyword): \x04
+"optional" (description: Keyword): \x05 
+"true" (description: Keyword): \x01
+"false" (description: Keyword): \x00
+"kilogram" (description: unit Keyword): \x21
+"gram" (description: unit Keyword): \x69
+"meter" (description: unit Keyword): \x20
+"kilometer" (description: unit Keyword): \x6a
+"kelvin" (description: unit Keyword): \x24
+"celsius" (description: unit Keyword): \x3c
+"second" (description: unit Keyword): \x22
+"minute" (description: unit Keyword): \x45
 "EOL" (description: "Not like spec"): \x00

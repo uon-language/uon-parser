@@ -1,7 +1,7 @@
-from uonrevisedtypes.uon_base import UonBase
+from uonrevisedtypes.uon_value import UonValue
 
 
-class UonScalar(UonBase):
+class UonScalar(UonValue):
     def __init__(self, value, uon_type, presentation_properties={}):
         '''
         A Uon scalar takes a value and a string representation

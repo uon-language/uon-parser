@@ -14,3 +14,16 @@ class BooleanTypeValidation(ValidationType):
 
     def __repr__(self):
         return "BooleanTypeValidation()"
+
+    def __str__(self):
+        return "!bool"
+
+    def to_binary(self):
+        """Binary representation of boolean type validation.
+
+        b"\x14" corresponds to UonBoolean type in UON.
+
+        Returns:
+            bytes: binary representation of boolean type validation
+        """
+        return b"\x14"

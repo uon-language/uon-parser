@@ -14,3 +14,16 @@ class IntegerTypeValidation(ValidationType):
 
     def __repr__(self):
         return "IntegerTypeValidation()"
+
+    def __str__(self):
+        return "!int"
+
+    def to_binary(self):
+        """Binary representation of integer type validation.
+
+        b"\x29" corresponds to integer type in UON.
+
+        Returns:
+            bytes: binary representation of integer type validation
+        """
+        return b"\x29"

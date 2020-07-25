@@ -15,3 +15,16 @@ class StringTypeValidation(ValidationType):
 
     def __repr__(self):
         return "StringTypeValidation()"
+
+    def __str__(self):
+        return "!str"
+
+    def to_binary(self):
+        """Binary representation of String type validation.
+
+        b"\x11" corresponds to UonString type in UON.
+
+        Returns:
+            bytes: binary representation of string type validation
+        """
+        return b"\x11"
