@@ -2,9 +2,11 @@ from uon import Uon
 
 from binary.utils import encode_string
 
-class UonCustomType(Uon):
+
+class UonUserType(Uon):
     """
-    A class to represent a user-defined type in UON.
+    A class to represent a user-defined type in UON. (type
+    preceded by a !! in UON)
     """
     def __init__(self, type_, attributes):
         """
@@ -19,7 +21,7 @@ class UonCustomType(Uon):
         self.attributes = attributes
 
     def __repr__(self):
-        return "UonCustomType({}, {})".format(
+        return "UonUserType({}, {})".format(
             self.type_, self.attributes
         )
 

@@ -16,7 +16,7 @@ from uonrevisedtypes.uon_null import UonNull
 from uonrevisedtypes.scalars.uon_string import UonString
 from uonrevisedtypes.collections.uon_dict import UonMapping
 from uonrevisedtypes.collections.uon_seq import UonSeq
-from uonrevisedtypes.uon_custom_type import UonCustomType
+from uonrevisedtypes.uon_user_type import UonUserType
 
 from uonrevisedtypes.units.length import (
     Length, Kilometer, Meter
@@ -185,7 +185,7 @@ def decode_user_type(binary_input):
     user_type, rest = decode_string(binary_input)
     attributes, rest = decode_mapping(rest)
 
-    return UonCustomType(user_type, attributes), rest
+    return UonUserType(user_type, attributes), rest
 
 
 def decode_mapping(binary_input):

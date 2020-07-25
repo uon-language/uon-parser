@@ -15,7 +15,7 @@ from uonrevisedtypes.scalars.uon_string import UonString
 from uonrevisedtypes.collections.uon_dict import UonMapping
 from uonrevisedtypes.collections.uon_seq import UonSeq
 
-from uonrevisedtypes.uon_custom_type import UonCustomType
+from uonrevisedtypes.uon_user_type import UonUserType
 
 from uonrevisedtypes.units.length import Meter
 from uonrevisedtypes.units.mass import Kilogram
@@ -96,7 +96,7 @@ class TestUonEncoding:
 
     def test_uon_user_type(self):
         attributes = {"name": UonString("John"), "age": Uint32(187)}
-        test_value = UonCustomType("person", UonMapping(attributes))
+        test_value = UonUserType("person", UonMapping(attributes))
         assert (b"\x1a"
                 + encode_string("person")
                 + b"\x02" + b"\x12" + encode_string("name") + b"\x11"

@@ -33,7 +33,7 @@ from uonrevisedtypes.units.time import (
     Minute
 )
 
-from uonrevisedtypes.uon_custom_type import UonCustomType
+from uonrevisedtypes.uon_user_type import UonUserType
 
 from validation.properties.string.string_min_property import MinStringValidation
 from validation.properties.string.string_max_property import MaxStringValidation
@@ -305,7 +305,7 @@ class UON2RevisedTreeToPython(Transformer):
             custom_type, attributes
         ))
         custom_type = custom_type.value
-        custom_object = UonCustomType(custom_type, attributes)
+        custom_object = UonUserType(custom_type, attributes)
         schema = self.schemas.get(custom_type)
         if schema is not None:
             schema.validateSchema(custom_object)
@@ -317,7 +317,7 @@ class UON2RevisedTreeToPython(Transformer):
             custom_type, attributes
         ))
         custom_type = custom_type.value
-        custom_object = UonCustomType(custom_type, attributes)
+        custom_object = UonUserType(custom_type, attributes)
         schema = self.schemas.get(custom_type)
         if schema is not None:
             schema.validateSchema(custom_object)
