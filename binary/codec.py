@@ -16,6 +16,7 @@ from uonrevisedtypes.uon_null import UonNull
 from uonrevisedtypes.scalars.uon_string import UonString
 from uonrevisedtypes.collections.uon_dict import UonMapping
 from uonrevisedtypes.collections.uon_seq import UonSeq
+from uonrevisedtypes.uon_custom_type import UonCustomType
 
 from uonrevisedtypes.units.length import (
     Length, Kilometer, Meter
@@ -174,8 +175,17 @@ def decode_binary_value(binary_input):
     elif binary_input.startswith(b"\x02"):
         # UonMapping
         return decode_mapping(binary_input[1:])
+    elif binary_input.startswith(b"\x1a"):
+        return decode_user_type(binary_input[1:])
     else:
         raise UonBinaryDecodingError("Undefined binary")
+
+
+def decode_user_type(binary_input):
+    user_type, rest = decode_string(binary_input)
+    attributes, rest = decode_mapping(rest)
+
+    return UonCustomType(user_type, attributes), rest
 
 
 def decode_mapping(binary_input):

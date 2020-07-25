@@ -55,12 +55,12 @@ class TestSchemaToBinary:
                       [MinNumberValidation(0.0), MaxNumberValidation(125.0)],
                       {"description": "An unsigned integer validator"})
         
-        s = Schema("person", {"age": v}, name="person", 
+        s = Schema("person", {"age": v}, name="person",
                    description="a person schema")
         
         assert (b"\x18" + encode_string("person")
-                + encode_string("person")
-                + encode_string("a person schema")
+                + b"\x11" + encode_string("person")
+                + b"\x11" + encode_string("a person schema")
                 + EOL
                 + b"\x12" + encode_string("age")
                 + v.to_binary()

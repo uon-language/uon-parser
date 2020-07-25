@@ -12,6 +12,7 @@ from binary.codec import (
     decode_schema
 )
 
+# TODO: remove
 # import struct
 
 # from validation.validator import Validator
@@ -135,11 +136,18 @@ test_schema_validation = """
 """
 
 test_schema_validation_2 = """
-{p: !!person {
+{
+    p: !!person {
         big age: !uint32 25,
         minor: !bool true,
         linkedin link : https://github.com/uon-language/uon-parser
-    }
+    },
+    q: !!person {
+        big age: !uint32 24,
+        minor: !bool false,
+        linkedin: https://hello.com
+    },
+    something: Ok
 }
 """
 
@@ -155,7 +163,7 @@ uon_parser_2 = Lark.open(uon_2_grammar_file, parser='lalr',
 
 
 def test():
-    parse_tree = uon_parser_2.parse(test_schema_with_description)
+    parse_tree = uon_parser_2.parse(test_schema_validation)
     print(parse_tree.pretty(indent_str='  '))
     transformed = UON2RevisedTreeToPython().transform(parse_tree)
     print(transformed)
@@ -196,8 +204,8 @@ def test():
     # test_value = b"\x24\x00\x00\x00\x00\x00\x00i@\x00"
     # logging.debug(decode_binary_value(test_value))
     # test_value = b"\x18\x0b\x00temperature\x0b\x00temperature\x00\x00\x12\x01\x00t\x1f\x19)\x0f$\x1e\x04\x1b\x00The temperature of the room\x00"
-    logging.debug(decode_schema(transformed_to_binary))
-    
+    # logging.debug(decode_schema(transformed_to_binary))
+
 
 if __name__ == '__main__':
     test()

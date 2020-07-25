@@ -267,3 +267,13 @@ d = {
 }
 
 print(d[b"\x00"])
+
+print("==================================================")
+print("Python dicts and seq equality")
+
+print([0, 1, "a"] == [0, 1, "a"])
+d1 = {"age": 32, "n": 3}
+d2 = {"n": 3, "age": 32}
+print(d1)
+print(d2)
+print(d1 == d2)

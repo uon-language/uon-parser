@@ -1,5 +1,7 @@
 "UonSeq": \x01
 "UonMapping": \x02
+"UonCustomType": (description: A reserved type in the spec, 
+                              not assigned yet): \x1a
 "UonString": \x11
 "Keyname" (description: "keyword in spec"): \x12
 "value" (description:"Not like spec" ): \x13

@@ -1,5 +1,6 @@
 from uon import Uon
 
+from binary.utils import encode_string
 
 class UonCustomType(Uon):
     """
@@ -21,10 +22,18 @@ class UonCustomType(Uon):
         return "UonCustomType({}, {})".format(
             self.type_, self.attributes
         )
-    
+
     def __str__(self):
         return f"!!{self.type_} {self.attributes}"
 
-    # TODO
     def to_binary(self):
-        return b"\x00"
+        """Return binary representation of a uon user type.
+
+        The characteristic byte of a uon user type is 0x1a.
+
+        Returns:
+            bytes: binary representation of a uon user type
+        """
+        return (b"\x1a"
+                + encode_string(self.type_)
+                + self.attributes.to_binary())

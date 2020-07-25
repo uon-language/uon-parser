@@ -1,9 +1,2 @@
-("Schema('person', {'age': Validator(UintTypeValidation(), "
- '[MinNumberValidation(0.0), MaxNumberValidation(125.0)], {}),\n'
- " 'linkedin link': Validator(UrlTypeValidation(), [], {}),\n"
- " 'minor': Validator(BooleanTypeValidation(), [], {'optional': "
- 'UonBoolean(False)}),\n'
- " 'name': Validator(StringTypeValidation(), [MinStringValidation(3), "
- "MaxStringValidation(25)], {'description': 'name of the person', 'optional': "
- "UonBoolean(False)})}, 'A Person', 'A description of a person', "
- 'UonUrl(http://www.google.com))')
+("UonMapping({'p': UonCustomType(person, {name: !str stephane, age: !float64 "
+ '25.0, minor: !bool False})})')

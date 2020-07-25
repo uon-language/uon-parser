@@ -15,6 +15,8 @@ from uonrevisedtypes.scalars.uon_string import UonString
 from uonrevisedtypes.collections.uon_dict import UonMapping
 from uonrevisedtypes.collections.uon_seq import UonSeq
 
+from uonrevisedtypes.uon_custom_type import UonCustomType
+
 from uonrevisedtypes.units.length import Meter
 from uonrevisedtypes.units.mass import Kilogram
 
@@ -27,6 +29,7 @@ from binary.codec import (
     decode_boolean,
     decode_string
 )
+from binary.utils import encode_string, EOL
 
 # We use < for little-endian since numpy is used to represent
 # numbers in uon-parser and numpy byte encoding is little-endian.
@@ -91,6 +94,16 @@ class TestUonEncoding:
         s = UonString(test_value)
         assert s.to_binary() == test_value_binary
 
+    def test_uon_user_type(self):
+        attributes = {"name": UonString("John"), "age": Uint32(187)}
+        test_value = UonCustomType("person", UonMapping(attributes))
+        assert (b"\x1a"
+                + encode_string("person")
+                + b"\x02" + b"\x12" + encode_string("name") + b"\x11"
+                + encode_string("John")
+                + b"\x12" + encode_string("age") + b"\x39"
+                + uint32_struct.pack(187) + 2 * EOL
+                == test_value.to_binary())
 # ============================== DECODING ==============================
 
 
