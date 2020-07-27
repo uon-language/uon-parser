@@ -9,9 +9,9 @@ class StringTypeValidation(ValidationType):
 
     def validate_type(self, input_):
         if (not isinstance(input_, UonString)):
-            raise ValidationTypeError(input_, "The following input {} type "
-                                              "does not correspond to string"
-                                              .format(input_))
+            raise ValidationTypeError("The following input {} type "
+                                      "does not correspond to string"
+                                      .format(input_))
 
     def __repr__(self):
         return "StringTypeValidation()"

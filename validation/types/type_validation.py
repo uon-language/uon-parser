@@ -16,5 +16,4 @@ class ValidationType(Uon):
 
 
 class ValidationTypeError(ValidationError):
-    def __init__(self, expression, message):
-        super().__init__(expression, message)
+    pass

@@ -2,6 +2,7 @@ import pprint
 
 from uon import Uon
 from binary.utils import encode_string, EOL
+from validation.validator import ValidationError
 
 
 class Schema(Uon):
@@ -60,7 +61,12 @@ class Schema(Uon):
                                              "missing".format(k))
 
         for k, v in attributes_mapping.items():
-            self.validators[k].validate(v)
+            try:
+                self.validators[k].validate(v)
+            except ValidationError as e:
+                message = (f"Validation error occured at attribute {k} "
+                           f"in schema !!{self.type_}")
+                raise ValidationError(message) from e
     
     def __repr__(self):
         return "Schema({!r}, {}, {!r}, {!r}, {!r})".format(

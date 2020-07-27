@@ -8,9 +8,9 @@ class FloatTypeValidation(ValidationType):
 
     def validate_type(self, input_):
         if (not isinstance(input_, UonFloat)):
-            raise ValidationTypeError(input_, "The following input {} type "
-                                              "does not correspond to float"
-                                              .format(input_))
+            raise ValidationTypeError("The following input {} type "
+                                      "does not correspond to float"
+                                      .format(input_))
 
     def __repr__(self):
         return "FloatTypeValidation()"

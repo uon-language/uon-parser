@@ -15,8 +15,7 @@ class MinNumberValidation(NumberPropertiesValidation):
 
     def validate_property(self, input_):
         if (input_.value < self.minimum):
-            raise MinNumberValidationError(input_,
-                                           "The following input {} "
+            raise MinNumberValidationError("The following input {} "
                                            "is smaller than {}"
                                            .format(input_, self.minimum))
 
@@ -41,5 +40,4 @@ class MinNumberValidation(NumberPropertiesValidation):
 
 
 class MinNumberValidationError(ValidationPropertyError):
-    def __init__(self, expression, message):
-        super().__init__(expression, message)
+    pass
