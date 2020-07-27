@@ -11,8 +11,7 @@ class MinStringValidation(StringPropertiesValidation):
 
     def validate_property(self, input_):
         if (len(input_) < self.minimum):
-            raise MinStringValidationError(input_,
-                                           "The following input {} "
+            raise MinStringValidationError("The following input {} "
                                            "has length smaller than {}"
                                            .format(input_, self.minimum))
 
@@ -37,5 +36,4 @@ class MinStringValidation(StringPropertiesValidation):
 
 
 class MinStringValidationError(ValidationPropertyError):
-    def __init__(self, expression, message):
-        super().__init__(expression, message)
+    pass

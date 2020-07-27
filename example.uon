@@ -1,7 +1,7 @@
-uon : first example
-integer (optional = true): !!int32 5.0
-nested_list :
-    - U
-    - O 
-    - N
+{
+    uon : first example,
+    integer (optional : true): !int32 5.0,
+    nested_list : [U, O, N]
+}
     
+

@@ -148,29 +148,34 @@ class UON2RevisedTreeToPython(Transformer):
     # TODO: Custom exceptions (for example a mapping type expected instead of seq)
     # TODO: Duplicate key exception
     def yaml_mapping(self, mapping):
-        print("visiting yaml mapping: ", mapping)
+        if self.debug:
+            logging.debug(f"visiting yaml mapping: {mapping}")
         mapping = mapping[1:]
         return UonMapping(
             UON2RevisedTreeToPython.to_dictionary(mapping))
 
     def json_mapping(self, mapping):
-        print("visiting json mapping: ", mapping)
+        if self.debug:
+            logging.debug(f"visiting json mapping: {mapping}")
         mapping = mapping[1:]
         return UonMapping(
             UON2RevisedTreeToPython.to_dictionary(mapping))
 
     def yaml_seq(self, seq):
-        print("visiting yaml seq: ", seq)
+        if self.debug:
+            logging.debug(f"visiting yaml seq: {seq}")
         seq = seq[1:]
         return UonSeq(seq)
     
     def json_seq(self, seq):
-        print("visiting json seq: ", seq)
+        if self.debug:
+            logging.debug(f"visiting json seq: {seq}")
         seq = seq[1:]
         return UonSeq(seq)
 
     def seq_item(self, items):
-        print("visiting seq items: ", items)
+        if self.debug:
+            logging.debug(f"visiting seq items: {items}")
         return items[0]
 
     @v_args(inline=True)
@@ -182,7 +187,8 @@ class UON2RevisedTreeToPython(Transformer):
         We return a pair (key, UonObject) with the key being the 
         keyname (a string) of UonPairKey.
         """
-        print("visiting yaml_pair: ", key, ": ", value)
+        if self.debug:
+            logging.debug(f"visiting yaml_pair: {key} : {value}")
         key, presentation_properties = key
         v = value
         v.presentation_properties = presentation_properties
@@ -190,7 +196,8 @@ class UON2RevisedTreeToPython(Transformer):
 
     @v_args(inline=True)
     def json_pair(self, key, value):
-        print("visiting json pair: ", key, ": ", value)
+        if self.debug:
+            logging.debug(f"visiting json pair: {key} : {value}")
         key, presentation_properties = key
         v = value
         v.presentation_properties = presentation_properties
@@ -208,7 +215,8 @@ class UON2RevisedTreeToPython(Transformer):
         we'd like to search the dictionary).
         Presentation properties will be equal to None if not provided
         """
-        print("visiting pair_key: ", key, presentation_properties)
+        if self.debug:
+            logging.debug(f"visiting pair_key: {key} {presentation_properties}")
         # return UonPairKey(key[0].value, key[1] if len(key) > 1 else {})
         if presentation_properties is None:
             presentation_properties = {}
@@ -221,7 +229,8 @@ class UON2RevisedTreeToPython(Transformer):
         and their values. That way, if a certain property is repeated,
         it will keep only its last value.
         """
-        print("visiting presentation_properties: ", properties, end="\n")
+        if self.debug:
+            logging.debug(f"visiting presentation_properties: {properties}")
         return dict(properties)
 
     @v_args(inline=True)
@@ -230,7 +239,8 @@ class UON2RevisedTreeToPython(Transformer):
         Get the description and return it as a pair
         "description" : <description>
         """
-        print("visiting description: ", description_)
+        if self.debug:
+            logging.debug(f"visiting description: {description_}")
         return "description", description_.value
 
     @v_args(inline=True)
@@ -239,22 +249,26 @@ class UON2RevisedTreeToPython(Transformer):
         Get the optional value and return it as a pair
         "optional" : <optional>
         """
-        print("visiting optional: ", value)
+        if self.debug:
+            logging.debug(f"visiting optional: {value}")
         return "optional", value
 
     @v_args(inline=True)
     def string_scalar(self, string_type, string):
-        print("Visiting string_scalar: ", string)
+        if self.debug:
+            logging.debug(f"Visiting string_scalar: {string}")
         return string
     
     @v_args(inline=True)
     def boolean_scalar(self, boolean_type, boolean):
-        print("Visiting boolean_scalar: ", boolean)
+        if self.debug:
+            logging.debug(f"Visiting boolean_scalar: {boolean}")
         return boolean
 
     @v_args(inline=True)
     def url(self, url_type, url_):
-        print("visiting url: ", url_)
+        if self.debug:
+            logging.debug(f"visiting url: {url_}")
         return UonUrl(url_)
     
     @v_args(inline=True)
@@ -280,24 +294,30 @@ class UON2RevisedTreeToPython(Transformer):
                 -> (type_constructors["int32"](np.uint32(4)))
                 -> Integer32(np.int32(4))
         """
-        print("visiting coercible_num_scalar: ", number, "with type", num_type)
+        if self.debug:
+            logging.debug("visiting coercible_num_scalar: "
+                          f"{number} with type {num_type}")
         return_value = type_constructors[num_type[1:]](number.value)
         return return_value
 
     @v_args(inline=True)
     def quantity_scalar(self, numeric_scalar, quantity):
-        print("Visiting quantity scalar: ", numeric_scalar, quantity)
+        if self.debug:
+            logging.debug("Visiting quantity scalar: "
+                          f"{numeric_scalar} {quantity}")
         numeric_scalar.unit = quantity
         return numeric_scalar
     
     @v_args(inline=True)
     def scalar_type(self, t):
-        print("visiting scalar_type: ", t)
+        if self.debug:
+            logging.debug(f"visiting scalar_type: {t}")
         return t
 
     @v_args(inline=True)
     def quantity(self, quantity_):
-        print("visiting quantity: ", quantity_)
+        if self.debug:
+            logging.debug(f"visiting quantity: {quantity_}")
         return quantity_
     
     grams = lambda self, _: Gram()
@@ -312,9 +332,9 @@ class UON2RevisedTreeToPython(Transformer):
     # ======================== VALIDATION ========================
     @v_args(inline=True)
     def json_user_type(self, custom_type, attributes):
-        print("visiting json_user_type {} with attributes {}".format(
-            custom_type, attributes
-        ))
+        if self.debug:
+            logging.debug("visiting json_user_type {} with attributes {}"
+                          .format(custom_type, attributes))
         custom_type = custom_type.value
         custom_object = UonUserType(custom_type, attributes)
         schema = self.schemas.get(custom_type)
@@ -324,9 +344,9 @@ class UON2RevisedTreeToPython(Transformer):
 
     @v_args(inline=True)
     def yaml_user_type(self, custom_type, attributes):
-        print("visiting yaml_user_type {} with attributes {}".format(
-            custom_type, attributes
-        ))
+        if self.debug:
+            logging.debug("visiting yaml_user_type {} with attributes {}"
+                          .format(custom_type, attributes))
         custom_type = custom_type.value
         custom_object = UonUserType(custom_type, attributes)
         schema = self.schemas.get(custom_type)
@@ -336,8 +356,9 @@ class UON2RevisedTreeToPython(Transformer):
 
     @v_args(inline=True)
     def schema(self, custom_type, schema_presentations, attributes):
-        print("visiting schema: {} with attributes {}"
-              .format(custom_type, attributes))
+        if self.debug:
+            logging.debug("visiting schema: {} with attributes {}"
+                          .format(custom_type, attributes))
         name = None
         description = None
         uuid = None
@@ -352,12 +373,14 @@ class UON2RevisedTreeToPython(Transformer):
         return schema_
 
     def schema_presentations(self, presentations):
-        print("visiting schema_presentations: ", presentations)
+        if self.debug:
+            logging.debug(f"visiting schema_presentations: {presentations}")
         return dict(presentations)
 
     @v_args(inline=True)
     def schema_name(self, name):
-        print("visiting schema_name: ", name)
+        if self.debug:
+            logging.debug(f"visiting schema_name: {name}")
         return "name", name.value
 
     @v_args(inline=True)
@@ -376,25 +399,29 @@ class UON2RevisedTreeToPython(Transformer):
         Returns:
             tuple: a tuple describing the key uuid and the UonUrl value
         """
-        print("visiting schema_uuid: ", uuid)
+        if self.debug:
+            logging.debug(f"visiting schema_uuid: {uuid}")
         return "uuid", uuid
 
     def attributes(self, attributes_):
-        print("visiting schema attributes: ", attributes_)
+        if self.debug:
+            logging.debug(f"visiting schema attributes: {attributes_}")
         # TODO: Make attributes a dictionary here instead of in schema above
         return attributes_
 
     @v_args(inline=True)
     def attribute(self, attribute_, validator):
-        print("visiting schema attribute: {} with validator {}"
-              .format(attribute_, validator))
+        if self.debug:
+            logging.debug("visiting schema attribute: {} with validator {}"
+                          .format(attribute_, validator))
         attribute_name, presentation_properties = attribute_
         validator.presentation_properties = presentation_properties
         return (attribute_name, validator)
 
     @v_args(inline=True)
     def attribute_name(self, attribute_name_):
-        print("visiting attribute_name: ", attribute_name_)
+        if self.debug:
+            logging.debug(f"visiting attribute_name: {attribute_name_}")
         return attribute_name_.value
 
     @v_args(inline=True)
@@ -402,47 +429,57 @@ class UON2RevisedTreeToPython(Transformer):
         """
         No properties for Boolean.
         """
-        print("visiting boolean validation: ", bool_type)
+        if self.debug:
+            logging.debug(f"visiting boolean validation: {bool_type}")
         return Validator(BooleanTypeValidation())
     
     @v_args(inline=True)
     def string_validation(self, str_type, string_validators):
-        print("visiting string_validation: ", string_validators)
+        if self.debug:
+            logging.debug(f"visiting string_validation: {string_validators}")
         return Validator(StringTypeValidation(), string_validators)
 
     def string_properties(self, properties):
-        print("visiting string_properties: ", properties)
+        if self.debug:
+            logging.debug(f"visiting string_properties: {properties}")
         return properties
 
     @v_args(inline=True)
     def string_min(self, min_):
         """ Here we receive decimals """
-        print("visiting string_min: ", min_)
+        if self.debug:
+            logging.debug(f"visiting string_min: {min_}")
         return MinStringValidation(min_.value)
 
     @v_args(inline=True)
     def string_max(self, max_):
         """ Here we receive decimals """
-        print("visiting string_max: ", max_)
+        if self.debug:
+            logging.debug(f"visiting string_max: {max_}")
         return MaxStringValidation(max_.value)
 
     @v_args(inline=True)
     def number_validation(self, num_type, number_validators):
-        print("visiting number_validation: ", num_type, " ", number_validators)
+        if self.debug:
+            logging.debug(f"visiting number_validation: "
+                          f"{num_type} {number_validators}")
         return Validator(num_type, number_validators)
 
     def number_properties(self, properties):
-        print("visiting number_properties: ", properties)
+        if self.debug:
+            logging.debug(f"visiting number_properties: {properties}")
         return properties
 
     @v_args(inline=True)
     def number_min(self, min_):
-        print("visiting number_min: ", min_)
+        if self.debug:
+            logging.debug(f"visiting number_min: {min_}")
         return MinNumberValidation(min_.value)
 
     @v_args(inline=True)
     def number_max(self, max_):
-        print("visiting number_max: ", max_)
+        if self.debug:
+            logging.debug(f"visiting number_max: {max_}")
         return MaxNumberValidation(max_.value)
 
     @v_args(inline=True)

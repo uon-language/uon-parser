@@ -17,8 +17,7 @@ class MaxStringValidation(StringPropertiesValidation):
 
     def validate_property(self, input_):
         if (len(input_) > self.maximum):
-            raise MaxStringValidationError(input_,
-                                           "The following input {} "
+            raise MaxStringValidationError("The following input {} "
                                            "has length bigger than {}"
                                            .format(input_, self.maximum))
     
@@ -44,5 +43,4 @@ class MaxStringValidation(StringPropertiesValidation):
 
 # TODO: try dynamically generating exception classes in the class above
 class MaxStringValidationError(ValidationPropertyError):
-    def __init__(self, expression, message):
-        super().__init__(expression, message)
+    pass

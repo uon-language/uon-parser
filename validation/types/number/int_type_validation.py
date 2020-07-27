@@ -8,9 +8,9 @@ class IntegerTypeValidation(ValidationType):
 
     def validate_type(self, input_):
         if (not isinstance(input_, UonInteger)):
-            raise ValidationTypeError(input_, "The following input {} type "
-                                              "does not correspond to integer"
-                                              .format(input_))
+            raise ValidationTypeError("The following input {} type "
+                                      "does not correspond to integer"
+                                      .format(input_))
 
     def __repr__(self):
         return "IntegerTypeValidation()"

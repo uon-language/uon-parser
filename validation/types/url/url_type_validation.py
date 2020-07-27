@@ -9,9 +9,9 @@ class UrlTypeValidation(ValidationType):
 
     def validate_type(self, input_):
         if (not isinstance(input_, UonUrl)):
-            raise ValidationTypeError(input_, "The following input {} type "
-                                              "does not correspond to url"
-                                              .format(input_))
+            raise ValidationTypeError("The following input {} type "
+                                      "does not correspond to url"
+                                      .format(input_))
 
     def __repr__(self):
         return "UrlTypeValidation()"

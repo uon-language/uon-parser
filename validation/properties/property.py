@@ -16,5 +16,4 @@ class ValidationProperty(Uon):
 
 
 class ValidationPropertyError(ValidationError):
-    def __init__(self, expression, message):
-        super().__init__(expression, message)
+    pass

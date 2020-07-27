@@ -39,6 +39,7 @@ test_schema_with_quantity_validation = """
 
 
 def test():
+    validate(test_schema_validation, schema_raw=test_schema)
     validate(test_schema_with_quantity,
              schema_raw=None, debug=False)
     
