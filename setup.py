@@ -11,7 +11,7 @@ setuptools.setup(
     description="A uon parser package",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/Cell00phane/uon-parser",
+    url="https://github.com/uon-language/uon-parser",
     packages=setuptools.find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",

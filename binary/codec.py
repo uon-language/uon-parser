@@ -116,18 +116,18 @@ class UonBinaryDecodingError(Exception):
     pass
 
 
-def decode_binary(binary_input):
+def decode_binary(binary_input, schemas={}):
     if len(binary_input) == 0:
         raise UonBinaryDecodingError("Empty Binary")
     elif binary_input.startswith(b"\x01"):
-        return decode_seq(binary_input[1:])[0]
+        return decode_seq(binary_input[1:], schemas)[0]
     elif binary_input.startswith(b"\x02"):
-        return decode_mapping(binary_input[1:])[0]
+        return decode_mapping(binary_input[1:], schemas)[0]
     else:
         raise UonBinaryDecodingError("Bad Binary")
 
 
-def decode_binary_value(binary_input):
+def decode_binary_value(binary_input, schemas={}):
     if len(binary_input) == 0:
         raise UonBinaryDecodingError("Empty Binary Value")
     elif binary_input.startswith(b"\x10"):
@@ -176,35 +176,42 @@ def decode_binary_value(binary_input):
         # UonMapping
         return decode_mapping(binary_input[1:])
     elif binary_input.startswith(b"\x1a"):
-        return decode_user_type(binary_input[1:])
+        return decode_user_type(binary_input[1:], schemas)
     else:
         raise UonBinaryDecodingError("Undefined binary")
 
 
 # TODO: supply schema to validate (maybe in uon parser)
-def decode_user_type(binary_input):
+def decode_user_type(binary_input, schemas={}):
     user_type, rest = decode_string(binary_input)
     attributes, rest = decode_mapping(rest)
+    result = UonUserType(user_type, attributes)
 
-    return UonUserType(user_type, attributes), rest
+    schema = schemas.get(user_type)
+    if schema is None:
+        raise UonBinaryDecodingError("No schema defined "
+                                     f"for user_type {user_type}")
+    schema.validate(result)
+
+    return result, rest
 
 
-def decode_mapping(binary_input):
+def decode_mapping(binary_input, schemas={}):
     retval = {}
     rest = binary_input
     while rest.startswith(b"\x12"):
         key, value_encoded = decode_string(rest[1:])
-        value, rest = decode_binary_value(value_encoded)
+        value, rest = decode_binary_value(value_encoded, schemas)
         retval[key] = value
     # Return rest[1:] to get rid of the final EOL byte
     return UonMapping(retval), rest[1:]
 
 
-def decode_seq(binary_input):
+def decode_seq(binary_input, schemas={}):
     retval = []
     rest = binary_input
     while not rest.startswith(b"\x00"):
-        value, rest = decode_binary_value(rest)
+        value, rest = decode_binary_value(rest, schemas)
         retval.append(value)
     # Return rest[1:] to get rid of the final EOL byte
     return UonSeq(retval), rest[1:]
@@ -415,7 +422,7 @@ def decode_validator(binary_input):
     while rest.startswith(b"\x0f"):
         validation_property, rest = decode_validation_property(rest[1:])
         validation_properties.append(validation_property)
-    
+
     # Next, decode the presentation properties that a validator validates
     presentation_properties = {}
     if rest[0] == 0x1e:
