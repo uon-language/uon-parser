@@ -64,9 +64,9 @@ class Schema(Uon):
             try:
                 self.validators[k].validate(v)
             except ValidationError as e:
-                message = (f"Validation error occured at attribute {k} "
+                message = (f"Schema validation error occured at attribute {k} "
                            f"in schema !!{self.type_}")
-                raise ValidationError(message) from e
+                raise SchemaValidationError(message) from e
     
     def __repr__(self):
         return "Schema({!r}, {}, {!r}, {!r}, {!r})".format(
@@ -127,4 +127,8 @@ class Schema(Uon):
 
 
 class RequiredAttributeError(Exception):
+    pass
+
+
+class SchemaValidationError(Exception):
     pass
