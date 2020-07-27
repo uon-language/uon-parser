@@ -52,16 +52,17 @@ Create a UON parser instance:
 u = UonParser()
 ```
 
-Then parse the `examples.uon` file that is provided with the repo:
+Then parse the `example.uon` file that is provided with the repo:
 
 ```
 t = u.load_from_file('example.uon')
 print(t)
 ```
 
-Try to write your own uon file and parse it. At the moment, the following uon features are supported:
-- YAML-like indented dictionaries and sequences 
-- Dictionary key-value pairs with key properties such as `description` and `optional`.
-- Scalar values with basic type coercion between the following types: Float128, Float64, Float32, Int32, Int64, Int128, String.
+Try to write your own uon file and parse it. 
 
-This list will be updated accordingly.
+## Binary encoding
+[TODO]
+
+## Schema validation
+[TODO]
