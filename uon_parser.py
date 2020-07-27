@@ -38,8 +38,17 @@ def load(input_, schemas={}, show_tree=False, debug=False):
     )
 
 
+def load_from_file(self, filename, show_tree=False, debug=False):
+    return UonParser().load_from_file(filename, show_tree=show_tree,
+                                      debug=debug)
+
+
 def dump(input_):
     return UonParser().dump(input_)
+
+
+def dump_to_file(self, input_, filename):
+    UonParser().dump_to_file(input_, filename)
 
 
 def validate(input_, schema_raw=None, show_tree=False, debug=False):
@@ -50,6 +59,10 @@ def validate(input_, schema_raw=None, show_tree=False, debug=False):
         parser.load(schema_raw, show_tree=show_tree, debug=debug)
 
     return parser.load(input_, show_tree=show_tree, debug=debug)
+
+
+def to_binary(self, uon_input):
+    return UonParser().to_binary(uon_input)
 
 
 def from_binary(self, binary_input, schemas={}):
