@@ -664,7 +664,7 @@ TODO
 UON provides a lot of native types. But it also provides a way for users to define their own types using schemas. Usually
 UON aims to be very complete. If there's a feature you would like a serialization language to have, UON probably has it. This means that if you're going to build a parser for it, it will not be an easy feat, as witnessed by the uon-parser Python implementation accompanying this project. As mentioned before, with a complicated specification such as YAML's, it logically follows that its parser will be as, or even more, complicated for it to really follow and comply with the specification. Usually in the case of YAML parsers, the parser will introduce some compromise while trying to follow the specification as closely as possible.
 
-One of the major challenges of implementing a parser for 
+One of the major challenges of implementing a parser for UON was making respect the UON specification while presenting it with an interface that is not convoluted to use for the end-user and maintaining an unambiguous syntax.
 
 \subsubsection{UON Example}
 \begin{lstlisting}[language=python]
@@ -735,7 +735,7 @@ Operations ::= Operations '*' Number  | Operations '+' Number  | Number
 Number ::= [0..9]  
 \end{lstlisting}
 
-Notice that we added the Number rule at the end because otherwise the recursion would be infinite. Also notice that depending on whether the Operations rule (the recursive part) is on the right hand of the operator or one the left, the operation will be right-associative or left-associative respectively.
+Notice that depending on whether the Operations rule (the recursive part) is on the right hand of the operator or one the left, the operation will be right-associative or left-associative respectively.
 So the result of parsing of our initial input “3 + 1 * 2” would be roughly
 \begin{enumerate}
     \item Operations:
@@ -764,7 +764,7 @@ Finally, the result of parsing of our input “3 + 1 * 2”  with our final vers
 
 And we can see, the multiplication operation has the priority here in the final result.
 
-This might take some getting used to to understand why and how it works. But as a general rule of thumb, the rules with more priority are the ones that you want produced first, and thus are the ones that are written last in the parse tree. 
+This might take some getting used to to understand why and how it works. But as a general rule of thumb, the rules with more priority are the ones that you want produced first, and thus are the ones closer to the leaves of the parse tree. 
 
 The result from this syntactic analysis is a \textbf{parse tree}, or an \textbf{Abstract syntax tree (AST)}. They are both the results of the derivations from our grammar in our syntactic analysis, where they represent the syntactic structure of the input that we’ve fed to the parser. Each node of the tree denotes a construct of our target language. For example, a \emph{Sum} node in our parse tree represents an addition and the children nodes represent the operands. The root of the parse tree corresponds to the start symbol of our grammar. The leaves correspond to the terminals.
 
@@ -856,20 +856,71 @@ Hello, World! -> ['Hello', ',', 'World', '!']
 You define a simple parser \emph{greet} in which you list the series of tokens you expect and use it to parse the hello world input. But tools like \href{https://github.com/pyparsing/pyparsing}{\emph{PyParsing}} involve very simple grammar for simple needs. The documentation of \emph{Pyparsing} clearly states as much. UON is a fairly complicated language to parse. We can expect recursive rules, we can expect ambiguity in the grammar. We can expect a lot of problems and writing a simple grammar as such is not enough.
 
 What we need are tools known as \textbf{Parser Generators}. They let you write a full-blown grammar that defines your target language, and then you just run the tool to generate a parser usable from your code, that can parse streams of characters using said grammar. The parser might produce an AST that we can traverse ourselves using \textbf{Listeners} or \textbf{Visitors} (in the sense that we are visiting the parse tree nodes). Some examples include the widely used \emph{ANTLR} or \emph{PLY}.
-What we will be using is a Python library that is still quite young. The library is called Lark, and it has been developed only recently, but there seems to be good feedback about the library, and a growing community behind it.
+What we will be using is a Python library that is still quite young (but very functional!). The library is called Lark, and it has been developed only recently (in 2017 compared to \emph{Ply} (2006) or \emph{ANTLR4} (2010)), there's already good feedback of the library and a growing community behind it. As of July 2020 and in the span of 3 years, it already has more contributors (50) and has garnered more stars than PLY on its Github repository. ANTLR still takes the lead in terms of usage, but we would be unfairly comparing Lark to ANTLR since ANTLR \href{https://github.com/antlr/antlr4/blob/master/doc/targets.md}{[12]} targets many programming languages (current release targets Java, C\#, C++, JavaScript, Python, Swift, and Go) while Lark it tailor-made for Python.
 
 The choice of Python to develop a parser for UON is not only because it is the target language of \emph{Lark}, our chosen tool. The choice of Python is intentional because of the resemblance between Python native data structures and those of UON, syntactically and semantically. This should make the correspondence between serializing and deserializing UON from and to Python objects that much more convenient.
 
 \pagebreak
 
-\subsection{Lark}
-Lark is a modern parsing library for Python \href{https://github.com/lark-parser/lark}{[12]}. It can parse any context-free grammar. It provides a language to define grammars, with a notation based on EBNF, so that users who already know how to write grammars the traditional way feel at home. 
+\subsection{Lark}\label{lark}
+Lark is a modern parsing library for Python \href{https://github.com/lark-parser/lark}{[13]}.
+It is the successor of \href{https://github.com/erezsh/plyplus}{PlyPlus}, another parser library written by the same author, whereupon he improved and added more features.
 
-It has three parsing algorithms to choose from: Earley, LALR(1) and CYK. These different parsing algorithms are based on different parsing techniques, that go beyond the scope of this project, and merit a whole course just to that subject. Suffice to say that \textbf{LALR (Look-Ahead LR parser)} is the fastest algorithm of them and Lark implements it efficiently. LR means left-to-right (rightmost derivation, which means the rightmost nonterminal in a production rule, will be expanded first), and lookahead means that the parser will depend on the next token ahead, to determine which grammar rule applies. It is usually the most efficient of parsing techniques.
+Lark can parse any context-free grammar. It provides a language to define grammars, with a notation based on EBNF, so that users who already know how to write grammars the traditional way feel at home. 
 
-The appeal of Lark rests on the design choices that it took. \href{https://lark-parser.readthedocs.io/en/latest/philosophy/}{[13]}. The first design choice was the separation of code and grammar. 
+It has three parsing algorithms to choose from: Earley, LALR(1) and CYK. These different parsing algorithms are based on different parsing techniques, that go beyond the scope of this project, and merit a whole course just to that subject. Suffice to say that \textbf{LALR (Look-Ahead LR parser)} is the fastest algorithm of them and Lark implements it efficiently. LR means Left-to-right Rightmost derivation, which means the rightmost nonterminal in a production rule, will be expanded first. Lookahead means that the parser will depend on the next token ahead to determine which grammar rule applies. The 1 in LALR(1) means that the parser needs only 1 token of lookahead for parsing. Similarly, LALR(k) parsers use k tokens of lookahead to determine which grammar rule to apply. Left-to-right parsing is usually the most efficient of parsing techniques. 
 
-Lark also constructs the parse tree automatically, inferred from our grammar, as well as provide a way to traverse the parse tree by visiting the tree nodes from bottom to top.
+The appeal of Lark rests on the design choices that it took. \href{https://lark-parser.readthedocs.io/en/latest/philosophy/}{[14]}. The separation between grammar and code was one of the main design choices. Other parsing tools like \href{https://github.com/dabeaz/ply}{Ply} or Pyparsing have their rules embedded in Python code. For example in Ply the sum and subtract rule of our simple calculator method would be expressed in a Python method as such:
+\begin{lstlisting}[language=Python]
+def p_add( p ) :
+    'expr : expr PLUS expr'
+    p[0] = p[1] + p[3]
+
+def p_sub( p ) :
+    'expr : expr MINUS expr'
+    p[0] = p[1] - p[3]
+\end{lstlisting}
+
+While in Lark, the grammar will be given as a string input or better yet, written in a separate \emph{.lark} file. This file will contain the whole grammar and the rules of that grammar will not be scattered around several methods in the code as in Ply.
+
+\begin{lstlisting}
+// Excerpt from calculator.lark
+add : expr '+' expr
+sub : expr '-' expr
+\end{lstlisting}
+
+Notice how there's no Python involved. This makes the grammar easy to read and straightforward. The grammar becomes the main focus, without any of the Python code littered around providing useless information to those who are interested in the grammar itself. These \emph{.lark} grammar files will be a friendly sight for those familiar with EBNF and not familiar with Python, even if it's hard to find someone who knows just EBNF without knowing Python first. You can even put Java-like comments around the \emph{.lark} grammar, to comment on some of the rules or provide some explanation. \\
+In fact, the Lark grammar that you write is itself parsed, before generating a parser for your grammar. You know that because the \emph{Lark} constructor to which you pass the grammar, will throw an error if your grammar does not follow proper Lark grammar syntax.
+
+After writing the grammar, Lark will generate for you a parser for that grammar, which you will be able to use to parse any input that follows this grammar. For any valid input, it constructs a parse tree. This tree gives a nice visual of the production rules that were involved in parsing that input.
+
+For example the parsing of "3 + 2" gives:
+\begin{lstlisting}
+expr
+    sum
+        expr
+            number 3
+        expr
+            number 2
+\end{lstlisting}
+
+In addition to constructing the parse tree automatically, inferred from our grammar, Lark provides as well a way to traverse the parse tree by visiting the tree nodes from bottom to top, and providing a logic behind these tree nodes during post-parsing (for example after parsing a sum in our Calculator example, the logic behind would be to add the result of the operand expressions, who themselves have been transformed beforehand into Python integers for example, since children nodes are transformed first, bottoms up style in the parse tree). We will go into further detail when we provide examples in the implementation.
+
+However, the main edge that Lark has over its peers and which the author has stressed when writing this library, is its performance. Here is an overview of the performance comparison that is displayed on the Lark github page.
+
+This is the runtime comparison between Lark and other parsing libraries, based on benchmarks done by the author of the library and published on the github repository. The blue bins in the histogram correspond to tests run using Python 3.6.5 (standard CPython) and the orange bins correspond to those run on PyPy (alternative implementation of Python using a just-in-time (JIT) compiler) which runs much faster in general.
+\begin{figure}[ht!]
+ 	\centering
+ 	\caption{Lark runtime comparison}
+ 	\includegraphics[width=0.7\linewidth]{images/Lark/lark_runtime_comparison.png}
+ 	\label{lab:perceptron}
+\end{figure}
+
+Lark's LALR parser runs the fastest while also Lark's earley parser runs the slowest. This is due to earley's parser relative complexity, since it's very powerful and can handle ambiguities in the grammar. See the \href{https://github.com/lark-parser/lark/blob/master/examples/fruitflies.py}{example of fruit flies like bananas} on the lark github page.
+
+But we won't concern ourselves here with the earley parser. All we need to know is that Lark's LALR parser has very good performance, and this is what we will be using to parse our UON grammar, which we're going to make sure is unambiguous.
+
+For more information on Lark, you can read its thorough and very well-written \href{https://lark-parser.readthedocs.io/en/latest/}{docs} or go to the \href{https://github.com/lark-parser/lark}{github page}. Lark also has its forum on \href{https://gitter.im/lark-parser/Lobby}{Gitter} where developers come to talk, and it's very active.
 
 \pagebreak
 
@@ -885,7 +936,7 @@ Given the apparent complexity of this project, its implementation will be execut
 And with that we start off the implementation with parsing the simplest version of UON in its level of complexities (subsection \ref{fig:Complexity levels}) and that is UON 0.
 
 \subsection{UON 0 (JSON) Grammar}
-To explore the capabilities of Lark and how convenient it is to use as a parser, we will start with parsing UON 0. UON 0 is basically JSON and on the brightside, Lark provides an example of how to parse JSON into Python objects using Lark. \url{https://github.com/lark-parser/lark/blob/master/docs/json_tutorial.md}
+To explore the capabilities of Lark and how convenient it is to use as a parser, we will start with parsing UON 0. UON 0 is basically JSON and on the brightside, Lark provides an \href{https://github.com/lark-parser/lark/blob/master/docs/json_tutorial.md}{example of how to parse JSON into Python objects using Lark}. 
 
 First off, we start with writing a grammar for JSON. JSON syntax is quite simple. JSON is built on two simple data structures which are:
 \begin{itemize}
@@ -913,7 +964,7 @@ dict : "{" [pair ("," pair)*] "}"
 pair : STRING ":" value
 \end{lstlisting}
 
-For a defined rule in the grammar, the Lark parser will try matching its items (the right-part or the derivations of a rule) \textbf{sequentially}, trying each alternative (In practice, the parser is predictive so we don't have to try every alternative). That means if the input matches with the first alternative (leftmost derivation in a rule), that alternative will be chosen. So for a JSON value as stated in the grammar, the parser will try to match first a dict, then a list and so on.
+For a defined rule in the grammar, the parser will try to match each of its alternatives \textbf{sequentially} going from left to right (in practice, the parser is predictive so we don't have to try every alternative). This means that if two alternatives match the current input, the first alternative will be the one chosen to be expanded. So for a JSON value as stated in the grammar above, the parser will try to match first a dict, then a list and so on. This is not to be confused with rightmost derivation that we've seen in \ref{lark} which happens during the derivation itself: for a rule that expands into many alternatives, starting from the left the \textbf{first} alternative to match will be expanded, and then this alternative is expanded according to rightmost derivation meaning that the rightmost non-terminal in that alternative is expanded first. 
 
 As for the rest of the rules:
 \begin{itemize}
@@ -992,13 +1043,27 @@ value
 
 \end{lstlisting}
 
-You can see the top value being the start symbol, all the subsequent derivations of the grammar rules in the parse tree from top to bottom. Actually this resembles more an AST rather than a parse tree. Remember that an AST only keeps the information that is relevant to the constructs of our target language, which is JSON in this case. So all the literals like accolades or square brackets are redundant and filtered out. Lark automatically filters out literals from the tree, based on the following criteria:
+You can see the top value being the start symbol, all the subsequent derivations of the grammar rules in the parse tree from top to bottom. Actually this resembles more an AST rather than a parse tree. Remember that an AST only keeps the information that is relevant to the constructs of our target language, which is JSON in this case. So all the literals like accolades or square brackets are redundant and filtered out. 
+
+Lark filters out certain types of terminals by default, considering them punctuation:
 \begin{itemize}
-    \item Filter out string literals without a name, or with a name that starts with an underscore.
-    \item Keep regexps, even unnamed ones, unless their name starts with an underscore.
+    \item Terminals that won't appear in the tree are:
+    \begin{itemize}
+        \item Unnamed literals (like "keyword" or "+")
+        \item Terminals whose name starts with an underscore (like \_DIGIT)
+    \end{itemize}
+    \item Terminals that will appear in the tree are:
+    \begin{itemize}
+        \item Unnamed regular expressions (like /[0-9]/)
+        \item Named terminals whose name starts with a letter (like DIGIT)
+    \end{itemize}
 \end{itemize}
 
-So literals like “true” or “false” will be filtered out as well (which we don’t want) unless we somehow label these literals in a way to tell the parser to keep them. Remember, all non-terminals are kept by the Lark parser
+\textbf{Note}: Terminals composed of literals and other terminals always include the entire match without filtering any part.
+
+By filtering out literals that he considers as punctuation and hold no additional information to the parse tree, Lark also improves its performance.
+
+So literals like “true” or “false” will be filtered out as well (which we don’t want since they hold information about the truth value) unless we somehow label these literals in a way to tell the parser to keep them.
 
 \subsubsection{Part 3 - Shaping the Tree}
 
@@ -1061,7 +1126,7 @@ dict
       true
 \end{lstlisting}
 
-We can that starting symbol \emph{value} is inlined and all the terminals that we aliased have been kept as leaves in the parse tree and given their aliases as names.
+We can see that starting symbol \emph{value} is inlined (doesn't appear in the parse tree) and all the terminals that we aliased have been kept as leaves in the parse tree and given their aliases as names. Remember, \textbf{in Lark all non-terminals appear in the parse tree, unless they are inlined in the grammar} by preceding the name of the rule with an underscore, in which case they will always be inlined, or by preceding the name with a question mark '?', in which case they will be inlined if they have only one child node. Inlining helps keep only the information relevant to the structure of our target grammar.
 
 \subsubsection{Evaluating the tree}
 The result of the previous sections is a parse tree, with the root representing the topmost derivation, the intermediary nodes representing intermediary rules, and the leaves are terminals (that have been aliased). We need a way to traverse the parse tree, in a way to keep the order in which we parsed the tree from bottom to top (or from top to bottom, depending on how you look at it).
@@ -1110,8 +1175,56 @@ And when we run it on the same input, we get :
 {u'key': [u'item0', u'item1', 3.14, True]}
 \end{lstlisting}
 
-You can take a look at the full example and tutorial in the lark github repository in the examples section; or in the \emph{json\_example.py} that you can find in the examples folder in the uon-parser github repository.
+You can take a look at the full example and tutorial in the lark github repository in the examples section.
 
+\subsubsection{Benchmarks}
+So now we've written a parser for JSON in Lark. Let's try to compare its performance to the in-built \emph{json} module.
+
+Using the following test data:
+\begin{lstlisting}[language=Python]
+test_data = '{"key": ["item0", "item1", 3.14]}'
+\end{lstlisting}
+
+and the \href{https://docs.python.org/3/library/timeit.html}{timeit} module performing 10000 iterations for each test, we get the following results (measured in seconds):
+
+Lark time:  15.70950s \\
+JSON time:  0.06589s
+
+This isn't very good. We expected it to have poor performance compared to \emph{json} but not to that extent. How does Lark have such bad performance when it's one of its cornerstones of its design? It turns out that the earley algorithm is the one used by default by the Lark parser, and we've discussed very briefly the runtime performance of Lark using LALR and earley and earley had the worst performance compared to all other tests. That's because earley handles ambiguities in the grammar. But since our JSON grammar is straightforward and unambiguous, we can use the LALR parser.
+
+Applying this change,
+\begin{lstlisting}[language=Python]
+json_parser = Lark(json_grammar, start='value',
+                   parser='lalr', lexer='standard')
+\end{lstlisting}
+we get:
+
+Lark time:  2.24387s
+
+We get a much nicer runtime, 7 to 8 times faster than the earley runtime.
+
+Let's try this with a bigger input, the same we've used to test the different serialization language libraries in Python \ref{benchmarks}. We get:
+
+JSON time:  0.08112s \\
+Lark time:  5.65551s
+
+With bigger input, comes a bigger parse tree and thus more processing time. We can expect Lark performance to be impacted by the size of the input we give it.
+
+However one final caveat: so far, we've built a full parse tree for our JSON, and then transformed it. It's a convenient method, but it's not the most efficient in terms of speed and memory. Luckily, Lark lets us avoid building the tree when parsing with LALR(1). We can do this by plugging the transformer straight into the parser:
+
+\begin{lstlisting}[language=Python]
+json_parser = Lark(json_grammar, start='value', parser='lalr', lexer='standard', transformer=TreeToJson())
+\end{lstlisting}
+
+This way, the parser will avoid building the parse tree and send the data straight into the transformer. The \emph{parse()} method now returns the transformed JSON, instead of a tree. With the same input we get:
+
+Lark time:  4.4850s
+
+which is a measurable improvement. As a general practice, it's recommended to work with parse trees (for debugging and for visualising what we're parsing), and only skip the tree-builder when the transformer is already working.
+
+You can find other insightful benchmarks in the \href{https://github.com/lark-parser/lark/blob/master/docs/json_tutorial.md}{conclusion of the json tutorial} on the Lark Github repository.
+
+\pagebreak
 
 \subsection{Extending the UON 0 (JSON) grammar}
 
@@ -1120,7 +1233,7 @@ As we can see Lark is filled with useful features that help with shaping the par
 \begin{figure}[ht!]
  	\centering
  	\caption{UON syntax schema}
- 	\includegraphics[width=0.7\linewidth]{images/UON/uon_syntax_grammar.png}
+ 	\includegraphics[width=0.99\linewidth]{images/UON/uon_syntax_grammar.png}
  	\label{lab:perceptron}
 \end{figure}
 
@@ -1730,7 +1843,7 @@ There is a lot to do. But a lot of the initial building blocks are here, and a c
 
 \subsection{Binary Serialization}
 [TODO]
-
+Binary decoding follows the same logic as parsing a grammar. It's about looking ahead to the next byte while going from left to right on that sequence of bytes.
 \pagebreak
 
 \subsection{Schema Validation}
@@ -1770,9 +1883,11 @@ There is a lot to do. But a lot of the initial building blocks are here, and a c
 
 [11] \url{https://en.wikipedia.org/wiki/Comparison_of_data-serialization_formats}
 
-[12] \url{https://github.com/lark-parser/lark}
+[12] \url{https://github.com/antlr/antlr4/blob/master/doc/targets.md}
 
-[13] \url{https://lark-parser.readthedocs.io/en/latest/philosophy/}
+[13] \url{https://github.com/lark-parser/lark}
+
+[14] \url{https://lark-parser.readthedocs.io/en/latest/philosophy/}
 
 
 \end{document}
