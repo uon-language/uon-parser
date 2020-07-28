@@ -55,4 +55,5 @@ json_parser = Lark(json_grammar, start='value', lexer='standard')
 test_data = '{"key": ["item0", "item1", 3.14]}'
 
 tree = json_parser.parse(test_data)
+print(tree.pretty(indent_str=" "))
 print(TreeToJson().transform(tree))

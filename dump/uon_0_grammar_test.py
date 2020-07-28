@@ -9,7 +9,7 @@ from lark.reconstruct import Reconstructor
 
 from transformer.uon_0_tree_transformer import UON0TreeToPython
 
-grammar_file = Path('grammar/uon_0_grammar.lark')
+grammar_file = Path('grammar/old/uon_0_grammar.lark')
 
 # The parser returned by Lark for our grammar.
 # We have the maybe_placeholders option available in the Lark parser

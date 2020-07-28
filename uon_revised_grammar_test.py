@@ -12,20 +12,10 @@ from binary.codec import (
     decode_schema
 )
 
-# TODO: remove
-# import struct
-
-# from validation.validator import Validator
-
-# from validation.types.number.uint_type_validation import UintTypeValidation
-
-# from validation.properties.number.number_max_property import MaxNumberValidation
-# from validation.properties.number.number_min_property import MinNumberValidation
-
 import logging
 logging.basicConfig(level=logging.DEBUG)
 
-uon_2_grammar_file = Path('grammar/uon_2_revised_grammar.lark')
+uon_2_grammar_file = Path('grammar/uon_grammar.lark')
 
 simple_mapping_example = """
 happy: yes
@@ -176,36 +166,6 @@ def test():
     logging.debug(repr(transformed))
     logging.debug("\n")
     logging.debug(str(transformed))
-
-    # TODO: remove
-    # test_value = b"\x02\x12\x05\x00happy\x11\x03\x00yes\x12\x03\x00sad\x11\x02\x00no\x00"
-    # logging.debug(decode_binary(test_value))
-    # test_value_seq = b"\x01\x11\x05\x00happy\x11\x03\x00sad\x00"
-    # logging.debug(decode_binary(test_value_seq))
-    # test_simple_nested_map = (b'\x02\x12\x05\x00happy\x11\x03\x00yes\x12\x05\x00scale'
-    #                         b'\x02\x12\x03\x00max$\x00\x00\x00\x00\x00\x00$@\x12\x03\x00min$'
-    #                         b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00')
-    # logging.debug(decode_binary(test_simple_nested_map))
-    # test_simple_nested_seq = b'\x01\x11\x01\x00a\x01\x11\x01\x00b\x11\x01\x00c\x00\x00'
-    # logging.debug(decode_binary(test_simple_nested_seq))
-
-    # logging.debug("\n")
-    # logging.debug("\n")
-
-    # v = Validator(UintTypeValidation(),
-    #               [MinNumberValidation(0.0), MaxNumberValidation(125.0)],
-    #               {})
-
-    # logging.debug(v.to_binary())
-    # logging.debug("\n")
-    # logging.debug((b"\x1f\x19\x30\x0f\x15\x07" + struct.pack("<d", 0)
-    #                + b"\x0f\x15\x08" + struct.pack("<d", 125)))
-
-    # test_value = b"\x24\x00\x00\x00\x00\x00\x00i@\x00"
-    # logging.debug(decode_binary_value(test_value))
-    # test_value = b"\x18\x0b\x00temperature\x0b\x00temperature\x00\x00\x12\x01\x00t\x1f\x19)\x0f$\x1e\x04\x1b\x00The temperature of the room\x00"
-    # logging.debug(decode_schema(transformed_to_binary))
-
 
 if __name__ == '__main__':
     test()
