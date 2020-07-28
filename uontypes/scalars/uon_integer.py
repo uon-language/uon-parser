@@ -1,6 +1,6 @@
 import numpy as np
 
-from uonrevisedtypes.scalars.uon_float import UonFloat
+from uontypes.scalars.uon_float import UonFloat
 
 
 class UonInteger(UonFloat):

@@ -1,8 +1,8 @@
-from uonrevisedtypes.scalars.uon_float import Float32, Float64, Float128
-from uonrevisedtypes.scalars.uon_integer import (
+from uontypes.scalars.uon_float import Float32, Float64, Float128
+from uontypes.scalars.uon_integer import (
     Integer32, Integer64, Integer128
 )
-from uonrevisedtypes.scalars.uon_uint import (
+from uontypes.scalars.uon_uint import (
     Uint32, Uint64, Uint128
 )
 

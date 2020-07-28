@@ -1,8 +1,8 @@
 from pathlib import Path
 from lark import Lark
 
-from transformer.uon_2_revised_tree_transformer import (
-    UON2RevisedTreeToPython,
+from transformer.uon_tree_transformer import (
+    UonTreeToPython,
     UonIndenter
 )
 
@@ -82,7 +82,7 @@ class UonParser:
         self.parser = Lark.open(UON_GRAMMAR_FILE, parser='lalr',
                                 postlex=UonIndenter(),
                                 maybe_placeholders=True, start='start')
-        self.transformer = UON2RevisedTreeToPython()
+        self.transformer = UonTreeToPython()
         self.schemas = schemas
 
     def load(self, input_, show_tree=False, debug=False):

@@ -4,7 +4,9 @@ from lark import Lark
 
 from pprint import pprint
 
-from transformer.uon_2_tree_transformer import UON2TreeToPython, TreeIndenter
+from transformer.old.uon_2_tree_transformer import (
+  UON2TreeToPython, TreeIndenter
+)
 
 uon_2_grammar_file = Path('grammar/old/uon_2_grammar.lark')
 

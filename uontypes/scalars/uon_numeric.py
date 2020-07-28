@@ -1,6 +1,6 @@
 from abc import abstractmethod
 
-from uonrevisedtypes.scalars.uon_scalar import UonScalar
+from uontypes.scalars.uon_scalar import UonScalar
 
 
 class UonNumeric(UonScalar):

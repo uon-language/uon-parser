@@ -1,4 +1,4 @@
-from uonrevisedtypes.scalars.uon_scalar import UonScalar
+from uontypes.scalars.uon_scalar import UonScalar
 
 
 class UonBoolean(UonScalar):

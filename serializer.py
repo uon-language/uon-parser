@@ -1,5 +1,5 @@
-from uonrevisedtypes.uon_value import UonValue
-from uonrevisedtypes.uon_user_type import UonUserType
+from uontypes.uon_value import UonValue
+from uontypes.uon_user_type import UonUserType
 
 
 def python_to_uon(input_):

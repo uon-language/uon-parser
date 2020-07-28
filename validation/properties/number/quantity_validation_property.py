@@ -1,4 +1,4 @@
-from uonrevisedtypes.scalars.uon_numeric import UonNumeric
+from uontypes.scalars.uon_numeric import UonNumeric
 
 from validation.properties.number.number_property_validation import (
     NumberPropertiesValidation
@@ -6,10 +6,10 @@ from validation.properties.number.number_property_validation import (
 
 from validation.validator import ValidationError
 
-from uonrevisedtypes.units.length import Length
-from uonrevisedtypes.units.mass import Mass
-from uonrevisedtypes.units.temperature import Temperature
-from uonrevisedtypes.units.time import Time
+from uontypes.units.length import Length
+from uontypes.units.mass import Mass
+from uontypes.units.temperature import Temperature
+from uontypes.units.time import Time
 
 
 class QuantityValidationProperty(NumberPropertiesValidation):

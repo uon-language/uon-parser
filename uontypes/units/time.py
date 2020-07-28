@@ -1,4 +1,4 @@
-from uonrevisedtypes.units.quantity import Quantity
+from uontypes.units.quantity import Quantity
 
 
 class Time(Quantity):

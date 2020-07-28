@@ -1,6 +1,6 @@
 import numpy as np
 
-from uonrevisedtypes.scalars.uon_integer import UonInteger
+from uontypes.scalars.uon_integer import UonInteger
 
 
 class UonUint(UonInteger):

@@ -7,7 +7,7 @@ from lark import Lark
 from lark.reconstruct import Reconstructor
 # from lark.tree import *
 
-from transformer.uon_0_tree_transformer import UON0TreeToPython
+from transformer.old.uon_0_tree_transformer import UON0TreeToPython
 
 grammar_file = Path('grammar/old/uon_0_grammar.lark')
 

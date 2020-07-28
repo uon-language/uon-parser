@@ -1,6 +1,6 @@
 import numpy as np
 
-from uonrevisedtypes.scalars.uon_numeric import UonNumeric
+from uontypes.scalars.uon_numeric import UonNumeric
 
 
 class UonFloat(UonNumeric):

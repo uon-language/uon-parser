@@ -2,8 +2,8 @@ from pathlib import Path
 from lark import Lark
 from pprint import pprint
 
-from transformer.uon_2_revised_tree_transformer import (
-    UON2RevisedTreeToPython,
+from transformer.uon_tree_transformer import (
+    UonTreeToPython,
     UonIndenter
 )
 
@@ -15,7 +15,7 @@ from binary.codec import (
 import logging
 logging.basicConfig(level=logging.DEBUG)
 
-uon_2_grammar_file = Path('grammar/uon_grammar.lark')
+uon_grammar_file = Path('grammar/uon_grammar.lark')
 
 simple_mapping_example = """
 happy: yes
@@ -85,6 +85,7 @@ nested (description: "A dictionary"):
 test_number_coercion = """
 foo: !uint32 123 km
 bar: !float !int 65
+bad: "32"
 """
 
 test_schema = """
@@ -147,15 +148,15 @@ p: !!person
   age: 25
 """
 
-uon_parser_2 = Lark.open(uon_2_grammar_file, parser='lalr',
+uon_parser_2 = Lark.open(uon_grammar_file, parser='lalr',
                          postlex=UonIndenter(), start='start', 
                          maybe_placeholders=True, debug=True)
 
 
 def test():
-    parse_tree = uon_parser_2.parse(test_schema_validation)
+    parse_tree = uon_parser_2.parse(test_multiline_string_json)
     print(parse_tree.pretty(indent_str='  '))
-    transformed = UON2RevisedTreeToPython().transform(parse_tree)
+    transformed = UonTreeToPython(debug=True).transform(parse_tree)
     print(transformed)
     with open("examples/Transform.txt", "w") as text_file:
         pprint(repr(transformed), stream=text_file)

@@ -1,24 +1,24 @@
 import struct
 
-from uonrevisedtypes.scalars.uon_bool import UonBoolean
-from uonrevisedtypes.scalars.uon_float import (
+from uontypes.scalars.uon_bool import UonBoolean
+from uontypes.scalars.uon_float import (
     Float32, Float64, Float128
 )
-from uonrevisedtypes.scalars.uon_uint import (
+from uontypes.scalars.uon_uint import (
     Uint32, Uint64, Uint128
 )
-from uonrevisedtypes.scalars.uon_integer import (
+from uontypes.scalars.uon_integer import (
     Integer32, Integer64
 )
-from uonrevisedtypes.scalars.uon_string import UonString
+from uontypes.scalars.uon_string import UonString
 
-from uonrevisedtypes.collections.uon_dict import UonMapping
-from uonrevisedtypes.collections.uon_seq import UonSeq
+from uontypes.collections.uon_dict import UonMapping
+from uontypes.collections.uon_seq import UonSeq
 
-from uonrevisedtypes.uon_user_type import UonUserType
+from uontypes.uon_user_type import UonUserType
 
-from uonrevisedtypes.units.length import Meter
-from uonrevisedtypes.units.mass import Kilogram
+from uontypes.units.length import Meter
+from uontypes.units.mass import Kilogram
 
 from binary.codec import (
     decode_binary,

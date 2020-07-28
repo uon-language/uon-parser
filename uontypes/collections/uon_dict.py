@@ -1,6 +1,6 @@
 import pprint
 
-from uonrevisedtypes.uon_value import UonValue
+from uontypes.uon_value import UonValue
 
 from binary.utils import encode_string, EOL
 

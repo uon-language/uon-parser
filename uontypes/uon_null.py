@@ -1,4 +1,4 @@
-from uonrevisedtypes.uon_value import UonValue
+from uontypes.uon_value import UonValue
 
 
 class UonNull(UonValue):

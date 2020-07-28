@@ -1,7 +1,7 @@
 import pytest
 
-from uonrevisedtypes.collections.uon_dict import UonMapping
-from uonrevisedtypes.collections.uon_seq import UonSeq
+from uontypes.collections.uon_dict import UonMapping
+from uontypes.collections.uon_seq import UonSeq
 
 
 class TestUonMapping:
