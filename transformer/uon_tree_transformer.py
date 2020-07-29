@@ -4,6 +4,7 @@ from lark.indenter import Indenter
 from uontypes.uon_null import UonNull
 from uontypes.scalars.uon_float import Float64
 from uontypes.scalars.uon_integer import Integer64
+from uontypes.scalars.uon_uint import Uint64
 from uontypes.scalars.uon_string import UonString
 from uontypes.scalars.uon_url import UonUrl
 from uontypes.scalars.uon_bool import UonBoolean
@@ -101,6 +102,7 @@ class UonTreeToPython(Transformer):
         # (s,) = s
         # return s[1:-1].replace('\\"', '"')
         s = ' '.join(s)
+        s = '"' + s + '"'
         if self.debug:
             logging.debug(f"joining string: {s}")
         return UonString(s)
@@ -113,19 +115,35 @@ class UonTreeToPython(Transformer):
             logging.debug(f"joining string: {s}")
         return UonString(s)
 
+    @v_args(inline=True)
     def multiline_string(self, string):
         if self.debug:
             logging.debug(f"visiting multiline string: {string}")
-        s = ' '.join(string)
+        return string
+
+    @v_args(inline=True)
+    def string_value(self, string):
         if self.debug:
-            logging.debug(f"joining string: {s}")
-        return UonString(s)
+            logging.debug(f"visiting string_value {string}")
+        value = string
+        # Check if it's an integer
+        try:
+            value = int(string.value)
+            value = Integer64(value)
+        except ValueError:
+            # Check if it's a float instead
+            try:
+                value = float(string.value)
+                value = Float64(value)
+            except ValueError:
+                pass
+        return value
 
     @v_args(inline=True)
     def decimal(self, n):
         if self.debug:
             logging.debug(f"visiting decimal: {n}")
-        return Integer64(n)
+        return Uint64(n)
 
     @v_args(inline=True)
     def float_number(self, n):
@@ -134,10 +152,10 @@ class UonTreeToPython(Transformer):
         return Float64(n)
 
     @v_args(inline=True)
-    def signed_number(self, n):
+    def signed_decimal(self, n):
         if self.debug:
             logging.debug(f"visiting signed_number: {n}")
-        return Float64(n)
+        return Integer64(n)
 
     @v_args(inline=True)
     def number(self, n):
@@ -181,11 +199,12 @@ class UonTreeToPython(Transformer):
     @v_args(inline=True)
     def pair(self, key, value):
         """
-        We receive a pair (UonPairKey, UonObject).
-        Presentation properties are received as part of the UonPairKey.
-        We "transfer" them to be part of the value UonObject.
-        We return a pair (key, UonObject) with the key being the 
-        keyname (a string) of UonPairKey.
+        We receive a key pair inside a (key, value) pair. Expanded, we have
+        ((keyname, presentation_properties), value).
+        The presentation_properties are "transferred" to be part of the
+        UonValue.
+        We return a pair (key, UonValue) with the key being the 
+        keyname (a string).
         """
         if self.debug:
             logging.debug(f"visiting yaml_pair: {key} : {value}")
@@ -257,6 +276,10 @@ class UonTreeToPython(Transformer):
     def string_scalar(self, string_type, string):
         if self.debug:
             logging.debug(f"Visiting string_scalar: {string}")
+
+        if string_type is not None:
+            # We have to coerce to string
+            string = UonString(str(string.value))
         return string
     
     @v_args(inline=True)

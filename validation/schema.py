@@ -126,9 +126,9 @@ class Schema(Uon):
                         + EOL)
 
 
-class RequiredAttributeError(Exception):
+class SchemaValidationError(Exception):
     pass
 
 
-class SchemaValidationError(Exception):
+class RequiredAttributeError(SchemaValidationError):
     pass

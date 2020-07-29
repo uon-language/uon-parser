@@ -55,9 +55,27 @@ b : (32000000 is a very loooooooooooooooong
 number)
 """
 
+test_punctuated_strings = r"""
+{
+    a : "a punctuated {}(),?[] string but we cannot put quotes",
+    b : We can put not put commas inside unescaped strings but we can put ?!"',
+    c : ''
+}
+"""
+
+test_number_in_strings = """
+a : number is 3
+b : !str 3
+c : 3
+"""
+
+test_regex = """
+a : /asdnaksdl/
+"""
+
 test_true_false = """
 old: !bool false
-young(optional : false): true
+young(description: "are we young?", description: "yes", optional : false): !str true
 oldAgain: true
 """
 
@@ -154,7 +172,7 @@ uon_parser_2 = Lark.open(uon_grammar_file, parser='lalr',
 
 
 def test():
-    parse_tree = uon_parser_2.parse(test_multiline_string_json)
+    parse_tree = uon_parser_2.parse(test_true_false)
     print(parse_tree.pretty(indent_str='  '))
     transformed = UonTreeToPython(debug=True).transform(parse_tree)
     print(transformed)
@@ -167,6 +185,7 @@ def test():
     logging.debug(repr(transformed))
     logging.debug("\n")
     logging.debug(str(transformed))
+
 
 if __name__ == '__main__':
     test()

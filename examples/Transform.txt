@@ -1,2 +1,3 @@
-("UonMapping({'a': UonString(an example of a loooong string),\n"
- " 'b': UonString(Another example of a loooooooooong string)})")
+("UonMapping({'old': UonBoolean(False),\n"
+ " 'oldAgain': UonBoolean(True),\n"
+ " 'young': UonString(true)})")

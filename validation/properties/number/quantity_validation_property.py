@@ -4,7 +4,7 @@ from validation.properties.number.number_property_validation import (
     NumberPropertiesValidation
 )
 
-from validation.validator import ValidationError
+from validation.properties.property import ValidationPropertyError
 
 from uontypes.units.length import Length
 from uontypes.units.mass import Mass
@@ -118,5 +118,5 @@ class TimeQuantityValidation(QuantityValidationProperty):
         return b"\x22"
 
 
-class QuantityValidationError(ValidationError):
+class QuantityValidationError(ValidationPropertyError):
     pass
