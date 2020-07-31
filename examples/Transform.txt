@@ -1,3 +1,1 @@
-("UonMapping({'old': UonBoolean(False),\n"
- " 'oldAgain': UonBoolean(True),\n"
- " 'young': UonString(true)})")
+"UonMapping({'p': UonUserType(person, {name: !str John, age: !uint32 59})})"

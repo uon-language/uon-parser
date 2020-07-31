@@ -1,6 +1,8 @@
 from lark import Transformer, v_args
 from lark.indenter import Indenter
 
+import numpy as np
+
 from uontypes.uon_null import UonNull
 from uontypes.scalars.uon_float import Float64
 from uontypes.scalars.uon_integer import Integer64
@@ -89,13 +91,6 @@ class UonTreeToPython(Transformer):
         self.schemas = schemas
         self.debug = debug
 
-    @v_args(inline=True)
-    def name(self, string):
-        if self.debug:
-            logging.debug(f"visiting name: {string}")
-        (s,) = string
-        return UonString(s)
-        
     def escaped_string(self, s):
         if self.debug:
             logging.debug(f"visiting escaped string: {s}")
@@ -128,12 +123,12 @@ class UonTreeToPython(Transformer):
         value = string
         # Check if it's an integer
         try:
-            value = int(string.value)
+            value = np.int64(string.value)
             value = Integer64(value)
         except ValueError:
             # Check if it's a float instead
             try:
-                value = float(string.value)
+                value = np.float64(string.value)
                 value = Float64(value)
             except ValueError:
                 pass
@@ -152,10 +147,20 @@ class UonTreeToPython(Transformer):
         return Float64(n)
 
     @v_args(inline=True)
-    def signed_decimal(self, n):
+    def signed_decimal(self, sign, n):
+        """The signed decimal in the grammar refers to
+        a decimal preceded with a positive or negative sign.
+
+        Args:
+            sign Token: the positive or negative sign
+            n int: the integer
+
+        Returns:
+            Integer64: a 64 bit integer
+        """
         if self.debug:
-            logging.debug(f"visiting signed_number: {n}")
-        return Integer64(n)
+            logging.debug(f"visiting signed_number: {sign + n}")
+        return Integer64(sign + n)
 
     @v_args(inline=True)
     def number(self, n):

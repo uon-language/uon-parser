@@ -184,13 +184,14 @@ def decode_binary_value(binary_input, schemas={}):
 # TODO: supply schema to validate (maybe in uon parser)
 def decode_user_type(binary_input, schemas={}):
     user_type, rest = decode_string(binary_input)
-    attributes, rest = decode_mapping(rest)
-    result = UonUserType(user_type, attributes)
 
     schema = schemas.get(user_type)
     if schema is None:
         raise UonBinaryDecodingError("No schema defined "
                                      f"for user_type {user_type}")
+
+    attributes, rest = decode_mapping(rest)
+    result = UonUserType(user_type, attributes)
     schema.validate(result)
 
     return result, rest

@@ -29,9 +29,12 @@ simple_seq_example = """
 
 simple_nested_mapping_example = """
 happy: yes
-scale: 
+scale:
     max: 10
-    min: 0
+    min:
+        scale: 10
+        value: 2
+sad: no
 """
 
 simple_nested_seq_example = """
@@ -66,7 +69,11 @@ test_punctuated_strings = r"""
 test_number_in_strings = """
 a : number is 3
 b : !str 3
-c : 3
+c : -3
+"""
+
+test_simple_number = """
+c : 32 K
 """
 
 test_regex = """
@@ -137,9 +144,11 @@ test_schema_with_description = """
 
 test_schema_validation = """
 {p: !!person {
-        name: stephane,
-        age: 25,
-        minor: false
+        name: Stephane, 
+        age: !uint32 25,
+        minor: !bool true,
+        linkedin link: www.google.com,
+        s: hole
     }
 }
 """
@@ -171,8 +180,8 @@ uon_parser_2 = Lark.open(uon_grammar_file, parser='lalr',
                          maybe_placeholders=True, debug=True)
 
 
-def test():
-    parse_tree = uon_parser_2.parse(test_true_false)
+def parse_test():
+    parse_tree = uon_parser_2.parse(test_simple_number)
     print(parse_tree.pretty(indent_str='  '))
     transformed = UonTreeToPython(debug=True).transform(parse_tree)
     print(transformed)
@@ -188,4 +197,4 @@ def test():
 
 
 if __name__ == '__main__':
-    test()
+    parse_test()

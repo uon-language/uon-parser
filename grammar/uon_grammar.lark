@@ -130,7 +130,7 @@ multiline_string: "(" (unescaped_string | escaped_string) ")"
 number : decimal | signed_decimal | float_number
 decimal : DECIMAL
 float_number: FLOAT_NUMBER
-signed_decimal: "-" DECIMAL
+signed_decimal: (PLUS|MINUS) DECIMAL
 
 // TODO: Fix strings that may begin with "!!" if none of the types below matched 
 // TODO: (maybe use a punctuation rule to complement the string rule)
@@ -173,13 +173,16 @@ FLOAT_NUMBER: /((\d+\.\d*|\.\d+)(e[-+]?\d+)?|\d+(e[-+]?\d+))/i
 //MULTILINE_STRING: /"""/i
 //multine_line_string: MULTILINE_STRING WORD+ MULTILINE_STRING
 
+PLUS: "+"
+MINUS: "-"
+
 // TODO: folded style strings?
 // Word with all possible characters except the following negated set
 WORD:  /[^:#,()\[\]{}!?\n\"\'\s]+/
 PUNCTUATION: /[:#,()\[\]{}!?\"\']/
 UNESCAPED_PUNCTUATION: /[#?!\"\'()\[\]]/
 COMMENT: /#[^\n]*/
-// Taken from stack overflow
+// TODO: Find a better regex for URLs
 URL: /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/
 
 %import common.WS_INLINE
