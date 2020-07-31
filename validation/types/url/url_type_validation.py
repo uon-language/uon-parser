@@ -2,7 +2,7 @@ from validation.types.type_validation import (
     ValidationType, ValidationTypeError
 )
 
-from uonrevisedtypes.scalars.uon_url import UonUrl
+from uontypes.scalars.uon_url import UonUrl
 
 
 class UrlTypeValidation(ValidationType):

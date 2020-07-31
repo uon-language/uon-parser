@@ -26,10 +26,12 @@ json_grammar = r"""
 
 class TreeToJson(Transformer):
     def string(self, s):
+        print("visiting string: ", s)
         (s,) = s
         return s[1:-1]
 
     def number(self, n):
+        print("visiting number: ", n)
         (n,) = n
         return float(n)
 
@@ -50,9 +52,11 @@ class TreeToJson(Transformer):
     true = lambda self, _: True
     false = lambda self, _: False
 
-json_parser = Lark(json_grammar, start='value', lexer='standard')
+json_parser = Lark(json_grammar, start='value',
+                   parser='lalr', lexer='standard')
 
 test_data = '{"key": ["item0", "item1", 3.14]}'
 
 tree = json_parser.parse(test_data)
+print(tree.pretty(indent_str=" "))
 print(TreeToJson().transform(tree))

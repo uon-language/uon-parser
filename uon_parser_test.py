@@ -9,16 +9,15 @@ test_schema = """
      max:25),
     age: !uint(min: 0, max: 125),
     minor (optional: false): !bool,
-    linkedin link: !url 
+    linkedin link: !url
 }
 """
 
 test_schema_validation = """
 {p: !!person {
-        name: Stephane, 
-        age: !uint32 25,
-        minor: !bool true,
-        linkedin link: www.google.com
+        name: Stephane,
+        age: !uint32 135,
+        minor: !bool true
     }
 }
 """
@@ -31,7 +30,7 @@ test_schema_with_quantity = """
 
 test_schema_with_quantity_validation = """
 {t: !!temperature {
-    t: !int 32 km
+    t: !int 32 K
     }
 }
 
@@ -39,7 +38,8 @@ test_schema_with_quantity_validation = """
 
 
 def test():
-    validate(test_schema_validation, schema_raw=test_schema)
+    validate(test_schema_validation, schema_raw=test_schema,
+             show_tree=True, debug=True)
     validate(test_schema_with_quantity,
              schema_raw=None, debug=False)
     

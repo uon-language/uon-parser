@@ -1,8 +1,8 @@
 from pathlib import Path
 from lark import Lark
 
-from transformer.uon_2_revised_tree_transformer import (
-    UON2RevisedTreeToPython,
+from transformer.uon_tree_transformer import (
+    UonTreeToPython,
     UonIndenter
 )
 
@@ -13,7 +13,7 @@ from binary.codec import decode_binary, decode_schema
 import logging
 logging.basicConfig(level=logging.DEBUG)
 
-UON_GRAMMAR_FILE = Path('grammar/uon_2_revised_grammar.lark')
+UON_GRAMMAR_FILE = Path('grammar/uon_grammar.lark')
 
 
 """
@@ -26,7 +26,8 @@ some unexpected behavior if we encounter unicode strings.
 
 Another example is the difference in the purposes of some built-in methods.
 For example the built-in method __nonzero__ in Python2 that determines the
-truth value of an object, is now simply __bool__ in Python3.
+truth value of an object, is now simply __bool__ in Python3. Or the functioning
+of other built-in methods like __eq__.
 
 Another feature of Python3 is that dicts are now ordered as of Python 3.6.
 """
@@ -38,7 +39,7 @@ def load(input_, schemas={}, show_tree=False, debug=False):
     )
 
 
-def load_from_file(self, filename, show_tree=False, debug=False):
+def load_from_file(filename, show_tree=False, debug=False):
     return UonParser().load_from_file(filename, show_tree=show_tree,
                                       debug=debug)
 
@@ -47,7 +48,7 @@ def dump(input_):
     return UonParser().dump(input_)
 
 
-def dump_to_file(self, input_, filename):
+def dump_to_file(input_, filename):
     UonParser().dump_to_file(input_, filename)
 
 
@@ -61,11 +62,11 @@ def validate(input_, schema_raw=None, show_tree=False, debug=False):
     return parser.load(input_, show_tree=show_tree, debug=debug)
 
 
-def to_binary(self, uon_input):
+def to_binary(uon_input):
     return UonParser().to_binary(uon_input)
 
 
-def from_binary(self, binary_input, schemas={}):
+def from_binary(binary_input, schemas={}):
     return UonParser(schemas).from_binary(binary_input)
 
 
@@ -82,7 +83,7 @@ class UonParser:
         self.parser = Lark.open(UON_GRAMMAR_FILE, parser='lalr',
                                 postlex=UonIndenter(),
                                 maybe_placeholders=True, start='start')
-        self.transformer = UON2RevisedTreeToPython()
+        self.transformer = UonTreeToPython()
         self.schemas = schemas
 
     def load(self, input_, show_tree=False, debug=False):

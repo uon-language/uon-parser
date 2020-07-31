@@ -1,7 +1,7 @@
 from validation.types.type_validation import (
     ValidationType, ValidationTypeError
 )
-from uonrevisedtypes.scalars.uon_integer import UonInteger
+from uontypes.scalars.uon_integer import UonInteger
 
 
 class IntegerTypeValidation(ValidationType):

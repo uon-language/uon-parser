@@ -67,6 +67,11 @@ class Schema(Uon):
                 message = (f"Schema validation error occured at attribute {k} "
                            f"in schema !!{self.type_}")
                 raise SchemaValidationError(message) from e
+            except KeyError:
+                # We don't throw an error if a key was not found
+                # A user can add additional attributes to a user_type instance
+                # that are not necessarily in the schema.
+                pass
     
     def __repr__(self):
         return "Schema({!r}, {}, {!r}, {!r}, {!r})".format(
@@ -126,9 +131,9 @@ class Schema(Uon):
                         + EOL)
 
 
-class RequiredAttributeError(Exception):
+class SchemaValidationError(Exception):
     pass
 
 
-class SchemaValidationError(Exception):
+class RequiredAttributeError(SchemaValidationError):
     pass

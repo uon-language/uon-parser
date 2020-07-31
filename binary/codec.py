@@ -1,36 +1,36 @@
 import numpy as np
 import struct
 
-from uonrevisedtypes.scalars.uon_bool import UonBoolean
-from uonrevisedtypes.scalars.uon_float import (
+from uontypes.scalars.uon_bool import UonBoolean
+from uontypes.scalars.uon_float import (
     Float32, Float64, Float128
 )
-from uonrevisedtypes.scalars.uon_integer import (
+from uontypes.scalars.uon_integer import (
     Integer32, Integer64, Integer128
 )
-from uonrevisedtypes.scalars.uon_uint import (
+from uontypes.scalars.uon_uint import (
     Uint32, Uint64, Uint128
 )
-from uonrevisedtypes.scalars.uon_url import UonUrl
-from uonrevisedtypes.uon_null import UonNull
-from uonrevisedtypes.scalars.uon_string import UonString
-from uonrevisedtypes.collections.uon_dict import UonMapping
-from uonrevisedtypes.collections.uon_seq import UonSeq
-from uonrevisedtypes.uon_user_type import UonUserType
+from uontypes.scalars.uon_url import UonUrl
+from uontypes.uon_null import UonNull
+from uontypes.scalars.uon_string import UonString
+from uontypes.collections.uon_dict import UonMapping
+from uontypes.collections.uon_seq import UonSeq
+from uontypes.uon_user_type import UonUserType
 
-from uonrevisedtypes.units.length import (
+from uontypes.units.length import (
     Length, Kilometer, Meter
 )
 
-from uonrevisedtypes.units.mass import (
+from uontypes.units.mass import (
     Mass, Kilogram, Gram
 )
 
-from uonrevisedtypes.units.temperature import (
+from uontypes.units.temperature import (
     Temperature, Kelvin, Celsius
 )
 
-from uonrevisedtypes.units.time import (
+from uontypes.units.time import (
     Time, Second, Minute
 )
 
@@ -184,13 +184,14 @@ def decode_binary_value(binary_input, schemas={}):
 # TODO: supply schema to validate (maybe in uon parser)
 def decode_user_type(binary_input, schemas={}):
     user_type, rest = decode_string(binary_input)
-    attributes, rest = decode_mapping(rest)
-    result = UonUserType(user_type, attributes)
 
     schema = schemas.get(user_type)
     if schema is None:
         raise UonBinaryDecodingError("No schema defined "
                                      f"for user_type {user_type}")
+
+    attributes, rest = decode_mapping(rest)
+    result = UonUserType(user_type, attributes)
     schema.validate(result)
 
     return result, rest
