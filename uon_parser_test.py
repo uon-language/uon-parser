@@ -42,12 +42,12 @@ def parser_test():
              show_tree=True, debug=True)
     validate(schema_with_quantity,
              schema_raw=None, debug=False)
-    
+
     uon = UonParser()
     uon.load(schema_with_quantity_validation)
     uon.load_schema(schema_with_quantity)
     uon.load(schema_with_quantity_validation)
-    
+
 
 if __name__ == '__main__':
     parser_test()

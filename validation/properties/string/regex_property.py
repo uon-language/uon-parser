@@ -10,5 +10,3 @@ class RegexValidation():
 
     def __repr__(self):
         return "RegexValidation({!r})".format(self.regex)
-
-print(re.compile(r"(.)*").match("123"))
