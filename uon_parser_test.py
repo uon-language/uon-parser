@@ -3,7 +3,7 @@ from uon_parser import (
     UonParser
 )
 
-test_schema = """
+schema = """
 !!person: !schema {
     name (description: name of the person, optional: false): !str(min:3,
      max:25),
@@ -13,7 +13,7 @@ test_schema = """
 }
 """
 
-test_schema_validation = """
+schema_validation = """
 {p: !!person {
         name: Stephane,
         age: !uint32 135,
@@ -22,13 +22,13 @@ test_schema_validation = """
 }
 """
 
-test_schema_with_quantity = """
+schema_with_quantity = """
 !!temperature: !schema {
     t(description: The temperature of the room): !int (quantity: temperature)
 }
 """
 
-test_schema_with_quantity_validation = """
+schema_with_quantity_validation = """
 {t: !!temperature {
     t: !int 32 K
     }
@@ -37,17 +37,17 @@ test_schema_with_quantity_validation = """
 """
 
 
-def test():
-    validate(test_schema_validation, schema_raw=test_schema,
+def parser_test():
+    validate(schema_validation, schema_raw=schema,
              show_tree=True, debug=True)
-    validate(test_schema_with_quantity,
+    validate(schema_with_quantity,
              schema_raw=None, debug=False)
     
     uon = UonParser()
-    uon.load(test_schema_with_quantity_validation)
-    uon.load_schema(test_schema_with_quantity)
-    uon.load(test_schema_with_quantity_validation)
+    uon.load(schema_with_quantity_validation)
+    uon.load_schema(schema_with_quantity)
+    uon.load(schema_with_quantity_validation)
     
 
 if __name__ == '__main__':
-    test()
+    parser_test()

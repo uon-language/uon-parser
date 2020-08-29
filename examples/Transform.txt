@@ -1,1 +1,1 @@
-"UonMapping({'p': UonUserType(person, {name: !str John, age: !uint32 59})})"
+"UonMapping({'a': Integer32(-2147483648, None)})"
