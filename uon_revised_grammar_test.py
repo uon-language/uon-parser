@@ -86,13 +86,13 @@ young(description: "are we young?", description: "yes", optional : false): !str 
 oldAgain: true
 """
 
-json = """
-{"foo" : 42,
-"bar": {
-    "hey": "ho",
-    "boy": "hood"
+json_structure = """
+{foo: 42,
+bar: {
+    hey: ho,
+    boy: hood
 },
-l : ["one", 2, "three"]}
+l : [one, 2, three]}
 """
 
 uon_simple = """
@@ -180,11 +180,11 @@ uon_parser_2 = Lark.open(uon_grammar_file, parser='lalr',
 
 
 def parse():
-    parse_tree = uon_parser_2.parse(json)
+    parse_tree = uon_parser_2.parse(json_structure)
     print(parse_tree.pretty(indent_str='  '))
     transformed = UonTreeToPython(debug=True).transform(parse_tree)
     print(transformed)
-    with open("examples/Transform.txt", "w") as text_file:
+    with open("output/Transform.txt", "w") as text_file:
         pprint(repr(transformed), stream=text_file)
 
     transformed_to_binary = transformed.to_binary()

@@ -1,1 +1,0 @@
-* Lark Transformers work bottom-up (or: depth-first), starting with the leaves and ending at the root of the tree.
