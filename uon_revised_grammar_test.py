@@ -44,7 +44,7 @@ simple_nested_seq_example = """
     - c
 """
 
-test_multiline_string_json = """
+multiline_string_json = """
 {
     a: an example of a loooong
     string, b: (Another example of 
@@ -52,13 +52,13 @@ test_multiline_string_json = """
 }
 """
 
-test_multiline_string_yaml = """
+multiline_string_yaml = """
 a : a normal string
 b : (32000000 is a very loooooooooooooooong
 number)
 """
 
-test_punctuated_strings = r"""
+punctuated_strings = r"""
 {
     a : "a punctuated {}(),?[] string but we cannot put quotes",
     b : We can put not put commas inside unescaped strings but we can put ?!"',
@@ -66,54 +66,53 @@ test_punctuated_strings = r"""
 }
 """
 
-test_number_in_strings = """
+number_in_strings = """
 a : number is 3
 b : !str 3
 c : -3
 """
 
-test_simple_number = """
+simple_number = """
 c : 32 K
 """
 
-test_regex = """
+regex = """
 a : /asdnaksdl/
 """
 
-test_true_false = """
+true_false = """
 old: !bool false
 young(description: "are we young?", description: "yes", optional : false): !str true
 oldAgain: true
 """
 
-test_json = """
-{foo : 42,
-bar: {
-    hey: ho,
-    boy: hood
+json = """
+{"foo" : 42,
+"bar": {
+    "hey": "ho",
+    "boy": "hood"
 },
-l : [one, 2, three]}
+l : ["one", 2, "three"]}
 """
 
-test_uon_simple = """
+uon_simple = """
 foo (description: "A foo", optional: true): 42
 h : 1
 """
 
-test_uon = """
+uon = """
 foo (description: "A foo", optional: true): 42
 nested (description: "A dictionary"):
     h: 1
     c: 2
 """
 
-test_number_coercion = """
-foo: !uint32 123 km
-bar: !float !int 65
-bad: "32"
+number_coercion = """
+a : !int32 !float64 58767638927.4
+
 """
 
-test_schema = """
+schema = """
 !!person: !schema {
     name(description: name of the person, optional: false): !str(min:3, max:25),
     age: !uint(min: 0, max: 125),
@@ -122,14 +121,14 @@ test_schema = """
 }
 """
 
-test_schema_with_quantity = """
+schema_with_quantity = """
 !!temperature: !schema {
     t(description: The temperature of the room,
          optional : false): !int (quantity: temperature)
 }
 """
 
-test_schema_with_description = """
+schema_with_description = """
 !!person: !schema (
     name: "A Person", 
     description: "A description of a person",
@@ -142,7 +141,7 @@ test_schema_with_description = """
 }
 """
 
-test_schema_validation = """
+schema_validation = """
 {p: !!person {
         name: Stephane, 
         age: !uint32 25,
@@ -153,7 +152,7 @@ test_schema_validation = """
 }
 """
 
-test_schema_validation_2 = """
+schema_validation_2 = """
 {
     p: !!person {
         big age: !uint32 25,
@@ -169,7 +168,7 @@ test_schema_validation_2 = """
 }
 """
 
-test_schema_validation_yaml = """
+schema_validation_yaml = """
 p: !!person
   name: stephane
   age: 25
@@ -180,8 +179,8 @@ uon_parser_2 = Lark.open(uon_grammar_file, parser='lalr',
                          maybe_placeholders=True, debug=True)
 
 
-def parse_test():
-    parse_tree = uon_parser_2.parse(test_simple_number)
+def parse():
+    parse_tree = uon_parser_2.parse(json)
     print(parse_tree.pretty(indent_str='  '))
     transformed = UonTreeToPython(debug=True).transform(parse_tree)
     print(transformed)
@@ -197,4 +196,4 @@ def parse_test():
 
 
 if __name__ == '__main__':
-    parse_test()
+    parse()
