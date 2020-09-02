@@ -38,13 +38,10 @@ schema_with_quantity_validation = """
 
 
 def parser_test():
-    """validate(schema_validation, schema_raw=schema,
+    validate(schema_validation, schema_raw=schema,
              show_tree=True, debug=True)
     validate(schema_with_quantity,
-             schema_raw=None, debug=False)"""
-    uon.load(schema_with_quantity_validation)
-    uon.load_schema(schema_with_quantity)
-    uon.load(schema_with_quantity_validation)
+             schema_raw=None, debug=False)
 
 
 if __name__ == '__main__':
