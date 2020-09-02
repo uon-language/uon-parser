@@ -1,40 +1,30 @@
 import timeit
+import sys
 
-from uon_parser import UonParser
-import numpy as np
+from uon_parser import UonParser, validate
 
+schema = """
+!!person: !schema {
+    name (description: name of the person, optional: false): !str(min:3,
+     max:25),
+    age: !uint(min: 0, max: 125),
+    minor (optional: false): !bool,
+    linkedin link: !url
+}
+"""
 
 data = """
 {
     p: !!person {
         name: Stephane,
         age: !uint32 25,
-        minor: !bool true
+        minor: !bool false
     },
     p2: !!person {
         name: Maggie Smith,
         age: !uint32 35,
+        minor: !bool false,
         linkedin: !url www.maggie.smith@linkedin.com
-    }
-}
-"""
-
-schema_validation_2 = """
-{p: !!person {
-        name: Stephane, 
-        age: !uint32 25,
-        minor: !bool true,
-        linkedin link: www.google.com,
-        s: hole
-    }
-}
-"""
-
-schema_validation = """
-{p: !!person {
-        name: Stephane,
-        age: !uint32 135,
-        minor: !bool true
     }
 }
 """
@@ -55,50 +45,39 @@ big_test_data = """
 }
 """
 
-p = UonParser()
-"""encoded = p.to_binary(schema_validation)
-decoded = p.from_binary(encoded)
-print(decoded)
-print(type(decoded))
-print(str(decoded))
-print(repr(decoded))
-# Accessing UON attributes
-user_type = decoded.value['p']
-print(type(user_type))
-print(str(user_type))
-#p.load(str(decoded))"""
 
-loaded_schema_validation = p.load(schema_validation)
-print(loaded_schema_validation)
-
-print()
-print("========================================================================")
-print()
-
-print(p.load(schema_validation))
-encoded = p.to_binary(schema_validation)
-print(encoded)
-decoded = p.from_binary(encoded)
-print(decoded)
-atr = decoded.value['p'].attributes.value['age']
-print(type(atr.value))
-print(atr)
-print(type(atr))
-print(repr(atr))
-
-print()
-print("========================================================================")
-print()
-
-schema = """
-!!person: !schema {
-    name (description: name of the person, optional: false): !str(min:3,
-     max:25),
-    age: !uint(min: 0, max: 125),
-    minor (optional: false): !bool,
-    linkedin link: !url
+validate("""
+{
+    p: !!person {
+        name: Stephane,
+        age: !uint32 25,
+        minor: !bool false
+    },
+    p2: !!person {
+        name: Maggie Smith,
+        age: !uint32 35,
+        minor: !bool false,
+        linkedin: !url www.maggie.smith@linkedin.com
+    }
 }
-"""
-schema_loaded = p.load(schema)
-print(repr(schema_loaded))
-#p.load(schema_validation)
+""", schema_raw=schema)
+
+p = UonParser()
+loaded = p.load_from_file("benchmarks.uon")
+print(loaded)
+
+binary = p.to_binary(data)
+print(binary)
+print(sys.getsizeof(binary))
+decoded = p.from_binary(binary)
+print(decoded)
+print(str(decoded) == str(loaded))
+
+mysetup_data = '''from uon_parser import UonParser
+'''
+s = '''
+p = UonParser()
+p.load_from_file("benchmarks.uon")
+'''
+
+#print("loading UON time: ", timeit.timeit(setup=mysetup_data, stmt=s, number=100))
