@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="iso-8859-15" standalone="no"?>
 <classDiagram>
   <diagramElements defaultViewEntities="ALL" defaultViewEnum="true" defaultViewMethods="TYPE_AND_NAME" defaultVisibleTypes="true" informations="" name="UON uml diagram">
+    <dependency id="3363" label="uses">
+      <source>2447</source>
+      <target>2449</target>
+    </dependency>
+    <dependency id="2453" label="uses">
+      <source>2448</source>
+      <target>1</target>
+    </dependency>
     <inheritance id="3519">
       <child>4</child>
       <parent>1</parent>
@@ -13,10 +21,26 @@
       <child>1</child>
       <parent>2</parent>
     </inheritance>
-    <dependency id="3363" label="uses">
-      <source>2447</source>
-      <target>2449</target>
-    </dependency>
+    <inheritance id="2454">
+      <child>2449</child>
+      <parent>2450</parent>
+    </inheritance>
+    <inheritance id="2452">
+      <child>2448</child>
+      <parent>2451</parent>
+    </inheritance>
+    <inheritance id="10">
+      <child>9</child>
+      <parent>1</parent>
+    </inheritance>
+    <inheritance id="11">
+      <child>7</child>
+      <parent>1</parent>
+    </inheritance>
+    <inheritance id="20">
+      <child>19</child>
+      <parent>1</parent>
+    </inheritance>
     <association aggregation="NONE" direction="FIRST_TO_SECOND" id="3340" name="transformer">
       <role componentId="2448" name="" visibility="PRIVATE">
         <multiplicity>
@@ -31,18 +55,20 @@
         </multiplicity>
       </role>
     </association>
-    <inheritance id="2454">
-      <child>2449</child>
-      <parent>2450</parent>
-    </inheritance>
-    <dependency id="2453" label="uses">
-      <source>2448</source>
-      <target>1</target>
-    </dependency>
-    <inheritance id="2452">
-      <child>2448</child>
-      <parent>2451</parent>
-    </inheritance>
+    <association aggregation="COMPOSE" direction="BIDIRECTIONAL" id="13476" name="dict of attributes of validators">
+      <role componentId="7" name="" visibility="PRIVATE">
+        <multiplicity>
+          <min>1</min>
+          <max>1</max>
+        </multiplicity>
+      </role>
+      <role componentId="9" name="" visibility="PRIVATE">
+        <multiplicity>
+          <min>0</min>
+          <max>2147483647</max>
+        </multiplicity>
+      </role>
+    </association>
     <entity entityType="CLASS" id="2451" isAbstract="false" name="lark.Transformer" visibility="PUBLIC"/>
     <entity entityType="CLASS" id="2450" isAbstract="false" name="lark.indenter.Indenter" visibility="PUBLIC">
       <attribute const="false" defaultValue="" isStatic="false" name="NL_TYPE" type="str" visibility="PUBLIC"/>
@@ -58,37 +84,120 @@
       <attribute const="false" defaultValue="" isStatic="false" name="debug" type="bool" visibility="PUBLIC"/>
     </entity>
     <entity entityType="CLASS" id="2447" isAbstract="false" name="UonParser" visibility="PUBLIC"/>
-    <inheritance id="10">
-      <child>9</child>
-      <parent>1</parent>
-    </inheritance>
-    <inheritance id="11">
-      <child>7</child>
-      <parent>1</parent>
-    </inheritance>
-    <inheritance id="20">
-      <child>19</child>
-      <parent>1</parent>
-    </inheritance>
     <entity entityType="CLASS" id="1" isAbstract="true" name="Uon" visibility="PUBLIC">
       <method isAbstract="true" isStatic="false" name="to_binary" returnType="bytes" view="DEFAULT" visibility="PUBLIC"/>
     </entity>
     <entity entityType="CLASS" id="2" isAbstract="true" name="abc.ABC" visibility="PUBLIC"/>
     <entity entityType="CLASS" id="4" isAbstract="true" name="UonValue" visibility="PUBLIC"/>
-    <entity entityType="CLASS" id="5" isAbstract="false" name="UonUserType" visibility="PUBLIC"/>
+    <entity entityType="CLASS" id="5" isAbstract="false" name="UonUserType" visibility="PUBLIC">
+      <attribute const="false" defaultValue="" isStatic="false" name="type" type="str" visibility="PUBLIC"/>
+      <attribute const="false" defaultValue="" isStatic="false" name="attributes" type="UonMapping" visibility="PUBLIC"/>
+    </entity>
     <entity entityType="CLASS" id="7" isAbstract="false" name="Schema" visibility="PUBLIC"/>
     <entity entityType="CLASS" id="9" isAbstract="false" name="Validator" visibility="PUBLIC"/>
     <entity entityType="CLASS" id="19" isAbstract="true" name="Quantity" visibility="PUBLIC"/>
   </diagramElements>
   <umlView grid="10" name="Main view" open="true">
+    <relationView color="-12566464" relationId="13476">
+      <line>
+        <point>
+          <x>321</x>
+          <y>356</y>
+        </point>
+        <point>
+          <x>321</x>
+          <y>401</y>
+        </point>
+        <point>
+          <x>221</x>
+          <y>401</y>
+        </point>
+        <point>
+          <x>221</x>
+          <y>356</y>
+        </point>
+      </line>
+      <labelAssociation>
+        <x>171</x>
+        <y>413</y>
+        <w>190</w>
+        <h>16</h>
+      </labelAssociation>
+      <roleAssociation>
+        <x>325</x>
+        <y>360</y>
+        <w>0</w>
+        <h>16</h>
+      </roleAssociation>
+      <roleAssociation>
+        <x>225</x>
+        <y>360</y>
+        <w>0</w>
+        <h>16</h>
+      </roleAssociation>
+      <multipliciteAssociation>
+        <x>297</x>
+        <y>360</y>
+        <w>8</w>
+        <h>16</h>
+      </multipliciteAssociation>
+      <multipliciteAssociation>
+        <x>207</x>
+        <y>360</y>
+        <w>22</w>
+        <h>16</h>
+      </multipliciteAssociation>
+    </relationView>
+    <relationView color="-12566464" relationId="3340">
+      <line>
+        <point>
+          <x>771</x>
+          <y>171</y>
+        </point>
+        <point>
+          <x>861</x>
+          <y>96</y>
+        </point>
+      </line>
+      <labelAssociation>
+        <x>806</x>
+        <y>145</y>
+        <w>77</w>
+        <h>16</h>
+      </labelAssociation>
+      <roleAssociation>
+        <x>775</x>
+        <y>149</y>
+        <w>0</w>
+        <h>16</h>
+      </roleAssociation>
+      <roleAssociation>
+        <x>865</x>
+        <y>100</y>
+        <w>0</w>
+        <h>16</h>
+      </roleAssociation>
+      <multipliciteAssociation>
+        <x>758</x>
+        <y>138</y>
+        <w>8</w>
+        <h>16</h>
+      </multipliciteAssociation>
+      <multipliciteAssociation>
+        <x>819</x>
+        <y>99</y>
+        <w>8</w>
+        <h>16</h>
+      </multipliciteAssociation>
+    </relationView>
     <relationView color="-12566464" relationId="20">
       <line>
         <point>
-          <x>781</x>
+          <x>841</x>
           <y>301</y>
         </point>
         <point>
-          <x>781</x>
+          <x>841</x>
           <y>271</y>
         </point>
         <point>
@@ -153,24 +262,6 @@
         </point>
       </line>
     </relationView>
-    <relationView color="-12566464" relationId="2453">
-      <line>
-        <point>
-          <x>621</x>
-          <y>191</y>
-        </point>
-        <point>
-          <x>551</x>
-          <y>191</y>
-        </point>
-      </line>
-      <labelAssociation>
-        <x>581</x>
-        <y>195</y>
-        <w>28</w>
-        <h>16</h>
-      </labelAssociation>
-    </relationView>
     <relationView color="-12566464" relationId="2454">
       <line>
         <point>
@@ -182,66 +273,6 @@
           <y>186</y>
         </point>
       </line>
-    </relationView>
-    <relationView color="-12566464" relationId="3340">
-      <line>
-        <point>
-          <x>771</x>
-          <y>171</y>
-        </point>
-        <point>
-          <x>861</x>
-          <y>96</y>
-        </point>
-      </line>
-      <labelAssociation>
-        <x>806</x>
-        <y>145</y>
-        <w>77</w>
-        <h>16</h>
-      </labelAssociation>
-      <roleAssociation>
-        <x>775</x>
-        <y>149</y>
-        <w>0</w>
-        <h>16</h>
-      </roleAssociation>
-      <roleAssociation>
-        <x>865</x>
-        <y>100</y>
-        <w>0</w>
-        <h>16</h>
-      </roleAssociation>
-      <multipliciteAssociation>
-        <x>758</x>
-        <y>138</y>
-        <w>8</w>
-        <h>16</h>
-      </multipliciteAssociation>
-      <multipliciteAssociation>
-        <x>819</x>
-        <y>99</y>
-        <w>8</w>
-        <h>16</h>
-      </multipliciteAssociation>
-    </relationView>
-    <relationView color="-12566464" relationId="3363">
-      <line>
-        <point>
-          <x>941</x>
-          <y>96</y>
-        </point>
-        <point>
-          <x>1051</x>
-          <y>241</y>
-        </point>
-      </line>
-      <labelAssociation>
-        <x>971</x>
-        <y>173</y>
-        <w>28</w>
-        <h>16</h>
-      </labelAssociation>
     </relationView>
     <relationView color="-12566464" relationId="3518">
       <line>
@@ -295,9 +326,45 @@
         </point>
       </line>
     </relationView>
+    <relationView color="-12566464" relationId="2453">
+      <line>
+        <point>
+          <x>621</x>
+          <y>191</y>
+        </point>
+        <point>
+          <x>551</x>
+          <y>191</y>
+        </point>
+      </line>
+      <labelAssociation>
+        <x>581</x>
+        <y>195</y>
+        <w>28</w>
+        <h>16</h>
+      </labelAssociation>
+    </relationView>
+    <relationView color="-12566464" relationId="3363">
+      <line>
+        <point>
+          <x>941</x>
+          <y>96</y>
+        </point>
+        <point>
+          <x>1051</x>
+          <y>241</y>
+        </point>
+      </line>
+      <labelAssociation>
+        <x>971</x>
+        <y>173</y>
+        <w>28</w>
+        <h>16</h>
+      </labelAssociation>
+    </relationView>
     <componentView color="-2079" componentID="19" displayAttributes="true" displayDefault="true" displayMethods="true">
       <geometry>
-        <x>720</x>
+        <x>780</x>
         <y>300</y>
         <w>120</w>
         <h>55</h>
@@ -323,8 +390,8 @@
       <geometry>
         <x>580</x>
         <y>300</y>
-        <w>120</w>
-        <h>55</h>
+        <w>170</w>
+        <h>85</h>
       </geometry>
     </componentView>
     <componentView color="-2079" componentID="4" displayAttributes="true" displayDefault="true" displayMethods="true">

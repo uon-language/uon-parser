@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="99mm" y="0mm" width="1212mm" height="450mm" viewBox="99 0 1212 450">
+<style type="text/css"><![CDATA[
+text { font:12px Dialog; }
+]]></style>
+<line x1="320" y1="355" x2="320" y2="400" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<line x1="320" y1="400" x2="220" y2="400" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<line x1="220" y1="400" x2="220" y2="355" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<polygon points="320,355 327,368 320,381 313,368" style="fill:rgb(0,0,0);stroke:none" />
+<polygon points="320,355 327,368 320,381 313,368" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<line x1="770" y1="170" x2="860" y2="95" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<polyline points="849,114 860,95 839,100" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<line x1="840" y1="300" x2="840" y2="270" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<line x1="840" y1="270" x2="470" y2="270" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<line x1="470" y1="270" x2="470" y2="240" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<polygon points="470,240 478,260 462,260" style="fill:rgb(255,255,255);stroke:none" />
+<polygon points="470,240 478,260 462,260" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<line x1="340" y1="300" x2="340" y2="270" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<line x1="340" y1="270" x2="470" y2="270" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<line x1="470" y1="270" x2="470" y2="240" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<polygon points="470,240 478,260 462,260" style="fill:rgb(255,255,255);stroke:none" />
+<polygon points="470,240 478,260 462,260" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<line x1="190" y1="300" x2="190" y2="270" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<line x1="190" y1="270" x2="470" y2="270" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<line x1="470" y1="270" x2="470" y2="240" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<polygon points="470,240 478,260 462,260" style="fill:rgb(255,255,255);stroke:none" />
+<polygon points="470,240 478,260 462,260" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<line x1="700" y1="170" x2="700" y2="95" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<polygon points="700,95 708,115 692,115" style="fill:rgb(255,255,255);stroke:none" />
+<polygon points="700,95 708,115 692,115" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<line x1="1120" y1="240" x2="1120" y2="185" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<polygon points="1120,185 1128,205 1112,205" style="fill:rgb(255,255,255);stroke:none" />
+<polygon points="1120,185 1128,205 1112,205" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<line x1="470" y1="170" x2="470" y2="95" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<polygon points="470,95 478,115 462,115" style="fill:rgb(255,255,255);stroke:none" />
+<polygon points="470,95 478,115 462,115" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<line x1="640" y1="300" x2="640" y2="270" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<line x1="640" y1="270" x2="470" y2="270" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<line x1="470" y1="270" x2="470" y2="240" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<polygon points="470,240 478,260 462,260" style="fill:rgb(255,255,255);stroke:none" />
+<polygon points="470,240 478,260 462,260" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<line x1="490" y1="300" x2="490" y2="280" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<line x1="490" y1="280" x2="470" y2="280" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<line x1="470" y1="280" x2="470" y2="240" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<polygon points="470,240 478,260 462,260" style="fill:rgb(255,255,255);stroke:none" />
+<polygon points="470,240 478,260 462,260" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<line x1="620" y1="190" x2="550" y2="190" style="fill:none;stroke:rgb(64,64,64);stroke-dasharray:7;stroke-dashoffset:0" />
+<polyline points="570,182 550,190 570,198" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<line x1="940" y1="95" x2="1050" y2="240" style="fill:none;stroke:rgb(64,64,64);stroke-dasharray:7;stroke-dashoffset:0" />
+<polyline points="1030,229 1050,240 1044,219" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<rect x="780" y="300" width="120" height="55" style="fill:rgb(255,247,225);stroke:none" />
+<rect x="780" y="300" width="120" height="55" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<text x="815" y="322" style="font:12px Ubuntu">Quantity</text>
+<line x1="780" y1="335" x2="900" y2="335" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<line x1="780" y1="345" x2="900" y2="345" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<rect x="120" y="300" width="130" height="55" style="fill:rgb(255,247,225);stroke:none" />
+<rect x="120" y="300" width="130" height="55" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<text x="158" y="322" style="font:12px Ubuntu">Validator</text>
+<line x1="120" y1="335" x2="250" y2="335" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<line x1="120" y1="345" x2="250" y2="345" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<rect x="280" y="300" width="120" height="55" style="fill:rgb(255,247,225);stroke:none" />
+<rect x="280" y="300" width="120" height="55" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<text x="318" y="322" style="font:12px Ubuntu">Schema</text>
+<line x1="280" y1="335" x2="400" y2="335" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<line x1="280" y1="345" x2="400" y2="345" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<rect x="580" y="300" width="170" height="83" style="fill:rgb(255,247,225);stroke:none" />
+<rect x="580" y="300" width="170" height="83" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<text x="626" y="322" style="font:12px Ubuntu">UonUserType</text>
+<line x1="580" y1="335" x2="750" y2="335" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<text x="588" y="350" style="font:12px Ubuntu">+ type : str</text>
+<text x="588" y="364" style="font:12px Ubuntu">+ attributes : UonMapping</text>
+<line x1="580" y1="373" x2="750" y2="373" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<rect x="430" y="300" width="120" height="55" style="fill:rgb(255,247,225);stroke:none" />
+<rect x="430" y="300" width="120" height="55" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<text x="463" y="322" style="font:12px Ubuntu">UonValue</text>
+<line x1="430" y1="335" x2="550" y2="335" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<line x1="430" y1="345" x2="550" y2="345" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<rect x="410" y="40" width="120" height="55" style="fill:rgb(255,247,225);stroke:none" />
+<rect x="410" y="40" width="120" height="55" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<text x="446" y="62" style="font:12px Ubuntu">abc.ABC</text>
+<line x1="410" y1="75" x2="530" y2="75" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<line x1="410" y1="85" x2="530" y2="85" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<rect x="390" y="170" width="160" height="69" style="fill:rgb(255,247,225);stroke:none" />
+<rect x="390" y="170" width="160" height="69" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<text x="459" y="192" style="font:12px Ubuntu">Uon</text>
+<line x1="390" y1="205" x2="550" y2="205" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<line x1="390" y1="215" x2="550" y2="215" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<text x="398" y="230" style="font:12px Ubuntu">+ to_binary () : bytes</text>
+<rect x="840" y="40" width="150" height="55" style="fill:rgb(255,247,225);stroke:none" />
+<rect x="840" y="40" width="150" height="55" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<text x="885" y="62" style="font:12px Ubuntu">UonParser</text>
+<line x1="840" y1="75" x2="990" y2="75" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<line x1="840" y1="85" x2="990" y2="85" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<rect x="620" y="170" width="150" height="83" style="fill:rgb(255,247,225);stroke:none" />
+<rect x="620" y="170" width="150" height="83" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<text x="642" y="192" style="font:12px Ubuntu">UonTreeToPython</text>
+<line x1="620" y1="205" x2="770" y2="205" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<text x="628" y="220" style="font:12px Ubuntu">+ schemas : dict</text>
+<text x="628" y="234" style="font:12px Ubuntu">+ debug : bool</text>
+<line x1="620" y1="243" x2="770" y2="243" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<rect x="1050" y="240" width="150" height="55" style="fill:rgb(255,247,225);stroke:none" />
+<rect x="1050" y="240" width="150" height="55" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<text x="1089" y="262" style="font:12px Ubuntu">UonIndenter</text>
+<line x1="1050" y1="275" x2="1200" y2="275" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<line x1="1050" y1="285" x2="1200" y2="285" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<rect x="1050" y="40" width="240" height="139" style="fill:rgb(255,247,225);stroke:none" />
+<rect x="1050" y="40" width="240" height="139" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<text x="1106" y="62" style="font:12px Ubuntu">lark.indenter.Indenter</text>
+<line x1="1050" y1="75" x2="1290" y2="75" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<text x="1058" y="90" style="font:12px Ubuntu">+ NL_TYPE : str</text>
+<text x="1058" y="104" style="font:12px Ubuntu">+ OPEN_PAREN_types : list</text>
+<text x="1058" y="118" style="font:12px Ubuntu">+ CLOSE_PAREN_types : str</text>
+<text x="1058" y="132" style="font:12px Ubuntu">+ INDENT_TYPE : str</text>
+<text x="1058" y="146" style="font:12px Ubuntu">+ DEDENT_TYPE : str</text>
+<text x="1058" y="160" style="font:12px Ubuntu">+ tab_len : int</text>
+<line x1="1050" y1="169" x2="1290" y2="169" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<rect x="620" y="40" width="150" height="55" style="fill:rgb(255,247,225);stroke:none" />
+<rect x="620" y="40" width="150" height="55" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<text x="646" y="62" style="font:12px Ubuntu">lark.Transformer</text>
+<line x1="620" y1="75" x2="770" y2="75" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<line x1="620" y1="85" x2="770" y2="85" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<text x="171" y="426" style="font:14px Ubuntu">dict of attributes of validators</text>
+<text x="297" y="373" style="font:14px Ubuntu">1</text>
+<text x="207" y="373" style="font:14px Ubuntu">0..*</text>
+<text x="806" y="158" style="font:14px Ubuntu">transformer</text>
+<text x="758" y="151" style="font:14px Ubuntu">1</text>
+<text x="819" y="112" style="font:14px Ubuntu">1</text>
+<text x="581" y="208" style="font:14px Ubuntu">uses</text>
+<text x="971" y="186" style="font:14px Ubuntu">uses</text>
+<path d="M100,1 L100,31 L224,31 Q254,31 254,1 L100,1" style="fill:rgb(255,247,225);stroke:none" />
+<path d="M100,1 L100,31 L224,31 Q254,31 254,1 L100,1" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<text x="105" y="23" style="font:16px Ubuntu">UON uml diagram</text>
+<rect x="100" y="1" width="1209" height="447" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+</svg>
