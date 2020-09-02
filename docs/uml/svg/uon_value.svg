@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="199mm" y="0mm" width="1092mm" height="886mm" viewBox="199 0 1092 886">
+<style type="text/css"><![CDATA[
+text { font:12px Dialog; }
+]]></style>
+<line x1="900" y1="390" x2="920" y2="390" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<line x1="920" y1="390" x2="920" y2="460" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<line x1="920" y1="460" x2="1120" y2="460" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<polygon points="900,390 913,383 926,390 913,397" style="fill:rgb(0,0,0);stroke:none" />
+<polygon points="900,390 913,383 926,390 913,397" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<line x1="770" y1="600" x2="770" y2="570" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<line x1="770" y1="570" x2="830" y2="570" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<line x1="830" y1="570" x2="830" y2="525" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<polygon points="830,525 838,545 822,545" style="fill:rgb(255,255,255);stroke:none" />
+<polygon points="830,525 838,545 822,545" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<line x1="830" y1="350" x2="830" y2="285" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<polygon points="830,285 838,305 822,305" style="fill:rgb(255,255,255);stroke:none" />
+<polygon points="830,285 838,305 822,305" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<line x1="600" y1="810" x2="600" y2="800" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<line x1="600" y1="800" x2="770" y2="800" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<line x1="770" y1="800" x2="770" y2="775" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<polygon points="770,775 778,795 762,795" style="fill:rgb(255,255,255);stroke:none" />
+<polygon points="770,775 778,795 762,795" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<line x1="1100" y1="810" x2="1100" y2="800" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<line x1="1100" y1="800" x2="770" y2="800" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<line x1="770" y1="800" x2="770" y2="775" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<polygon points="770,775 778,795 762,795" style="fill:rgb(255,255,255);stroke:none" />
+<polygon points="770,775 778,795 762,795" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<line x1="930" y1="810" x2="930" y2="800" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<line x1="930" y1="800" x2="770" y2="800" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<line x1="770" y1="800" x2="770" y2="775" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<polygon points="770,775 778,795 762,795" style="fill:rgb(255,255,255);stroke:none" />
+<polygon points="770,775 778,795 762,795" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<line x1="600" y1="690" x2="600" y2="680" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<line x1="600" y1="680" x2="770" y2="680" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<line x1="770" y1="680" x2="770" y2="655" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<polygon points="770,655 778,675 762,675" style="fill:rgb(255,255,255);stroke:none" />
+<polygon points="770,655 778,675 762,675" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<line x1="930" y1="690" x2="930" y2="680" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<line x1="930" y1="680" x2="770" y2="680" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<line x1="770" y1="680" x2="770" y2="655" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<polygon points="770,655 778,675 762,675" style="fill:rgb(255,255,255);stroke:none" />
+<polygon points="770,655 778,675 762,675" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<line x1="1090" y1="690" x2="1090" y2="680" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<line x1="1090" y1="680" x2="930" y2="680" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<line x1="930" y1="680" x2="930" y2="680" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<line x1="930" y1="680" x2="770" y2="680" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<line x1="770" y1="680" x2="770" y2="655" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<polygon points="770,655 778,675 762,675" style="fill:rgb(255,255,255);stroke:none" />
+<polygon points="770,655 778,675 762,675" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<line x1="340" y1="230" x2="340" y2="210" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<line x1="340" y1="210" x2="720" y2="210" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<line x1="720" y1="210" x2="720" y2="185" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<polygon points="720,185 728,205 712,205" style="fill:rgb(255,255,255);stroke:none" />
+<polygon points="720,185 728,205 712,205" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<line x1="600" y1="230" x2="600" y2="210" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<line x1="600" y1="210" x2="720" y2="210" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<line x1="720" y1="210" x2="720" y2="185" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<polygon points="720,185 728,205 712,205" style="fill:rgb(255,255,255);stroke:none" />
+<polygon points="720,185 728,205 712,205" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<line x1="830" y1="230" x2="830" y2="210" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<line x1="830" y1="210" x2="720" y2="210" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<line x1="720" y1="210" x2="720" y2="185" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<polygon points="720,185 728,205 712,205" style="fill:rgb(255,255,255);stroke:none" />
+<polygon points="720,185 728,205 712,205" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<line x1="1010" y1="230" x2="1010" y2="210" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<line x1="1010" y1="210" x2="720" y2="210" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<line x1="720" y1="210" x2="720" y2="185" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<polygon points="720,185 728,205 712,205" style="fill:rgb(255,255,255);stroke:none" />
+<polygon points="720,185 728,205 712,205" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<line x1="1090" y1="570" x2="1090" y2="560" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<line x1="1090" y1="560" x2="830" y2="560" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<line x1="830" y1="560" x2="830" y2="525" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<polygon points="830,525 838,545 822,545" style="fill:rgb(255,255,255);stroke:none" />
+<polygon points="830,525 838,545 822,545" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<line x1="930" y1="570" x2="930" y2="560" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<line x1="930" y1="560" x2="830" y2="560" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<line x1="830" y1="560" x2="830" y2="525" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<polygon points="830,525 838,545 822,545" style="fill:rgb(255,255,255);stroke:none" />
+<polygon points="830,525 838,545 822,545" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<line x1="600" y1="570" x2="600" y2="560" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<line x1="600" y1="560" x2="830" y2="560" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<line x1="830" y1="560" x2="830" y2="525" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<polygon points="830,525 838,545 822,545" style="fill:rgb(255,255,255);stroke:none" />
+<polygon points="830,525 838,545 822,545" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<line x1="770" y1="720" x2="770" y2="655" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<polygon points="770,655 778,675 762,675" style="fill:rgb(255,255,255);stroke:none" />
+<polygon points="770,655 778,675 762,675" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<line x1="830" y1="470" x2="830" y2="420" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<polygon points="830,420 838,440 822,440" style="fill:rgb(255,255,255);stroke:none" />
+<polygon points="830,420 838,440 822,440" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<line x1="440" y1="350" x2="440" y2="330" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<line x1="440" y1="330" x2="830" y2="330" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<line x1="830" y1="330" x2="830" y2="285" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<polygon points="830,285 838,305 822,305" style="fill:rgb(255,255,255);stroke:none" />
+<polygon points="830,285 838,305 822,305" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<line x1="650" y1="350" x2="650" y2="330" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<line x1="650" y1="330" x2="830" y2="330" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<line x1="830" y1="330" x2="830" y2="285" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<polygon points="830,285 838,305 822,305" style="fill:rgb(255,255,255);stroke:none" />
+<polygon points="830,285 838,305 822,305" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<line x1="1010" y1="350" x2="1010" y2="330" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<line x1="1010" y1="330" x2="830" y2="330" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<line x1="830" y1="330" x2="830" y2="285" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<polygon points="830,285 838,305 822,305" style="fill:rgb(255,255,255);stroke:none" />
+<polygon points="830,285 838,305 822,305" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+<rect x="1120" y="430" width="150" height="55" style="fill:rgb(255,247,225);stroke:none" />
+<rect x="1120" y="430" width="150" height="55" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<text x="1153" y="452" style="font:12px Ubuntu">units.Quantity</text>
+<line x1="1120" y1="465" x2="1270" y2="465" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<line x1="1120" y1="475" x2="1270" y2="475" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<rect x="700" y="720" width="140" height="55" style="fill:rgb(255,247,225);stroke:none" />
+<rect x="700" y="720" width="140" height="55" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<text x="747" y="742" style="font:12px Ubuntu">UonUint</text>
+<line x1="700" y1="755" x2="840" y2="755" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<line x1="700" y1="765" x2="840" y2="765" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<rect x="700" y="600" width="140" height="55" style="fill:rgb(255,247,225);stroke:none" />
+<rect x="700" y="600" width="140" height="55" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<text x="739" y="622" style="font:12px Ubuntu">UonInteger</text>
+<line x1="700" y1="635" x2="840" y2="635" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<line x1="700" y1="645" x2="840" y2="645" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<rect x="1030" y="810" width="140" height="55" style="fill:rgb(255,247,225);stroke:none" />
+<rect x="1030" y="810" width="140" height="55" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<text x="1077" y="832" style="font:12px Ubuntu">Uint128</text>
+<line x1="1030" y1="845" x2="1170" y2="845" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<line x1="1030" y1="855" x2="1170" y2="855" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<rect x="860" y="810" width="140" height="55" style="fill:rgb(255,247,225);stroke:none" />
+<rect x="860" y="810" width="140" height="55" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<text x="911" y="832" style="font:12px Ubuntu">Uint64</text>
+<line x1="860" y1="845" x2="1000" y2="845" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<line x1="860" y1="855" x2="1000" y2="855" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<rect x="530" y="810" width="140" height="55" style="fill:rgb(255,247,225);stroke:none" />
+<rect x="530" y="810" width="140" height="55" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<text x="581" y="832" style="font:12px Ubuntu">Uint32</text>
+<line x1="530" y1="845" x2="670" y2="845" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<line x1="530" y1="855" x2="670" y2="855" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<rect x="1020" y="690" width="140" height="55" style="fill:rgb(255,247,225);stroke:none" />
+<rect x="1020" y="690" width="140" height="55" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<text x="1058" y="712" style="font:12px Ubuntu">Integer128</text>
+<line x1="1020" y1="725" x2="1160" y2="725" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<line x1="1020" y1="735" x2="1160" y2="735" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<rect x="530" y="690" width="140" height="55" style="fill:rgb(255,247,225);stroke:none" />
+<rect x="530" y="690" width="140" height="55" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<text x="572" y="712" style="font:12px Ubuntu">Integer32</text>
+<line x1="530" y1="725" x2="670" y2="725" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<line x1="530" y1="735" x2="670" y2="735" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<rect x="860" y="690" width="130" height="55" style="fill:rgb(255,247,225);stroke:none" />
+<rect x="860" y="690" width="130" height="55" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<text x="897" y="712" style="font:12px Ubuntu">Integer64</text>
+<line x1="860" y1="725" x2="990" y2="725" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<line x1="860" y1="735" x2="990" y2="735" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<rect x="1020" y="570" width="140" height="55" style="fill:rgb(255,247,225);stroke:none" />
+<rect x="1020" y="570" width="140" height="55" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<text x="1065" y="592" style="font:12px Ubuntu">Float128</text>
+<line x1="1020" y1="605" x2="1160" y2="605" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<line x1="1020" y1="615" x2="1160" y2="615" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<rect x="530" y="570" width="140" height="55" style="fill:rgb(255,247,225);stroke:none" />
+<rect x="530" y="570" width="140" height="55" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<text x="578" y="592" style="font:12px Ubuntu">Float32</text>
+<line x1="530" y1="605" x2="670" y2="605" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<line x1="530" y1="615" x2="670" y2="615" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<rect x="860" y="570" width="140" height="55" style="fill:rgb(255,247,225);stroke:none" />
+<rect x="860" y="570" width="140" height="55" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<text x="908" y="592" style="font:12px Ubuntu">Float64</text>
+<line x1="860" y1="605" x2="1000" y2="605" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<line x1="860" y1="615" x2="1000" y2="615" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<rect x="370" y="350" width="160" height="69" style="fill:rgb(255,247,225);stroke:none" />
+<rect x="370" y="350" width="160" height="69" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<text x="421" y="372" style="font:12px Ubuntu">UonString</text>
+<line x1="370" y1="385" x2="530" y2="385" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<line x1="370" y1="395" x2="530" y2="395" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<text x="378" y="410" style="font:12px Ubuntu">+ __len__ () : int</text>
+<rect x="940" y="350" width="140" height="55" style="fill:rgb(255,247,225);stroke:none" />
+<rect x="940" y="350" width="140" height="55" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<text x="990" y="372" style="font:12px Ubuntu">UonUrl</text>
+<line x1="940" y1="385" x2="1080" y2="385" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<line x1="940" y1="395" x2="1080" y2="395" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<rect x="560" y="350" width="170" height="69" style="fill:rgb(255,247,225);stroke:none" />
+<rect x="560" y="350" width="170" height="69" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<text x="610" y="372" style="font:12px Ubuntu">UonBoolean</text>
+<line x1="560" y1="385" x2="730" y2="385" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<line x1="560" y1="395" x2="730" y2="395" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<text x="568" y="410" style="font:12px Ubuntu">+ __bool____ () : bool</text>
+<rect x="760" y="470" width="140" height="55" style="fill:rgb(255,247,225);stroke:none" />
+<rect x="760" y="470" width="140" height="55" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<text x="804" y="492" style="font:12px Ubuntu">UonFloat</text>
+<line x1="760" y1="505" x2="900" y2="505" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<line x1="760" y1="515" x2="900" y2="515" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<rect x="760" y="350" width="140" height="69" style="fill:rgb(255,247,225);stroke:none" />
+<rect x="760" y="350" width="140" height="69" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<text x="795" y="372" style="font:12px Ubuntu">UonNumeric</text>
+<line x1="760" y1="385" x2="900" y2="385" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<text x="768" y="400" style="font:12px Ubuntu">+ precision : int</text>
+<line x1="760" y1="409" x2="900" y2="409" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<rect x="500" y="230" width="230" height="83" style="fill:rgb(255,247,225);stroke:none" />
+<rect x="500" y="230" width="230" height="83" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<text x="593" y="252" style="font:12px Ubuntu">UonSeq</text>
+<line x1="500" y1="265" x2="730" y2="265" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<line x1="500" y1="275" x2="730" y2="275" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<text x="508" y="290" style="font:12px Ubuntu">+ get (index : int) : Uon</text>
+<text x="508" y="304" style="font:12px Ubuntu">+ append (new-value : Uon) : void</text>
+<rect x="220" y="230" width="250" height="83" style="fill:rgb(255,247,225);stroke:none" />
+<rect x="220" y="230" width="250" height="83" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<text x="309" y="252" style="font:12px Ubuntu">UonMapping</text>
+<line x1="220" y1="265" x2="470" y2="265" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<line x1="220" y1="275" x2="470" y2="275" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<text x="228" y="290" style="font:12px Ubuntu">+ get (key : tr) : Uon</text>
+<text x="228" y="304" style="font:12px Ubuntu">+ set (key : str, new_value : Uon) : void</text>
+<rect x="940" y="230" width="140" height="55" style="fill:rgb(255,247,225);stroke:none" />
+<rect x="940" y="230" width="140" height="55" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<text x="986" y="252" style="font:12px Ubuntu">UonNull</text>
+<line x1="940" y1="265" x2="1080" y2="265" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<line x1="940" y1="275" x2="1080" y2="275" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<rect x="760" y="230" width="140" height="55" style="fill:rgb(255,247,225);stroke:none" />
+<rect x="760" y="230" width="140" height="55" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<text x="801" y="252" style="font:12px Ubuntu">UonScalar</text>
+<line x1="760" y1="265" x2="900" y2="265" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<line x1="760" y1="275" x2="900" y2="275" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<rect x="550" y="40" width="340" height="139" style="fill:rgb(255,247,225);stroke:none" />
+<rect x="550" y="40" width="340" height="139" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<text x="693" y="62" style="font:12px Ubuntu">UonValue</text>
+<line x1="550" y1="75" x2="890" y2="75" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<text x="558" y="90" style="font:12px Ubuntu">+ value : object</text>
+<text x="558" y="104" style="font:12px Ubuntu">+ uon_type : str</text>
+<text x="558" y="118" style="font:12px Ubuntu">- presentation_properties : dict</text>
+<text x="558" y="132" style="font:12px Ubuntu">+ PRESENTATION_PROPERTIES_KEYWORDS : list</text>
+<line x1="550" y1="141" x2="890" y2="141" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<text x="558" y="156" style="font:12px Ubuntu">+ to_binary () : void</text>
+<text x="558" y="170" style="font:12px Ubuntu">+ verify_presentation_properties () : void</text>
+<text x="905" y="382" style="font:14px Ubuntu">1</text>
+<text x="1092" y="452" style="font:14px Ubuntu">0..1</text>
+<path d="M200,1 L200,31 L367,31 Q397,31 397,1 L200,1" style="fill:rgb(255,247,225);stroke:none" />
+<path d="M200,1 L200,31 L367,31 Q397,31 397,1 L200,1" style="fill:none;stroke:rgb(65,65,65);stroke-width:1.2;stroke-linecap:square" />
+<text x="205" y="23" style="font:16px Ubuntu">UonValue class diagram</text>
+<rect x="200" y="1" width="1089" height="883" style="fill:none;stroke:rgb(64,64,64);stroke-linecap:square" />
+</svg>

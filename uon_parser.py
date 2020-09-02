@@ -34,14 +34,43 @@ Another feature of Python3 is that dicts are now ordered as of Python 3.6.
 
 
 def load(input_, schemas={}, show_tree=False, debug=False):
+    """Load raw UON input. Instantiates a UonParser instance and calls the corresponding
+    load method. Data validation is done implicitly during tree transformation. 
+    Takes an additional schemas argument and provides it to the UonParser instance,
+    since this method isn't attached to a UonParser class. 
+
+    Args:
+        input_ (str): the raw UON input
+        schemas (dict, optional): a dictionary of schemas to validate the input with. Defaults to {}.
+        show_tree (bool, optional): flag whether to print the parse tree. Defaults to False.
+        debug (bool, optional): flag whether to print out debug messages during the tree transformation. Defaults to False.
+
+    Returns:
+        Uon: The parsed and transformed Uon Python object
+    """
     return UonParser(schemas=schemas).load(
         input_, show_tree=show_tree, debug=debug
     )
 
 
-def load_from_file(filename, show_tree=False, debug=False):
-    return UonParser().load_from_file(filename, show_tree=show_tree,
-                                      debug=debug)
+def load_from_file(filename, schemas={}, show_tree=False, debug=False):
+    """Load UON input from file. Instantiates a UonParser instance and calls the corresponding
+    load_from_file method. Data validation is done implicitly during tree transformation. 
+    Takes an additional schemas argument and provides it to the UonParser instance,
+    since this method isn't attached to a UonParser class.
+
+    Args:
+        filename (str): name of the UON file (path included).
+        schemas (dict, optional): a dictionary of schemas to validate the input with. Defaults to {}.
+        show_tree (bool, optional): flag whether to print the parse tree. Defaults to False.
+        debug (bool, optional): flag whether to print out debug messages during the tree transformation. Defaults to False.
+
+    Returns:
+        Uon: The parsed and transformed Uon Python object
+    """
+    return UonParser(schemas=schemas).load_from_file(filename, 
+                                                     show_tree=show_tree,
+                                                     debug=debug)
 
 
 def dump(input_):
@@ -87,6 +116,16 @@ class UonParser:
         self.schemas = schemas
 
     def load(self, input_, show_tree=False, debug=False):
+        """Load raw UON input. Data validation is done implicitly during tree transformation.
+
+        Args:
+            input_ (str): the raw UON input
+            show_tree (bool, optional): flag whether to print the parse tree. Defaults to False.
+            debug (bool, optional): flag whether to print out debug messages during the tree transformation. Defaults to False.
+
+        Returns:
+            Uon: The parsed and transformed Uon Python object
+        """
         parse_tree = self.parser.parse(input_)
         if show_tree:
             logging.debug(parse_tree.pretty(indent_str=" "))
@@ -98,6 +137,19 @@ class UonParser:
         return transformed
 
     def load_from_file(self, filename, show_tree=False, debug=False):
+        """Load UON Input from file. File extension must be .uon.
+
+        Args:
+            filename (str): name of the UON file (path included).
+            show_tree (bool, optional): flag whether to print the parse tree. Defaults to False.
+            debug (bool, optional): flag whether to print out debug messages during the tree transformation. Defaults to False.
+
+        Raises:
+            ValueError: Not a valid .uon file
+
+        Returns:
+            Uon: The parsed from file and transformed Uon Python object
+        """
         if not filename.endswith(".uon"):
             raise ValueError("Not a .uon file")
         with open(filename) as f:
@@ -105,6 +157,18 @@ class UonParser:
             return self.load(read_data, show_tree=show_tree, debug=debug)
 
     def load_schema(self, schema_raw, show_tree=False, debug=False):
+        """Same as load() except for schemas. However there is no verification
+        that the input is actually a schema. You can use normal load() to 
+        parse and add schemas as well.
+
+        Args:
+            schema_raw ([type]): [description]
+            show_tree (bool, optional): [description]. Defaults to False.
+            debug (bool, optional): [description]. Defaults to False.
+
+        Returns:
+            [type]: [description]
+        """
         schema = self.load(schema_raw, show_tree=show_tree, debug=debug)
         self.schemas[schema.type_] = schema
         return schema

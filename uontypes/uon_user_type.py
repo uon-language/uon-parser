@@ -21,7 +21,7 @@ class UonUserType(Uon):
         self.attributes = attributes
 
     def __repr__(self):
-        return "UonUserType({}, {})".format(
+        return "UonUserType({!r}, {!r})".format(
             self.type_, self.attributes
         )
 
