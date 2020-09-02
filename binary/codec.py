@@ -186,13 +186,16 @@ def decode_user_type(binary_input, schemas={}):
     user_type, rest = decode_string(binary_input)
 
     schema = schemas.get(user_type)
-    if schema is None:
+    """if schema is None:
         raise UonBinaryDecodingError("No schema defined "
-                                     f"for user_type {user_type}")
+                                     f"for user_type {user_type}")"""
 
-    attributes, rest = decode_mapping(rest)
+    # rest[1:] to get rid of the 0x02 byte marking a UonMapping
+    attributes, rest = decode_mapping(rest[1:])
     result = UonUserType(user_type, attributes)
-    schema.validate(result)
+
+    if schema is not None:
+        schema.validate(result)
 
     return result, rest
 
@@ -288,7 +291,9 @@ def decode_numeric_scalar(binary_input, numpy_dtype, precision):
     The datatype (float, int...) is prepended
     to the precision to get the numpy datatype.
     That datatype is used to reconstruct the numpy value using
-    np.frombuffer, and finally the UonNumericValue.
+    np.frombuffer which interprets a buffer as 1-dimensional array,
+    from which we take the head since we're only dealing with one
+    element (the number itself) and finally the UonNumericValue.
 
     The last byte of a UonNumeric represents the encoded quantity unit
     if there is one. If there is None, the byte will be \x00.
@@ -303,7 +308,7 @@ def decode_numeric_scalar(binary_input, numpy_dtype, precision):
     """
     numpy_dtype = numpy_dtype + str(precision)
     encoded_value, rest = split_nb_bytes(binary_input, precision)
-    numpy_decoded_value = np.frombuffer(encoded_value, dtype=numpy_dtype)
+    numpy_decoded_value = np.frombuffer(encoded_value, dtype=numpy_dtype)[0]
 
     unit_encoded, rest = rest[0], rest[1:]
     unit_decoded = decode_unit(unit_encoded)

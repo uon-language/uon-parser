@@ -92,10 +92,41 @@ def validate(input_, schema_raw=None, show_tree=False, debug=False):
 
 
 def to_binary(uon_input):
+    """loads a raw UON input and encodes it to binary according to UON
+    binary encoding specifications.
+
+    Args:
+        uon_input (str): the raw uon_input
+
+    Returns:
+        byte: UON binary encoded input
+    """
     return UonParser().to_binary(uon_input)
+
+def to_binary_from_file(filename):
+    """Load UON Input from file and then encodes it to binary according
+    to UON binary encoding specifications. File extension must be .uon.
+
+    Args:
+        filename (str): name of the UON file (path included).
+
+    Returns:
+        byte: UON binary encoded input
+    """
+    return UonParser().to_binary_from_file(filename)
 
 
 def from_binary(binary_input, schemas={}):
+    """Decodes a UON encoded bytestring.
+
+    Args:
+        binary_input (byte): bytestring of UON input
+        schemas (dict, optional): provide the UonParser with schemas, to 
+                                  validate user types. Defaults to {}.
+
+    Returns:
+        Uon: decoded Uon object
+    """
     return UonParser(schemas).from_binary(binary_input)
 
 
@@ -191,10 +222,43 @@ class UonParser:
             file_stream.write(self.dump(input_))
 
     def to_binary(self, uon_input):
+        """loads a raw UON input and encodes it to binary according to UON
+        binary encoding specifications.
+
+        Args:
+            uon_input (str): the raw uon_input
+
+        Returns:
+            byte: UON binary encoded input
+        """
         parsed_uon = self.load(uon_input)
         return parsed_uon.to_binary()
+    
+    def to_binary_from_file(self, filename):
+        """Load UON Input from file and then encodes it to binary according
+        to UON binary encoding specifications. File extension must be .uon.
+
+        Args:
+            filename (str): name of the UON file (path included).
+
+        Returns:
+            byte: UON binary encoded input
+        """
+        if not filename.endswith(".uon"):
+            raise ValueError("Not a .uon file")
+        with open(filename) as f:
+            read_data = f.read()
+            return self.to_binary(read_data)
 
     def from_binary(self, binary_input):
+        """Decodes a UON encoded bytestring.
+
+        Args:
+            binary_input (byte): bytestring of UON input
+
+        Returns:
+            Uon: decoded Uon object
+        """
         return decode_binary(binary_input, schemas=self.schemas)
 
     def schema_from_binary(self, binary_schema):
