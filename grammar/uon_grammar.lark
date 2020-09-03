@@ -98,7 +98,7 @@ quantity_validation_helper: "length" -> length_validation
 
 // string validation
 // TODO: string regex validation
-string_validation: STR_TYPE string_properties
+string_validation: STR_TYPE [string_properties]
 string_properties: "(" [_string_property ("," _string_property)*] ")"
 _string_property: string_max | string_min
 string_max: "max" ":" decimal
