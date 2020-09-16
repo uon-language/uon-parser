@@ -159,3 +159,8 @@ uon_parser.to_binary(test_user_type)
 which gives `\x02\x12\x01\x00p\x1a\x06\x00person\x02\x12\x04\x00name\x11\x04\x00John\x12\x03\x00age9;\x00\x00\x00\x00\x00\x00`.
 
 Each UON object has its own binary encoding, and the encoding happens recursively.
+
+# Acknowledgement
+The grammar and the parser for UON for this library have been implemented using the excellent [lark parser](https://github.com/lark-parser/lark) available on Python. Lark is a parsing toolkit in Python, that can parse any context-free grammars. It is very user-friendly and a very compelling choice for beginners and experts in CFG alike. 
+
+Notice how you can write the whole grammar for your language in a `lark` grammar file aside with no code involved. Needless to say, Lark has many more features. The author has done a great job implementing a parsing toolkit to make your life easier and just focus on the grammar of your language. I cannot recommend it enough. Check it github page [here](https://github.com/lark-parser/lark) as well as the [gitter forum](https://gitter.im/lark-parser/Lobby) for all that is Lark.
